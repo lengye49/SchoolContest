@@ -13,14 +13,14 @@ public class Initialize : MonoBehaviour {
 	public Text failText;
 	public GameObject coverWin;
 	public Text winText;
-	public GameObject upgradeText;
-	public GameObject addScoreText;
+	public Text upgradeText;
+	public Text addScoreText;
 
 	private Object o;
 	private GameObject[][] cells = new GameObject[5][];
 	private int[][] nums = new int[5][];
 	private bool[][] allCellsCheck = new bool[5][];
-	private Vector3 offsetPos = new Vector3 (0, -30, 0);
+	private Vector3 offsetPos = new Vector3 (0, 100, 0);
 
 	private ArrayList sameNumIndex;
 	private ArrayList unCheckNeighbour;
@@ -42,7 +42,6 @@ public class Initialize : MonoBehaviour {
 	public Text score3;
 
 	void Start () {
-//		Advertisement.Initialize ("1123517");
 		_playerMusic = this.gameObject.GetComponentInParent<PlayMusic> ();
 		_playerMusic.PlayBg ("startMenuBg");
 		coverFail.gameObject.SetActive (false);
@@ -94,43 +93,49 @@ public class Initialize : MonoBehaviour {
 	}
 
 	void DisplayScore(){
-		score1.text = GetGradeByLv (highLv1) + "\n " + highScore1.ToString () + "分";
-		score2.text = GetGradeByLv (highLv2) + "\n " + highScore2.ToString () + "分";
-		score3.text = GetGradeByLv (highLv3) + "\n " + highScore3.ToString () + "分";
+		score1.text = "No.1：" + GetGradeByLv (highLv1) + ", " + highScore1.ToString () + "分";
+		score2.text = "No.2：" + GetGradeByLv (highLv2) + ", " + highScore2.ToString () + "分";
+		score3.text = "No.3：" + GetGradeByLv (highLv3) + ", " + highScore3.ToString () + "分";
 	}
 
 	string GetGradeByLv(int lv){
 		string s = "一年级";
 		switch (lv) {
 		case 1:
-			s = "一年级";
+			s = "练气";
 			break;
 		case 2:
-			s = "二年级";
+			s = "筑基";
 			break;
 		case 3:
-			s = "三年级";
+			s = "金丹";
 			break;
 		case 4:
-			s = "四年级";
+			s = "元婴";
 			break;
 		case 5:
-			s = "五年级";
+			s = "出窍";
 			break;
 		case 6:
-			s = "六年级";
+			s = "分神";
 			break;
 		case 7:
-			s = "初一";
+			s = "合体";
 			break;
 		case 8:
-			s = "初二";
+			s = "洞虚";
 			break;
 		case 9:
-			s = "初三";
+			s = "大成";
+			break;
+		case 10:
+			s = "渡劫";
+			break;
+		case 11:
+			s = "升仙";
 			break;
 		default:
-			s = "毕业";
+			s = "升仙";
 			break;
 		}
 		return s;
@@ -195,37 +200,43 @@ public class Initialize : MonoBehaviour {
 	}
 		
 	string GetTxtFromNum(int num){
-		string s = "一年级";
+		string s = "练气";
 		switch (num) {
 		case 1:
-			s = "一年级";
+			s = "练气";
 			break;
 		case 3:
-			s = "二年级";
+			s = "筑基";
 			break;
 		case 9:
-			s = "三年级";
+			s = "金丹";
 			break;
 		case 27:
-			s = "四年级";
+			s = "元婴";
 			break;
 		case 81:
-			s = "五年级";
+			s = "出窍";
 			break;
 		case 243:
-			s = "六年级";
+			s = "分神";
 			break;
 		case 729:
-			s = "初一";
+			s = "合体";
 			break;
 		case 2187:
-			s = "初二";
+			s = "洞虚";
 			break;
 		case 6561:
-			s = "初三";
+			s = "大成";
 			break;
+		case 19684:
+			s = "渡劫";
+			break;
+		case 59049:
+			s = "升仙";
+			break;	
 		default:
-			s = "毕业";
+			s = "升仙";
 			break;
 		}
 		return s;
@@ -266,9 +277,9 @@ public class Initialize : MonoBehaviour {
 			coverWin.gameObject.SetActive (true);
 			_playerMusic.PlayerSound ("win");
 			int n = SetScore (score);
-			string win = "游戏通关!\n 您本学期的学分是 " + score.ToString () + "! \n您已经成为超级学霸！\n努力吧，少年！新世界的大门已经为你打开！";
+			string win = "游戏通关!\n 你本局的积分是 " + score.ToString () + "! \n你已经成为超级学霸！\n努力吧，少年！新世界的大门已经为你打开！";
 			if (n > 0)
-				win += "\n您当前的排名是第" + n + "名！";
+				win += "\n你当前的排名是第" + n + "名！";
 			winText.text = win;
 		} else {
 			for (int i = 0; i < cells.Length; i++) {
@@ -283,10 +294,11 @@ public class Initialize : MonoBehaviour {
 		coverFail.gameObject.SetActive (true);
 		_playerMusic.PlayerSound ("fail");
 		int l = SetScore (score);
-		string fail = "游戏结束！！！\n 您本学期的学分是 " + score.ToString () + "! \n你处于"+GetGradeByLv(maxLv)+"的水平，再接再厉哦!";
+		string fail = "没有三个相连的等级，游戏结束!\n 你本局的积分是 " + score.ToString () + "! \n你已经处于"+GetGradeByLv(maxLv)+"学霸的水平，再接再厉哦!";
 		if (l > 0)
 			fail += "\n你当前的排名是第" + l + "名！";
 		failText.text = fail;
+
 	}
 
 	void Calculate(int row, int column)
@@ -426,37 +438,37 @@ public class Initialize : MonoBehaviour {
 	/// <param name="t">T.</param>
 	/// <param name="type">Type 0upgrade,1score.</param>
 	/// <param name="param">Parameter.</param>
-	void FloatingUpgrade(GameObject t,int type,int param){
+	void FloatingUpgrade(Text t,int type,int param){
 		Vector3 startPosition;
 		int y1;
 		int y2;
 		if (type == 0) {
-			t.GetComponentInChildren<Text>().text = "恭喜！！！\n您已经" + GetGradeByLv (param - 1) + "毕业，升到" + GetGradeByLv (param) + "！";
-			startPosition = new Vector3 (0, 0, 0);
-			y1 = 50;
-			y2 = 80;
+			t.text = "恭喜你超越了" + GetGradeByLv (param - 1) + "学霸，达到" + GetGradeByLv (param) + "水平！";
+			startPosition = new Vector3 (25, 220, 0);
+			y1 = 280;
+			y2 = 320;
 		} else {
-			startPosition = new Vector3 (-200, 180, 0);
-			y1 = 180;
-			y2 = 160;
-			t.GetComponent<Text>().text = "积分 +" + param;
+			startPosition = new Vector3 (250, 280, 0);
+			y1 = 300;
+			y2 = 320;
+			t.text = "积分 +" + param;
 		}
-		t.SetActive (true);
-		t.transform.localPosition = startPosition;
-		t.transform.localScale = new Vector3 (0.1f, 0.1f, 1f);
-		t.transform.DOLocalMoveY (y1, 0.5f);
-		t.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 1f), 0.5f);
-//		t.DOFade (1, 0.5f);
+		t.gameObject.SetActive (true);
+		t.gameObject.transform.localPosition = startPosition;
+		t.gameObject.transform.localScale = new Vector3 (0.1f, 0.1f, 1f);
+		t.gameObject.transform.DOLocalMoveY (y1, 0.5f);
+		t.gameObject.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 1f), 0.5f);
+		t.DOFade (1, 0.5f);
 		StartCoroutine (WaitAndNext (t, y2));
 	}
-	IEnumerator WaitAndNext(GameObject t,int y2){
+	IEnumerator WaitAndNext(Text t,int y2){
 		yield return new WaitForSeconds (1.5f);
 		EndFloatUpgrade (t,y2);
 	}
-	void EndFloatUpgrade(GameObject t,int y2){
-		t.transform.DOLocalMoveY (y2, 0.5f);
-//		t.DOFade (0, 0.5f);
-		StartCoroutine (WaitAndEnd (t));
+	void EndFloatUpgrade(Text t,int y2){
+		t.gameObject.transform.DOLocalMoveY (y2, 0.5f);
+		t.DOFade (0, 0.5f);
+		StartCoroutine (WaitAndEnd (t.gameObject));
 	}
 
 	IEnumerator WaitAndEnd(GameObject o){

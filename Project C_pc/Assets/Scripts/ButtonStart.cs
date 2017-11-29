@@ -22,11 +22,8 @@ public class ButtonStart : MonoBehaviour {
 		continueButton.interactable = false;
 		_playMusic = startPanel.gameObject.GetComponentInParent<PlayMusic> ();
 		supportText.gameObject.SetActive (true);
-		instructions.SetActive (true);
-//		instructions.transform.localScale = new Vector3 (1, 1, 1);
-//		instructions.transform.localPosition = Vector3.zero;
-		instrCover.SetActive (true);
-//		instrCover.transform.localPosition = Vector3.zero;
+		instructions.SetActive (false);
+		instrCover.SetActive (false);
 	}
 
 	void Update(){
@@ -46,14 +43,6 @@ public class ButtonStart : MonoBehaviour {
 		startPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
 		playPanel.transform.localPosition = Vector3.zero;
 		playPanel.GetComponent<Initialize> ().InitializeCells ();
-		if (PlayerPrefs.GetInt ("New", 0) == 0) {
-			instructions.SetActive (true);
-			instructions.transform.localScale = new Vector3 (1, 1, 1);
-			instructions.transform.localPosition = Vector3.zero;
-			instrCover.SetActive (true);
-			instrCover.transform.localPosition = Vector3.zero;
-			PlayerPrefs.SetInt ("New", 1);
-		}
 	}
 
 	public void OnRestartButton(){
@@ -85,26 +74,10 @@ public class ButtonStart : MonoBehaviour {
 		playPanel.transform.localPosition = Vector3.zero;
 	}
 
-	public void OnSupport(){
-		if (supportText.gameObject.activeSelf)
-			supportText.gameObject.SetActive (false);
-		else {
-			supportText.gameObject.SetActive (true);
-			StartCoroutine (WaitAndDisappear ());
-		}
-	}
-
-	IEnumerator WaitAndDisappear()
-	{
-		yield return new WaitForSeconds (3.0f);
-		OnSupport ();
-	}
 
 	public void OnInstrButton(){
 		instrCover.SetActive (true);
-		instrCover.transform.localPosition = Vector3.zero;
 		instructions.SetActive (true);
-		instructions.transform.localPosition = Vector3.zero;
 		instructions.transform.localScale = new Vector3 (0.1f, 0.1f, 1f);
 		instructions.transform.DOBlendableScaleBy (new Vector3 (0.8f, 0.8f, 1f), 0.5f);
 	}
@@ -113,11 +86,5 @@ public class ButtonStart : MonoBehaviour {
 		instrCover.SetActive (false);
 		instructions.SetActive (false);
 	}
-//	public void OnSetting(){
-//		if (settingContent.gameObject.activeSelf)
-//			settingContent.gameObject.SetActive (false);
-//		else {
-//			settingContent.gameObject.SetActive (true);
-//		}
-//	}
+
 }
