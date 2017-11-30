@@ -431,13 +431,7 @@ public class Initialize : MonoBehaviour {
 			return Color.black;
 		}
 	}
-
-	/// <summary>
-	/// Floatings the upgrade.
-	/// </summary>
-	/// <param name="t">T.</param>
-	/// <param name="type">Type 0upgrade,1score.</param>
-	/// <param name="param">Parameter.</param>
+		
 	void FloatingUpgrade(Text t,int type,int param){
 		Vector3 startPosition;
 		int y1;
