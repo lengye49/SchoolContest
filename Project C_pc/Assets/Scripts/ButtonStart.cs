@@ -13,12 +13,13 @@ public class ButtonStart : MonoBehaviour {
 	public GameObject instructions;
 	public GameObject instrCover;
 
-//	public GameObject settingContent;
 	private PlayMusic _playMusic;
+//	private DataManager _data;
 
 	void Start () {
 		startPanel.transform.localPosition = Vector3.zero;
 		playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
+
 		continueButton.interactable = false;
 		_playMusic = startPanel.gameObject.GetComponentInParent<PlayMusic> ();
 		supportText.gameObject.SetActive (true);

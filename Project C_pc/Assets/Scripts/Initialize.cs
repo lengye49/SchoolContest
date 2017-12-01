@@ -15,6 +15,13 @@ public class Initialize : MonoBehaviour {
 	public Text winText;
 	public Text upgradeText;
 	public Text addScoreText;
+	public DataManager _data;
+	public GameObject playPanel;
+	public GameObject startPanel;
+	public GameObject failCover;
+	public Button continueButton;
+	public GameObject instructions;
+	public GameObject instrCover;
 
 	private Object o;
 	private GameObject[][] cells = new GameObject[5][];
@@ -31,130 +38,76 @@ public class Initialize : MonoBehaviour {
 	private PlayMusic _playerMusic;
 	private int maxLv;
 
-	private int highScore1;
-	private int highScore2;
-	private int highScore3;
-	private int highLv1;
-	private int highLv2;
-	private int highLv3;
 	public Text score1;
 	public Text score2;
 	public Text score3;
 
 	void Start () {
+		
 		_playerMusic = this.gameObject.GetComponentInParent<PlayMusic> ();
 		_playerMusic.PlayBg ("startMenuBg");
+
+		o=Resources.Load("Cell");
+
+		startPanel.transform.localPosition = Vector3.zero;
+		playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
 		coverFail.gameObject.SetActive (false);
 		coverWin.gameObject.SetActive (false);
-		o=Resources.Load("Cell");
-		GetScore ();
+
+		if (_data.HasMemory > 0)
+			continueButton.interactable = false;
+	}
+
+	public void OnStartGame(){
+		InitData (true);
+		GoToGamePanel ();
+	}
+
+	public void OnContinueGame(){
+		InitData (false);
+		GoToGamePanel ();
+	}
+
+	void GoToGamePanel(){
+		startPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
+		playPanel.transform.localPosition = Vector3.zero;
+		SetGamePanel ();
+	}
+
+	void SetGamePanel(){
+		_playerMusic.PlayBg ("playPanelBg");
+		instructions.SetActive (false);
+		instrCover.SetActive (false);
 		upgradeText.gameObject.SetActive (false);
 		addScoreText.gameObject.SetActive (false);
 	}
 
-	void GetScore(){
-		highScore1 = PlayerPrefs.GetInt ("highScore1", 0);
-		highLv1 = PlayerPrefs.GetInt ("highLv1", 1);
-		highScore2 = PlayerPrefs.GetInt ("highScore2", 0);
-		highLv2 = PlayerPrefs.GetInt ("highLv2", 1);
-		highScore3 = PlayerPrefs.GetInt ("highScore3", 0);
-		highLv3 = PlayerPrefs.GetInt ("highLv3", 1);
-		DisplayScore ();
+	/// <summary>
+	///初始化数据
+	/// </summary>
+	/// <param name="isStart">True:重新开始 False:继续游戏</param></param>
+	void InitData(bool isStart){
+		
+
 	}
 
-	int SetScore(int newScore){
-		if ((maxLv > highLv1) || (maxLv == highLv1 && newScore > highScore1)) {
-			highLv3 = highLv2;
-			highLv2 = highLv1;
-			highLv1 = maxLv;
-			highScore3 = highScore2;
-			highScore2 = highScore1;
-			highScore1 = score;
-			StoreData ();
+	string SetScore(){
+		int n = _data.SetHighScore ();
+		if (n > 0) {
 			DisplayScore ();
-			return 1;
-		} else if ((maxLv > highLv1) || (maxLv == highLv2 && newScore > highScore2)) {
-			highLv3 = highLv2;
-			highLv2 = maxLv;
-			highScore3 = highScore2;
-			highScore2 = score;
-			StoreData ();
-			DisplayScore ();
-			return 2;
-		} else if ((maxLv > highLv3) || (maxLv == highLv3 && newScore > highScore3)) {
-			highLv3 = maxLv;
-			highScore3 = score;
-			StoreData ();
-			DisplayScore ();
-			return 3;
-		} else {
-			return 0;
-		}
+			return "\n你当前的排名是第" + n + "名！";
+		}else
+			return "";
 	}
 
 	void DisplayScore(){
-		score1.text = "No.1：" + GetGradeByLv (highLv1) + ", " + highScore1.ToString () + "分";
-		score2.text = "No.2：" + GetGradeByLv (highLv2) + ", " + highScore2.ToString () + "分";
-		score3.text = "No.3：" + GetGradeByLv (highLv3) + ", " + highScore3.ToString () + "分";
-	}
-
-	string GetGradeByLv(int lv){
-		string s = "一年级";
-		switch (lv) {
-		case 1:
-			s = "练气";
-			break;
-		case 2:
-			s = "筑基";
-			break;
-		case 3:
-			s = "金丹";
-			break;
-		case 4:
-			s = "元婴";
-			break;
-		case 5:
-			s = "出窍";
-			break;
-		case 6:
-			s = "分神";
-			break;
-		case 7:
-			s = "合体";
-			break;
-		case 8:
-			s = "洞虚";
-			break;
-		case 9:
-			s = "大成";
-			break;
-		case 10:
-			s = "渡劫";
-			break;
-		case 11:
-			s = "升仙";
-			break;
-		default:
-			s = "升仙";
-			break;
-		}
-		return s;
-	}
-
-	void StoreData(){
-		PlayerPrefs.SetInt ("highScore1", highScore1);
-		PlayerPrefs.SetInt ("highLv1", highLv1);
-		PlayerPrefs.SetInt ("highScore2", highScore2);
-		PlayerPrefs.SetInt ("highLv2", highLv2);
-		PlayerPrefs.SetInt ("highScore3", highScore3);
-		PlayerPrefs.SetInt ("highLv3", highLv3);
+		score1.text = "No.1：" + _data.GetGradeByLevel (_data.HighLevel1) + ", " + _data.HighScore1.ToString () + "分";
+		score2.text = "No.2：" + _data.GetGradeByLevel (_data.HighLevel2) + ", " + _data.HighScore2.ToString () + "分";
+		score3.text = "No.3：" + _data.GetGradeByLevel (_data.HighLevel3) + ", " + _data.HighScore3.ToString () + "分";
 	}
 
 	public void InitializeCells()
 	{
-		_playerMusic.PlayBg ("playPanelBg");
-		coverFail.gameObject.SetActive (false);
-
 		score = 0;
 		scoreText.text = "0";
 		maxLv = 1;
@@ -192,56 +145,12 @@ public class Initialize : MonoBehaviour {
 				int num = (int)Mathf.Pow (3, n);
 				nums [i] [j] = num;
 				g.GetComponent<Image> ().color = GetColorByNum (num);
-				string s = GetTxtFromNum (num);
+				string s = _data.GetGradeByScore (num);
 				g.GetComponentInChildren<Text> ().text = s;
 			}
 		}
-		gradeText.text = GetGradeByLv (maxLv);
+		gradeText.text = _data.GetGradeByLevel (maxLv);
 	}
-		
-	string GetTxtFromNum(int num){
-		string s = "练气";
-		switch (num) {
-		case 1:
-			s = "练气";
-			break;
-		case 3:
-			s = "筑基";
-			break;
-		case 9:
-			s = "金丹";
-			break;
-		case 27:
-			s = "元婴";
-			break;
-		case 81:
-			s = "出窍";
-			break;
-		case 243:
-			s = "分神";
-			break;
-		case 729:
-			s = "合体";
-			break;
-		case 2187:
-			s = "洞虚";
-			break;
-		case 6561:
-			s = "大成";
-			break;
-		case 19684:
-			s = "渡劫";
-			break;
-		case 59049:
-			s = "升仙";
-			break;	
-		default:
-			s = "升仙";
-			break;
-		}
-		return s;
-	}
-
 
 	public void ButtonClickCal(int row,int column)
 	{
@@ -276,10 +185,8 @@ public class Initialize : MonoBehaviour {
 			Debug.Log ("GameOver Win!");
 			coverWin.gameObject.SetActive (true);
 			_playerMusic.PlayerSound ("win");
-			int n = SetScore (score);
 			string win = "游戏通关!\n 你本局的积分是 " + score.ToString () + "! \n你已经成为超级学霸！\n努力吧，少年！新世界的大门已经为你打开！";
-			if (n > 0)
-				win += "\n你当前的排名是第" + n + "名！";
+			win += SetScore();
 			winText.text = win;
 		} else {
 			for (int i = 0; i < cells.Length; i++) {
@@ -293,10 +200,8 @@ public class Initialize : MonoBehaviour {
 		Debug.Log ("GameOver");
 		coverFail.gameObject.SetActive (true);
 		_playerMusic.PlayerSound ("fail");
-		int l = SetScore (score);
-		string fail = "没有三个相连的等级，游戏结束!\n 你本局的积分是 " + score.ToString () + "! \n你已经处于"+GetGradeByLv(maxLv)+"学霸的水平，再接再厉哦!";
-		if (l > 0)
-			fail += "\n你当前的排名是第" + l + "名！";
+		string fail = "没有三个相连的等级，游戏结束!\n 你本局的积分是 " + score.ToString () + "! \n你已经处于"+_data.GetGradeByLevel(maxLv)+"学霸的水平，再接再厉哦!";
+		fail += SetScore ();
 		failText.text = fail;
 
 	}
@@ -318,7 +223,7 @@ public class Initialize : MonoBehaviour {
 
 			int newSeed = seed * (int)Mathf.Pow (3, newN);
 			nums [row] [column] = newSeed;
-			string s = GetTxtFromNum (newSeed);
+			string s = _data.GetGradeByScore (newSeed);
 			Debug.Log (newSeed + ", " + s);
 			cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
 			cells [row] [column].gameObject.GetComponent<Image> ().color = GetColorByNum (newSeed);
@@ -335,11 +240,11 @@ public class Initialize : MonoBehaviour {
 				}
 				int nn = (int)Mathf.Pow (3,n);
 				nums [ins[0]] [ins[1]] = nn;
-				s = GetTxtFromNum (nn);
+				s = _data.GetGradeByScore (nn);
 				cells[ins[0]] [ins[1]].gameObject.GetComponentInChildren<Text>().text = s;
 				cells [ins [0]] [ins [1]].gameObject.GetComponent<Image> ().color = GetColorByNum (nn);
 			}
-			gradeText.text = GetGradeByLv (maxLv);
+			gradeText.text = _data.GetGradeByLevel (maxLv);
 		}
 	}
 
@@ -437,7 +342,7 @@ public class Initialize : MonoBehaviour {
 		int y1;
 		int y2;
 		if (type == 0) {
-			t.text = "恭喜你超越了" + GetGradeByLv (param - 1) + "学霸，达到" + GetGradeByLv (param) + "水平！";
+			t.text = "恭喜你超越了" + _data.GetGradeByLevel (param - 1) + "学霸，达到" + _data.GetGradeByLevel (param) + "水平！";
 			startPosition = new Vector3 (25, 220, 0);
 			y1 = 280;
 			y2 = 320;

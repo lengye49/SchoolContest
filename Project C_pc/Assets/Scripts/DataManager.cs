@@ -4,58 +4,89 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public class DataManager : MonoBehaviour  {
-	[HideInInspector]
-	public int score;
-	[HideInInspector]
-	public int highScore1;
-	[HideInInspector]
-	public int highScore2;
-	[HideInInspector]
-	public int highScore3;
-	[HideInInspector]
-	public int highLevel1;
-	[HideInInspector]
-	public int highLevel2;
-	[HideInInspector]
-	public int highLevel3;
 
-		
-	#region SaveData
-	void Save(){
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create(Application.persistentDataPath+"/info.dat");
+	private int score;
+	private int level;
+	private int highScore1;
+	private int highScore2;
+	private int highScore3;
+	private int highLevel1;
+	private int highLevel2;
+	private int highLevel3;
 
-		PlayerInfo info = new PlayerInfo ();
-		info.score = score;
-		info.highScore1 = highScore1;
-		info.highScore2 = highScore2;
-		info.highScore3 = highScore3;
-		info.highLevel1 = highLevel1;
-		info.highLevel2 = highLevel2;
-		info.highLevel3 = highLevel3;
-
-		bf.Serialize (file, info);
-		file.Close ();
+	public int Score{
+		get{ return PlayerPrefs.GetInt ("Score", 0);}
+		set{score = value; 
+			PlayerPrefs.SetInt ("Score",value);}
+	}	
+	public int Level{
+		get{ return PlayerPrefs.GetInt ("Level", 0);}
+		set{level = value; 
+			PlayerPrefs.SetInt ("Level",value);}
+	}	
+	public int HighScore1{
+		get{ return PlayerPrefs.GetInt ("HighScore1", 0);}
+		set{highScore1 = value;
+			PlayerPrefs.SetInt ("HighScore1",value);}
 	}
-	#endregion
+	public int HighScore2{
+		get{ return PlayerPrefs.GetInt ("HighScore2", 0);}
+		set{highScore2 = value;
+			PlayerPrefs.SetInt ("HighScore2",value);}
+	}
+	public int HighScore3{
+		get{ return PlayerPrefs.GetInt ("HighScore3", 0);}
+		set{highScore3 = value;
+			PlayerPrefs.SetInt ("HighScore3",value);}
+	}
+	public int HighLevel1{
+		get{return PlayerPrefs.GetInt ("HighLevel1", 0);}
+		set{highLevel1 = value;
+			PlayerPrefs.SetInt ("HighLevel1",value);}
+	}
+	public int HighLevel2 {
+		get{ return PlayerPrefs.GetInt ("HighLevel2", 0); }
+		set{highLevel2 = value;
+			PlayerPrefs.SetInt ("HighLevel2", value); }
+	}
+	public int HighLevel3{
+		get{ return PlayerPrefs.GetInt ("HighLevel3", 0);}
+		set{highLevel3 = value;
+			PlayerPrefs.SetInt ("HighLevel3",value);}
+	}
+	/// <summary>
+	/// 是否有存档，0没有1有
+	/// </summary>
+	/// <value><c>true</c> if this instance has memory; otherwise, <c>false</c>.</value>
+	public int HasMemory{
+		get{ return PlayerPrefs.GetInt ("HasMemmory", 0);}
+		set{ PlayerPrefs.SetInt ("HasMemmory",value);}
+	}
 
-	#region LoadData
-	void Load(){
-		if (File.Exists (Application.persistentDataPath + "/info.dat")) {
-			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open(Application.persistentDataPath+"/info.dat",FileMode.Open);
-			PlayerInfo info = (PlayerInfo)bf.Deserialize (file);
-			file.Close ();
-			score = info.score;
-			highScore1 = info.highScore1;
-			highScore2 = info.highScore2;
-			highScore3 = info.highScore3;
-			highLevel1 = info.highLevel1;
-			highLevel2 = info.highLevel2;
-			highLevel3 = info.highLevel3;
+	public int SetHighScore(){
+		if ((level > HighLevel1) || (level == HighLevel1 && score > HighScore1)) {
+			HighLevel3 = HighLevel2;
+			HighLevel2 = HighLevel1;
+			HighLevel1 = level;
+			HighScore3 = HighScore2;
+			HighScore2 = HighScore1;
+			HighScore1 = score;
+			return 1;
+		} else if ((level > HighLevel1) || (level == HighLevel2 && score > HighScore2)) {
+			HighLevel3 = HighLevel2;
+			HighLevel2 = level;
+			HighScore3 = HighScore2;
+			HighScore2 = score;
+			return 2;
+		} else if ((level > HighLevel3) || (level == HighLevel3 && score > HighScore3)) {
+			HighLevel3 = level;
+			HighScore3 = score;
+			return 3;
+		} else {
+			return 0;
 		}
 	}
-	#endregion
+
 
 	public Color GetColorByNum(int num)
 	{
@@ -170,13 +201,50 @@ public class DataManager : MonoBehaviour  {
 	}
 }
 
-class PlayerInfo{
-	public int score;
-	public int highScore1;
-	public int highScore2;
-	public int highScore3;
-	public int highLevel1;
-	public int highLevel2;
-	public int highLevel3;
-}
+//	#region SaveData
+//	void Save(){
+//		BinaryFormatter bf = new BinaryFormatter ();
+//		FileStream file = File.Create(Application.persistentDataPath+"/info.dat");
+//
+//		PlayerInfo info = new PlayerInfo ();
+//		info.score = score;
+//		info.highScore1 = highScore1;
+//		info.highScore2 = highScore2;
+//		info.highScore3 = highScore3;
+//		info.highLevel1 = highLevel1;
+//		info.highLevel2 = highLevel2;
+//		info.highLevel3 = highLevel3;
+//
+//		bf.Serialize (file, info);
+//		file.Close ();
+//	}
+//	#endregion
+//
+//	#region LoadData
+//	void Load(){
+//		if (File.Exists (Application.persistentDataPath + "/info.dat")) {
+//			BinaryFormatter bf = new BinaryFormatter ();
+//			FileStream file = File.Open(Application.persistentDataPath+"/info.dat",FileMode.Open);
+//			PlayerInfo info = (PlayerInfo)bf.Deserialize (file);
+//			file.Close ();
+//			score = info.score;
+//			highScore1 = info.highScore1;
+//			highScore2 = info.highScore2;
+//			highScore3 = info.highScore3;
+//			highLevel1 = info.highLevel1;
+//			highLevel2 = info.highLevel2;
+//			highLevel3 = info.highLevel3;
+//		}
+//	}
+//	#endregion
+
+//class PlayerInfo{
+//	public int score;
+//	public int highScore1;
+//	public int highScore2;
+//	public int highScore3;
+//	public int highLevel1;
+//	public int highLevel2;
+//	public int highLevel3;
+//}
 	
