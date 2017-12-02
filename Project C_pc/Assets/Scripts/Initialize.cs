@@ -45,17 +45,10 @@ public class Initialize : MonoBehaviour {
 	void Start () {
 		
 		_playerMusic = this.gameObject.GetComponentInParent<PlayMusic> ();
-		_playerMusic.PlayBg ("startMenuBg");
 
-		o=Resources.Load("Cell");
+		o = Resources.Load("Cell");
 
-		startPanel.transform.localPosition = Vector3.zero;
-		playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
-		coverFail.gameObject.SetActive (false);
-		coverWin.gameObject.SetActive (false);
-
-		if (_data.HasMemory > 0)
-			continueButton.interactable = false;
+        continueButton.interactable = (_data.HasMemory > 0);
 	}
 
 	public void OnStartGame(){
@@ -71,139 +64,149 @@ public class Initialize : MonoBehaviour {
 	void GoToGamePanel(){
 		startPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
 		playPanel.transform.localPosition = Vector3.zero;
-		SetGamePanel ();
-	}
+		
+        //设置游戏面板
+        _playerMusic.PlayBg ("playPanelBg");
+        instructions.SetActive (false);
+        instrCover.SetActive (false);
+        upgradeText.gameObject.SetActive (false);
+        addScoreText.gameObject.SetActive (false);
+        scoreText.text = score.ToString();
+        gradeText.text = _data.GetGradeByLevel (maxLv);
 
-	void SetGamePanel(){
-		_playerMusic.PlayBg ("playPanelBg");
-		instructions.SetActive (false);
-		instrCover.SetActive (false);
-		upgradeText.gameObject.SetActive (false);
-		addScoreText.gameObject.SetActive (false);
+        //根据数据初始化格子
+        //Todo
 	}
+        
 
 	/// <summary>
 	///初始化数据
 	/// </summary>
 	/// <param name="isStart">True:重新开始 False:继续游戏</param></param>
 	void InitData(bool isStart){
-		
+        if (isStart)
+        {
+            score = 0;
+            maxLv = 1;
 
+            nums [0] = new int[3];
+            nums [1] = new int[4];
+            nums [2] = new int[5];
+            nums [3] = new int[4];
+            nums [4] = new int[3];
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                for (int j = 0; j < nums[i].Length; j++)
+                {
+                    int n = Random.Range (0, 3);
+                    int num = (int)Mathf.Pow (3, n);
+                    nums [i] [j] = num;
+                    maxLv = (maxLv > n + 1) ? maxLv : n + 1;
+                }
+            }
+            StoreData();
+        }
+        else
+        {
+            score = _data.Score;
+            maxLv = _data.Level;
+            nums = _data.NumList;
+        }
 	}
 
-	string SetScore(){
-		int n = _data.SetHighScore ();
-		if (n > 0) {
-			DisplayScore ();
-			return "\n你当前的排名是第" + n + "名！";
-		}else
-			return "";
-	}
+    /// <summary>
+    /// 初始化格子
+    /// </summary>
+    public void InitCell()
+    {
+        cells[0] = new GameObject[3];
+        cells[1] = new GameObject[4];
+        cells[2] = new GameObject[5];
+        cells[3] = new GameObject[4];
+        cells[4] = new GameObject[3];
 
-	void DisplayScore(){
-		score1.text = "No.1：" + _data.GetGradeByLevel (_data.HighLevel1) + ", " + _data.HighScore1.ToString () + "分";
-		score2.text = "No.2：" + _data.GetGradeByLevel (_data.HighLevel2) + ", " + _data.HighScore2.ToString () + "分";
-		score3.text = "No.3：" + _data.GetGradeByLevel (_data.HighLevel3) + ", " + _data.HighScore3.ToString () + "分";
-	}
+        allCellsCheck [0] = new bool[3];
+        allCellsCheck [1] = new bool[4];
+        allCellsCheck [2] = new bool[5];
+        allCellsCheck [3] = new bool[4];
+        allCellsCheck [4] = new bool[3];
 
-	public void InitializeCells()
-	{
-		score = 0;
-		scoreText.text = "0";
-		maxLv = 1;
+        for (int i=0; i<cells.Length; i++) {
+            for (int j=0; j<cells[i].Length; j++) {
+                GameObject g = Instantiate (o) as GameObject;
+                g.gameObject.transform.SetParent (this.gameObject.transform);
+                g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 84.5f, (midNum - i) * 71f, 0f);
+                g.name = i.ToString () + "," + j.ToString ();
+                cells [i] [j] = g;
+                g.GetComponent<Image> ().color = GetColorByNum (nums[i][j]);
+                string s = _data.GetGradeByScore (nums[i][j]);
+                g.GetComponentInChildren<Text> ().text = s;
+            }
+        }
+    }
 
-		System.Random r = new System.Random();
+    public void ClickCell(int row,int column)
+    {
+        CheckThisCell (row, column);
+        if (totalNum >= 3) {
+            _playerMusic.PlayerSound ("success");
+            Calculate (row, column);
+            CheckGameOver ();
+        } else {
+            _playerMusic.PlayerSound ("click");
+        }
+    }
 
-		cells[0] = new GameObject[3];
-		cells[1] = new GameObject[4];
-		cells[2] = new GameObject[5];
-		cells[3] = new GameObject[4];
-		cells[4] = new GameObject[3];
+    void CheckThisCell(int row,int column)
+    {
+        ResetArrays ();
+        allCellsCheck [row] [column] = true;
+        unCheckNeighbour.Add (new int[]{row,column});
+        seed = nums [row] [column];
+        totalNum = 1;
 
-		nums [0] = new int[3];
-		nums [1] = new int[4];
-		nums [2] = new int[5];
-		nums [3] = new int[4];
-		nums [4] = new int[3];
-
-		allCellsCheck [0] = new bool[3];
-		allCellsCheck [1] = new bool[4];
-		allCellsCheck [2] = new bool[5];
-		allCellsCheck [3] = new bool[4];
-		allCellsCheck [4] = new bool[3];
-	
-		for (int i=0; i<cells.Length; i++) {
-			for (int j=0; j<cells[i].Length; j++) {
-				GameObject g = Instantiate (o) as GameObject;
-				g.gameObject.transform.SetParent (this.gameObject.transform);
-				g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 84.5f, (midNum - i) * 71f, 0f);
-				g.name = i.ToString () + "," + j.ToString ();
-				cells [i] [j] = g;
-
-				int n = r.Next (0, 3);
-				maxLv = (maxLv > n + 1) ? maxLv : n + 1;
-				int num = (int)Mathf.Pow (3, n);
-				nums [i] [j] = num;
-				g.GetComponent<Image> ().color = GetColorByNum (num);
-				string s = _data.GetGradeByScore (num);
-				g.GetComponentInChildren<Text> ().text = s;
-			}
-		}
-		gradeText.text = _data.GetGradeByLevel (maxLv);
-	}
-
-	public void ButtonClickCal(int row,int column)
-	{
-		CheckThisCell (row, column);
-		if (totalNum >= 3) {
-			_playerMusic.PlayerSound ("success");
-			Calculate (row, column);
-			CheckGameOver ();
-		} else {
-			_playerMusic.PlayerSound ("click");
-		}
-	}
-
-	void CheckThisCell(int row,int column)
-	{
-		ResetArrays ();
-		allCellsCheck [row] [column] = true;
-		unCheckNeighbour.Add (new int[]{row,column});
-		seed = nums [row] [column];
-		totalNum = 1;
-
-		while (unCheckNeighbour.Count>0) {
-			int[] ins = unCheckNeighbour[0] as int[];
-			CheckNeighbour(ins[0],ins[1]);
-			unCheckNeighbour.RemoveAt(unCheckNeighbour.IndexOf(ins));
-		}
-	}
+        while (unCheckNeighbour.Count>0) {
+            int[] ins = unCheckNeighbour[0] as int[];
+            CheckNeighbour(ins[0],ins[1]);
+            unCheckNeighbour.RemoveAt(unCheckNeighbour.IndexOf(ins));
+        }
+    }
+        
+    void StoreData(){
+        _data.Score = score;
+        _data.Level = maxLv;
+        _data.NumList = nums;
+        _data.HasMemory = 1;
+    }
 
 	void CheckGameOver()
 	{
-		if (maxLv > 9) {
-			Debug.Log ("GameOver Win!");
+		if (maxLv > 11) {
 			coverWin.gameObject.SetActive (true);
 			_playerMusic.PlayerSound ("win");
-			string win = "游戏通关!\n 你本局的积分是 " + score.ToString () + "! \n你已经成为超级学霸！\n努力吧，少年！新世界的大门已经为你打开！";
-			win += SetScore();
+			string win = "游戏通关!\n 你本局的积分是 " + score.ToString () + "！";
+            _data.HasMemory = 0;
+			win += UpdateRank();
 			winText.text = win;
 		} else {
 			for (int i = 0; i < cells.Length; i++) {
 				for (int j = 0; j < cells [i].Length; j++) {
 					CheckThisCell (i, j);
-					if (totalNum >= 3)
-						return;
+                    if (totalNum >= 3)
+                    {
+                        StoreData();
+                        return;
+                    }
 				}
 			}
 		}
-		Debug.Log ("GameOver");
+        _data.HasMemory = 0;
 		coverFail.gameObject.SetActive (true);
 		_playerMusic.PlayerSound ("fail");
 		string fail = "没有三个相连的等级，游戏结束!\n 你本局的积分是 " + score.ToString () + "! \n你已经处于"+_data.GetGradeByLevel(maxLv)+"学霸的水平，再接再厉哦!";
-		fail += SetScore ();
+		fail += UpdateRank ();
 		failText.text = fail;
-
 	}
 
 	void Calculate(int row, int column)
@@ -224,15 +227,14 @@ public class Initialize : MonoBehaviour {
 			int newSeed = seed * (int)Mathf.Pow (3, newN);
 			nums [row] [column] = newSeed;
 			string s = _data.GetGradeByScore (newSeed);
-			Debug.Log (newSeed + ", " + s);
+
 			cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
 			cells [row] [column].gameObject.GetComponent<Image> ().color = GetColorByNum (newSeed);
 
-			System.Random r = new System.Random();
 			for(int i=0;i<sameNumIndex.Count;i++)
 			{
 				int[] ins = sameNumIndex[i] as int[];
-				int n = r.Next (0, 3);
+                int n = Random.Range (0, 3);
 				if (maxLv < n + 1) {
 					maxLv = (n + 1);
 					if (maxLv >= 5)
@@ -374,5 +376,21 @@ public class Initialize : MonoBehaviour {
 		yield return new WaitForSeconds (0.5f);
 		o.SetActive (false);
 	}
+
+
+    string UpdateRank(){
+        int n = _data.SetHighScore ();
+        if (n > 0) {
+            UpdateRankPanel ();
+            return "\n你当前的排名是第" + n + "名！";
+        }else
+            return "";
+    }
+
+    void UpdateRankPanel(){
+        score1.text = "No.1：" + _data.GetGradeByLevel (_data.HighLevel1) + ", " + _data.HighScore1.ToString () + "分";
+        score2.text = "No.2：" + _data.GetGradeByLevel (_data.HighLevel2) + ", " + _data.HighScore2.ToString () + "分";
+        score3.text = "No.3：" + _data.GetGradeByLevel (_data.HighLevel3) + ", " + _data.HighScore3.ToString () + "分";
+    }
 
 }

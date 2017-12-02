@@ -7,6 +7,7 @@ public class DataManager : MonoBehaviour  {
 
 	private int score;
 	private int level;
+    private string numList;
 	private int highScore1;
 	private int highScore2;
 	private int highScore3;
@@ -15,15 +16,24 @@ public class DataManager : MonoBehaviour  {
 	private int highLevel3;
 
 	public int Score{
-		get{ return PlayerPrefs.GetInt ("Score", 0);}
+        get{score = PlayerPrefs.GetInt("Score", 0);
+                return score;}
 		set{score = value; 
 			PlayerPrefs.SetInt ("Score",value);}
 	}	
 	public int Level{
-		get{ return PlayerPrefs.GetInt ("Level", 0);}
+        get{level = PlayerPrefs.GetInt("Level", 0);
+            return level;}
 		set{level = value; 
 			PlayerPrefs.SetInt ("Level",value);}
 	}	
+    public int[][] NumList{
+        get{ numList = PlayerPrefs.GetString("NumList", "");
+            return GetNumListFromStr(numList);}
+        set{ numList = GetStrFromNumList(value);
+            PlayerPrefs.SetString("NumList", numList);
+        }
+    }
 	public int HighScore1{
 		get{ return PlayerPrefs.GetInt ("HighScore1", 0);}
 		set{highScore1 = value;
@@ -62,6 +72,39 @@ public class DataManager : MonoBehaviour  {
 		get{ return PlayerPrefs.GetInt ("HasMemmory", 0);}
 		set{ PlayerPrefs.SetInt ("HasMemmory",value);}
 	}
+
+    int[][] GetNumListFromStr(string str){
+        int[][] nums = new int[5][];
+        nums [0] = new int[3];
+        nums [1] = new int[4];
+        nums [2] = new int[5];
+        nums [3] = new int[4];
+        nums [4] = new int[3];
+        string[] strs = str.Split('|');
+        int k = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < nums[i].Length; j++)
+            {
+                nums[i][j] = int.Parse(strs[k]);
+                k++;
+            }
+        }
+        return nums;
+    }
+
+    string GetStrFromNumList(int[][] nums){
+        string str = "";
+        for (int i = 0; i < nums.Length; i++)
+        {
+            for (int j = 0; j < nums[i].Length; j++)
+            {
+                str += nums[i][j].ToString() + "|";
+            }
+        }
+        str = str.Substring(0, str.Length - 1);
+        return str;
+    }
 
 	public int SetHighScore(){
 		if ((level > HighLevel1) || (level == HighLevel1 && score > HighScore1)) {

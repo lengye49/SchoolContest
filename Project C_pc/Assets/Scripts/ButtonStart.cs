@@ -14,7 +14,7 @@ public class ButtonStart : MonoBehaviour {
 	public GameObject instrCover;
 
 	private PlayMusic _playMusic;
-//	private DataManager _data;
+
 
 	void Start () {
 		startPanel.transform.localPosition = Vector3.zero;
@@ -40,20 +40,17 @@ public class ButtonStart : MonoBehaviour {
 	}
 	
 	public void OnStartButton(){
-		_playMusic.PlayerSound ("click");
 		startPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
 		playPanel.transform.localPosition = Vector3.zero;
-		playPanel.GetComponent<Initialize> ().InitializeCells ();
+//		playPanel.GetComponent<Initialize> ().InitializeCells ();
 	}
 
 	public void OnRestartButton(){
-		_playMusic.PlayerSound ("click");
-		playPanel.GetComponent<Initialize> ().InitializeCells ();
+//		playPanel.GetComponent<Initialize> ().InitializeCells ();
 	}
 
 	public void OnPlayReturnButton()
 	{
-		_playMusic.PlayerSound ("click");
 		playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
 		startPanel.transform.localPosition = Vector3.zero;
 		continueButton.interactable = true;
@@ -61,7 +58,6 @@ public class ButtonStart : MonoBehaviour {
 
 	public void OnFailReturnButton()
 	{
-		_playMusic.PlayerSound ("click");
 		playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
 		startPanel.transform.localPosition = Vector3.zero;
 		failCover.gameObject.SetActive (false);
@@ -70,7 +66,6 @@ public class ButtonStart : MonoBehaviour {
 
 	public void OnContinue()
 	{
-		_playMusic.PlayerSound ("click");
 		startPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
 		playPanel.transform.localPosition = Vector3.zero;
 	}
