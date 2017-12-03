@@ -15,6 +15,10 @@ public class DataManager : MonoBehaviour  {
 	private int highLevel2;
 	private int highLevel3;
 
+	void Awake(){
+//		PlayerPrefs.DeleteAll ();
+	}
+
 	public int Score{
         get{score = PlayerPrefs.GetInt("Score", 0);
                 return score;}
@@ -115,7 +119,7 @@ public class DataManager : MonoBehaviour  {
 			HighScore2 = HighScore1;
 			HighScore1 = score;
 			return 1;
-		} else if ((level > HighLevel1) || (level == HighLevel2 && score > HighScore2)) {
+		} else if ((level > HighLevel2) || (level == HighLevel2 && score > HighScore2)) {
 			HighLevel3 = HighLevel2;
 			HighLevel2 = level;
 			HighScore3 = HighScore2;
@@ -158,7 +162,7 @@ public class DataManager : MonoBehaviour  {
 	}
 
 	public string GetGradeByLevel(int level){
-		string s = "练气";
+		string s = "";
 		switch (level) {
 		case 1:
 			s = "练气";
@@ -194,14 +198,14 @@ public class DataManager : MonoBehaviour  {
 			s = "升仙";
 			break;
 		default:
-			s = "升仙";
+			s = "";
 			break;
 		}
 		return s;
 	} 
 
 	public  string GetGradeByScore(int score){
-		string s = "练气";
+		string s = "";
 		switch (score) {
 		case 1:
 			s = "练气";
@@ -237,7 +241,7 @@ public class DataManager : MonoBehaviour  {
 			s = "升仙";
 			break;	
 		default:
-			s = "升仙";
+			s = "";
 			break;
 		}
 		return s;

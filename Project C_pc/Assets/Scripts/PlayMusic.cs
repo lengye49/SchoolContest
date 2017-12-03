@@ -15,8 +15,6 @@ public class PlayMusic : MonoBehaviour {
 	public GameObject successSoundContainer;
 	public GameObject winSoundContainer;
 
-//	public Slider musicSlider;
-//	public Slider soundSlider;
 
 	private AudioSource startMenuBg;
 	private AudioSource playPanelBg;
@@ -33,31 +31,21 @@ public class PlayMusic : MonoBehaviour {
 		successSound = successSoundContainer.GetComponent<AudioSource> ();
 		winSound = winSoundContainer.GetComponent<AudioSource> ();
 	}
-
-	public void MusicVolumnChange()
-	{
-//		bgVolumn = musicSlider.value;
-		bgNow.volume = bgVolumn;
-	}
-
-	public void SoundVolumnChange(){
-//		soundVolumn = soundSlider.value;
-	}
+		
 
 	public void PlayBg(string bgName)
 	{
-		if (bgName == "startMenuBg") {
+		if (bgName == "startMenuBg" && bgNow!=startMenuBg) {
 			startMenuBg.volume = bgVolumn;
 			startMenuBg.Play ();
 			bgNow = startMenuBg;
 			playPanelBg.Stop ();
-		} else if (bgName == "playPanelBg") {
+		} else if (bgName == "playPanelBg" && bgNow!=playPanelBg) {
 			playPanelBg.volume = bgVolumn;
 			playPanelBg.Play ();
 			bgNow = playPanelBg;
 			startMenuBg.Stop ();
-		} else
-			Debug.Log ("Wrong Bg Name");
+		} 
 	}
 
 	public void PlayerSound(string soundName){
@@ -74,8 +62,6 @@ public class PlayMusic : MonoBehaviour {
 		} else if(soundName == "win"){
 			clickSound.volume = soundVolumn;
 			winSound.Play ();
-		}else {
-			Debug.Log ("Wrong Sound Name");
 		}
 	}
 
