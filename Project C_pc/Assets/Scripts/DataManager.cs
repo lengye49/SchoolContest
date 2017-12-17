@@ -5,110 +5,59 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class DataManager : MonoBehaviour  {
 
-	private int score;
-	private int level;
+	private int score=0;
+	private int level=0;
     private string numList;
-	private int highScore1;
-	private int highScore2;
-	private int highScore3;
-	private int highLevel1;
-	private int highLevel2;
-	private int highLevel3;
 
-	void Awake(){
-//		PlayerPrefs.DeleteAll ();
+
+	public int Score {
+		get {
+			return score;
+		}
+		set {
+			score = value; 
+		}
+	}
+	public int Level {
+		get {
+			return level;
+		}
+		set {
+			level = value; 
+		}
 	}
 
-	public int Score{
-        get{score = PlayerPrefs.GetInt("Score", 0);
-                return score;}
-		set{score = value; 
-			PlayerPrefs.SetInt ("Score",value);}
-	}	
-	public int Level{
-        get{level = PlayerPrefs.GetInt("Level", 0);
-            return level;}
-		set{level = value; 
-			PlayerPrefs.SetInt ("Level",value);}
-	}	
-    public int[][] NumList{
-        get{ numList = PlayerPrefs.GetString("NumList", "");
-            return GetNumListFromStr(numList);}
-        set{ numList = GetStrFromNumList(value);
-            PlayerPrefs.SetString("NumList", numList);
-        }
-    }
-	public int HighScore1{
-		get{ return PlayerPrefs.GetInt ("HighScore1", 0);}
-		set{highScore1 = value;
-			PlayerPrefs.SetInt ("HighScore1",value);}
+	public int HighScore1 {
+		get{ return PlayerPrefs.GetInt ("HighScore1", 0); }
+		set {
+			PlayerPrefs.SetInt ("HighScore1", value);
+		}
 	}
 	public int HighScore2{
 		get{ return PlayerPrefs.GetInt ("HighScore2", 0);}
-		set{highScore2 = value;
+		set{
 			PlayerPrefs.SetInt ("HighScore2",value);}
 	}
 	public int HighScore3{
 		get{ return PlayerPrefs.GetInt ("HighScore3", 0);}
-		set{highScore3 = value;
+		set{
 			PlayerPrefs.SetInt ("HighScore3",value);}
 	}
 	public int HighLevel1{
 		get{return PlayerPrefs.GetInt ("HighLevel1", 0);}
-		set{highLevel1 = value;
+		set{
 			PlayerPrefs.SetInt ("HighLevel1",value);}
 	}
 	public int HighLevel2 {
 		get{ return PlayerPrefs.GetInt ("HighLevel2", 0); }
-		set{highLevel2 = value;
+		set{
 			PlayerPrefs.SetInt ("HighLevel2", value); }
 	}
 	public int HighLevel3{
 		get{ return PlayerPrefs.GetInt ("HighLevel3", 0);}
-		set{highLevel3 = value;
+		set{
 			PlayerPrefs.SetInt ("HighLevel3",value);}
 	}
-	/// <summary>
-	/// 是否有存档，0没有1有
-	/// </summary>
-	/// <value><c>true</c> if this instance has memory; otherwise, <c>false</c>.</value>
-	public int HasMemory{
-		get{ return PlayerPrefs.GetInt ("HasMemmory", 0);}
-		set{ PlayerPrefs.SetInt ("HasMemmory",value);}
-	}
-
-    int[][] GetNumListFromStr(string str){
-        int[][] nums = new int[5][];
-        nums [0] = new int[3];
-        nums [1] = new int[4];
-        nums [2] = new int[5];
-        nums [3] = new int[4];
-        nums [4] = new int[3];
-        string[] strs = str.Split('|');
-        int k = 0;
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < nums[i].Length; j++)
-            {
-                nums[i][j] = int.Parse(strs[k]);
-                k++;
-            }
-        }
-        return nums;
-    }
-
-    string GetStrFromNumList(int[][] nums){
-        string str = "";
-        for (int i = 0; i < nums.Length; i++)
-        {
-            for (int j = 0; j < nums[i].Length; j++)
-            {
-                str += nums[i][j].ToString() + "|";
-            }
-        }
-        str = str.Substring(0, str.Length - 1);
-        return str;
-    }
 
 	public int SetHighScore(){
 		if ((level > HighLevel1) || (level == HighLevel1 && score > HighScore1)) {

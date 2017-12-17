@@ -7,7 +7,6 @@ public class ViewManager : MonoBehaviour {
 
     //开始界面
     public GameObject startPanel;
-    public Button continueButton;
 
     //游戏界面
     public GameObject playPanel;
@@ -47,27 +46,20 @@ public class ViewManager : MonoBehaviour {
 		instructions.SetActive (false);
 		instrCover.SetActive (false);
 
-		SetContinueButton (PlayerPrefs.GetInt ("HasMemory", 0) > 0);
     }
-
-	public void OnPlayReturnButton()
-	{
-		playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
-		startPanel.transform.localPosition = Vector3.zero;
-		SetContinueButton (PlayerPrefs.GetInt ("HasMemory", 0) > 0);
-	}
+		
 
 	public void OnFailReturnButton()
 	{
 		playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
 		startPanel.transform.localPosition = Vector3.zero;
 		coverFail.gameObject.SetActive (false);
-		SetContinueButton (PlayerPrefs.GetInt ("HasMemory", 0) > 0);
 	}
 
 	public void OnInstrButton(){
 		instrCover.SetActive (true);
 		instructions.SetActive (true);
+		instructions.transform.localPosition = Vector3.zero;
 		instructions.transform.localScale = new Vector3 (0.1f, 0.1f, 1f);
 		instructions.transform.DOBlendableScaleBy (new Vector3 (0.8f, 0.8f, 1f), 0.5f);
 	}
@@ -76,10 +68,6 @@ public class ViewManager : MonoBehaviour {
 		instrCover.SetActive (false);
 		instructions.SetActive (false);
 	}
-
-    void SetContinueButton(bool isAct){
-        continueButton.interactable = isAct;
-    }
 
 	public void GoToGamePanel(){
 		startPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
@@ -130,9 +118,9 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	public void UpgradeFloating(string msg){
-		Vector3 startPosition = new Vector3 (25, 220, 0);;
-		float y1 = 280f;
-		float y2 = 320f;
+		Vector3 startPosition = new Vector3 (25, 0, 0);;
+		float y1 = 60f;
+		float y2 = 100f;
 		upgradeText.text = msg;
 		PopMsg (upgradeText.gameObject, startPosition, y1, y2);
 	}

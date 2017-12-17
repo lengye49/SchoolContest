@@ -22,8 +22,6 @@ public class Initialize : MonoBehaviour {
 	private int score = 0;
 	private PlayMusic _playerMusic;
 	private int maxLv;
-	private bool isPlaying = false;
-
 
 	void Start () {
 		_data = GetComponentInParent<DataManager> ();
@@ -34,23 +32,8 @@ public class Initialize : MonoBehaviour {
 	}
 
 	public void OnGameStart(){
-		InitData (true);
+		InitData ();
 		StartGame ();
-	}
-
-	public void OnGameContinue(){
-		if (isPlaying) {
-			_view.GoToGamePanel ();
-			isPlaying = false;
-		} else {
-			InitData (false);
-			StartGame ();
-		}
-	}
-
-	public void OnGameReturn(){
-		isPlaying = true;
-		_view.OnPlayReturnButton ();
 	}
 
 	void StartGame(){
@@ -69,10 +52,9 @@ public class Initialize : MonoBehaviour {
 	/// <summary>
 	///初始化数据
 	/// </summary>
-	/// <param name="isStart">True:重新开始 False:继续游戏</param></param>
-	void InitData(bool isStart){
-        if (isStart)
-        {
+	/// </param></param>
+	void InitData(){
+
             score = 0;
             maxLv = 1;
 
@@ -99,13 +81,7 @@ public class Initialize : MonoBehaviour {
                 }
             }
             StoreData();
-        }
-        else
-        {
-            score = _data.Score;
-            maxLv = _data.Level;
-            nums = _data.NumList;
-        }
+
 	}
 
     /// <summary>
@@ -164,8 +140,6 @@ public class Initialize : MonoBehaviour {
     void StoreData(){
         _data.Score = score;
         _data.Level = maxLv;
-        _data.NumList = nums;
-        _data.HasMemory = 1;
     }
 
 	void CheckGameOver()
@@ -174,7 +148,6 @@ public class Initialize : MonoBehaviour {
 			//游戏通关
 			_playerMusic.PlayerSound ("win");
 			string winTxt = "游戏通关!\n 你本局的积分是 " + score.ToString () + "！";
-            _data.HasMemory = 0;
 			winTxt += UpdateRank();
 			_view.WinMsg (winTxt);
 		} else {
@@ -191,7 +164,6 @@ public class Initialize : MonoBehaviour {
 		}
 
 		//游戏失败
-        _data.HasMemory = 0;
 		_playerMusic.PlayerSound ("fail");
 		string failTxt = "陨落!\n 真气" + score.ToString () + "! \n"+_data.GetGradeByLevel(maxLv)+"水平，来世再会!";
 		failTxt += UpdateRank ();
@@ -223,10 +195,15 @@ public class Initialize : MonoBehaviour {
 			cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
 			cells [row] [column].gameObject.GetComponent<Image> ().color = _data.GetColorByNum (newSeed);
 
+
+			//生成新的单元格
 			for(int i=0;i<sameNumIndex.Count;i++)
 			{
 				int[] ins = sameNumIndex[i] as int[];
-                int n = Random.Range (0, 3);
+				int max = Mathf.Max (maxLv - 4, 3);
+				int min = Mathf.Max (max - 7, 0);
+
+				int n = Random.Range (min, max);
 				if (maxLv < n + 1) {
 					maxLv = (n + 1);
 					if (maxLv >= 5) {
