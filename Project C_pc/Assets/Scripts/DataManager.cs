@@ -5,10 +5,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class DataManager : MonoBehaviour  {
 
+	void Awake(){
+//		PlayerPrefs.DeleteAll ();
+	}
+
+
+
+	#region LocalData
+
 	private int score=0;
 	private int level=0;
     private string numList;
-
 
 	public int Score {
 		get {
@@ -24,6 +31,39 @@ public class DataManager : MonoBehaviour  {
 		}
 		set {
 			level = value; 
+		}
+	}
+
+	public string PlayerName {
+		get{ return PlayerPrefs.GetString ("playerName", "无名氏"); }
+		set { PlayerPrefs.SetString ("playerName", value); }
+	}
+
+	public string PlayerCountry {
+		get{ return PlayerPrefs.GetString ("playerCountry", "流浪者"); }
+		set { PlayerPrefs.SetString ("playerCountry", value); }
+	}
+
+	public string PlayerSchool {
+		get{ return PlayerPrefs.GetString ("playerSchool", "散修"); }
+		set { PlayerPrefs.SetString ("playerSchool", value); }
+	}
+
+	int AccountId{
+		get{ return PlayerPrefs.GetInt ("accountId", 0);}
+		set{ 
+			if (value > 0)
+				PlayerPrefs.SetInt ("accountId", value);
+		}
+	}
+
+	public static bool AccountExist{
+		get{ return PlayerPrefs.GetInt ("account", 0) > 0;}
+		set{
+			if (value)
+				PlayerPrefs.SetInt ("account", 1);
+			else
+				PlayerPrefs.SetInt ("account", 0);
 		}
 	}
 
@@ -82,8 +122,10 @@ public class DataManager : MonoBehaviour  {
 			return 0;
 		}
 	}
+	#endregion
 
 
+	#region GameValueProcess
 	public Color GetColorByNum(int num)
 	{
 		switch (num) {
@@ -195,6 +237,19 @@ public class DataManager : MonoBehaviour  {
 		}
 		return s;
 	}
+	#endregion
+
+	public void Register(string playerName,string playerCountry,string playerSchool){
+		PlayerName = playerName;
+		PlayerCountry = playerCountry;
+		PlayerSchool = playerSchool;
+
+		//Get Remote AccountId
+		AccountId = 1;
+
+		AccountExist = true;
+	}
+
 }
 
 //	#region SaveData

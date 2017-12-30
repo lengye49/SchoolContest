@@ -5,22 +5,22 @@ using DG.Tweening;
 
 public class ViewManager : MonoBehaviour {
 
-    //开始界面
+    //界面
     public GameObject startPanel;
+	public Text welcomeMsg;
+	public GameObject registerPanel;
 
     //游戏界面
     public GameObject playPanel;
     public Text scoreText;
     public Text gradeText;
     public GameObject instructions;
-    public GameObject instrCover;
+//    public GameObject instrCover;
 
     //游戏辅助
-    public Text upgradeText;
-    public Text addScoreText;
     private PlayMusic _playMusic;
 
-    //结算界面
+    //结算
     public GameObject coverFail;
     public Text failText;
     public GameObject coverWin;
@@ -35,29 +35,50 @@ public class ViewManager : MonoBehaviour {
 //	public Image[] gradeImages;
 
     void Start(){
-        startPanel.transform.localPosition = Vector3.zero;
-        playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
+		registerPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
+		startPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
+		playPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
+		_playMusic = transform.GetComponentInParent<PlayMusic> ();
 
-        _playMusic = transform.GetComponentInParent<PlayMusic> ();
-        _playMusic.PlayBg ("startMenuBg");
-
-        coverFail.gameObject.SetActive (false);
-        coverWin.gameObject.SetActive (false);
+		coverFail.gameObject.SetActive (false);
+		coverWin.gameObject.SetActive (false);
 		instructions.SetActive (false);
-		instrCover.SetActive (false);
+//		instrCover.SetActive (false);
 
+		if (DataManager.AccountExist) {
+			GoToStartPanel ();
+		} else {
+			GoToRegisterPanel ();
+		}
     }
 		
+	public void GoToStartPanel(){
+		startPanel.transform.DOLocalMoveX (0, 0.5f);
+		registerPanel.transform.DOLocalMoveX (5000f, 0.5f);
+		playPanel.transform.DOLocalMoveX (5000f, 0.5f);
+		_playMusic.PlayBg ("startMenuBg");
+
+		DataManager _data = GetComponent<DataManager> ();
+		welcomeMsg.text = "恭迎" + "\t" + _data.PlayerCountry + "\t" 
+			+ _data.PlayerSchool + "\n" + _data.PlayerName + "\n道友大驾光临!";
+	}
+
+	public void GoToRegisterPanel(){
+		registerPanel.transform.DOLocalMoveX (0, 0.5f);
+//		startPanel.transform.DOLocalMoveX (2000f, 0.5f);
+//		playPanel.transform.DOLocalMoveX (2000f, 0.5f);
+		_playMusic.PlayBg ("startMenuBg");
+	}
 
 	public void OnFailReturnButton()
 	{
-		playPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
+		playPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
 		startPanel.transform.localPosition = Vector3.zero;
 		coverFail.gameObject.SetActive (false);
 	}
 
 	public void OnInstrButton(){
-		instrCover.SetActive (true);
+//		instrCover.SetActive (true);
 		instructions.SetActive (true);
 		instructions.transform.localPosition = Vector3.zero;
 		instructions.transform.localScale = new Vector3 (0.1f, 0.1f, 1f);
@@ -65,19 +86,17 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	public void OnInstrCover(){
-		instrCover.SetActive (false);
+//		instrCover.SetActive (false);
 		instructions.SetActive (false);
 	}
 
 	public void GoToGamePanel(){
-		startPanel.transform.localPosition = new Vector3 (2000f, 0, 0);
+		startPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
 		playPanel.transform.localPosition = Vector3.zero;
 
 		//设置游戏面板
 		instructions.SetActive (false);
-		instrCover.SetActive (false);
-		upgradeText.gameObject.SetActive (false);
-		addScoreText.gameObject.SetActive (false);
+//		instrCover.SetActive (false);
 		coverFail.gameObject.SetActive (false);
 		coverWin.gameObject.SetActive (false);
 	}
@@ -116,46 +135,5 @@ public class ViewManager : MonoBehaviour {
 		else
 			localScore3.text = "第三：虚位以待";
 	}
-
-	public void UpgradeFloating(string msg){
-		Vector3 startPosition = new Vector3 (25, 0, 0);;
-		float y1 = 60f;
-		float y2 = 100f;
-		upgradeText.text = msg;
-		PopMsg (upgradeText.gameObject, startPosition, y1, y2);
-	}
-
-	public void AddScoreFloating(string msg){
-		Vector3 startPosition =  new Vector3 (250, 280, 0);
-		float y1 = 300;
-		float y2 = 320f;
-		addScoreText.text = msg;
-		PopMsg (addScoreText.gameObject, startPosition, y1, y2);
-	}
-
-	void PopMsg(GameObject o,Vector3 startPos,float y1,float y2){
-		o.SetActive (true);
-		o.transform.localPosition = startPos;
-		o.transform.localScale = new Vector3 (0.1f, 0.1f, 1f);
-		o.transform.DOLocalMoveY (y1, 0.5f);
-		o.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 1f), 0.5f);
-		o.GetComponent<Text> ().DOFade (1, 0.5f);
-		StartCoroutine (PopUp (o, y2));
-	}
-
-	IEnumerator PopUp(GameObject o,float y2){
-		yield return new WaitForSeconds (1.5f);
-		PopEnd (o,y2);
-	}
-
-	void PopEnd(GameObject o,float y2){
-		o.transform.DOLocalMoveY (y2, 0.5f);
-		o.GetComponent<Text> ().DOFade (0, 0.5f);
-		StartCoroutine (Vanish (o));
-	}
-
-	IEnumerator Vanish(GameObject o){
-		yield return new WaitForSeconds (0.5f);
-		o.SetActive (false);
-	}
+		
 }

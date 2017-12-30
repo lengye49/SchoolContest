@@ -7,6 +7,7 @@ public class Initialize : MonoBehaviour {
 
 	private DataManager _data;
 	private ViewManager _view;
+	private Warning _warning;
 	private Object o;
 	private GameObject[][] cells = new GameObject[5][];
 	private int[][] nums = new int[5][];
@@ -26,6 +27,8 @@ public class Initialize : MonoBehaviour {
 	void Start () {
 		_data = GetComponentInParent<DataManager> ();
 		_view = GetComponentInParent<ViewManager> ();
+		_warning = GetComponentInParent<Warning> ();
+
 		_playerMusic = this.gameObject.GetComponentInParent<PlayMusic> ();
 		o = Resources.Load("Cell");
 		listCells = new ArrayList ();
@@ -99,7 +102,7 @@ public class Initialize : MonoBehaviour {
             for (int j=0; j<cells[i].Length; j++) {
                 GameObject g = Instantiate (o) as GameObject;
                 g.gameObject.transform.SetParent (this.gameObject.transform);
-                g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 84.5f, (midNum - i) * 71f, 0f);
+                g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 152.1f, (midNum - i) * 127.8f, 0f);
                 g.name = i.ToString () + "," + j.ToString ();
                 cells [i] [j] = g;
 				g.GetComponent<Image> ().color = _data.GetColorByNum (nums[i][j]);
@@ -176,7 +179,7 @@ public class Initialize : MonoBehaviour {
 			
 			score += seed * totalNum;
 			string msg = "真气 +" + seed * totalNum;
-			_view.AddScoreFloating (msg);
+			_warning.ShowWarning (0, msg);
 
 			int newN = (int)(Mathf.Log (totalNum, 3f));
 
@@ -184,7 +187,7 @@ public class Initialize : MonoBehaviour {
 				maxLv = (newN + 1+(int)(Mathf.Log(seed,3f)));
 				if (maxLv >= 5) {
 					msg= "突破到" + _data.GetGradeByLevel (maxLv) + "！";
-					_view.UpgradeFloating (msg);
+					_warning.ShowWarning (1, msg);
 				}
 			}
 
@@ -208,7 +211,7 @@ public class Initialize : MonoBehaviour {
 					maxLv = (n + 1);
 					if (maxLv >= 5) {
 						msg= "突破到" + _data.GetGradeByLevel (maxLv) + "！";
-						_view.UpgradeFloating (msg);
+						_warning.ShowWarning (1, msg);
 					}
 				}
 				int nn = (int)Mathf.Pow (3,n);
