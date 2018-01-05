@@ -24,6 +24,8 @@ public class Initialize : MonoBehaviour {
 	private PlayMusic _playerMusic;
 	private int maxLv;
 
+	private bool isResetCell = false;
+
 	void Start () {
 		_data = GetComponentInParent<DataManager> ();
 		_view = GetComponentInParent<ViewManager> ();
@@ -115,14 +117,21 @@ public class Initialize : MonoBehaviour {
 
     public void ClickCell(int row,int column)
     {
-        CheckThisCell (row, column);
-        if (totalNum >= 3) {
-            _playerMusic.PlayerSound ("success");
-            Calculate (row, column);
-            CheckGameOver ();
-        } else {
-            _playerMusic.PlayerSound ("click");
-        }
+		if (isResetCell) {
+			_playerMusic.PlayerSound ("success");
+			GenerateNewCell (row, column);
+			CheckGameOver ();
+			isResetCell = false;
+		} else {
+			CheckThisCell (row, column);
+			if (totalNum >= 3) {
+				_playerMusic.PlayerSound ("success");
+				Calculate (row, column);
+				CheckGameOver ();
+			} else {
+				_playerMusic.PlayerSound ("click");
+			}
+		}
     }
 
     void CheckThisCell(int row,int column)
@@ -173,6 +182,28 @@ public class Initialize : MonoBehaviour {
 		_view.FailMsg (failTxt);
 	}
 
+	void SetCell(int row,int column,int newSeed){
+		nums [row] [column] = newSeed;
+		string s = _data.GetGradeByScore (newSeed);
+		cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
+		cells [row] [column].gameObject.GetComponent<Image> ().color = _data.GetColorByNum (newSeed);
+	}
+
+	void GenerateNewCell(int row,int column){
+		int max = Mathf.Max (maxLv - 4, 3);
+		int min = Mathf.Max (maxLv - 7, 0);
+		int n = Random.Range (min, max);
+		if (maxLv < n + 1) {
+			maxLv = (n + 1);
+			if (maxLv >= 5) {
+				string msg= "突破到" + _data.GetGradeByLevel (maxLv) + "！";
+				_warning.ShowWarning (1, msg);
+			}
+		}
+		int newSeed = (int)Mathf.Pow (3,n);
+		SetCell (row, column, newSeed);
+	}
+
 	void Calculate(int row, int column)
 	{
 		if (totalNum >= 3) {
@@ -192,33 +223,13 @@ public class Initialize : MonoBehaviour {
 			}
 
 			int newSeed = seed * (int)Mathf.Pow (3, newN);
-			nums [row] [column] = newSeed;
-			string s = _data.GetGradeByScore (newSeed);
-
-			cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
-			cells [row] [column].gameObject.GetComponent<Image> ().color = _data.GetColorByNum (newSeed);
-
+			SetCell (row, column, newSeed);
 
 			//生成新的单元格
 			for(int i=0;i<sameNumIndex.Count;i++)
 			{
 				int[] ins = sameNumIndex[i] as int[];
-				int max = Mathf.Max (maxLv - 4, 3);
-				int min = Mathf.Max (max - 7, 0);
-
-				int n = Random.Range (min, max);
-				if (maxLv < n + 1) {
-					maxLv = (n + 1);
-					if (maxLv >= 5) {
-						msg= "突破到" + _data.GetGradeByLevel (maxLv) + "！";
-						_warning.ShowWarning (1, msg);
-					}
-				}
-				int nn = (int)Mathf.Pow (3,n);
-				nums [ins[0]] [ins[1]] = nn;
-				s = _data.GetGradeByScore (nn);
-				cells[ins[0]] [ins[1]].gameObject.GetComponentInChildren<Text>().text = s;
-				cells [ins [0]] [ins [1]].gameObject.GetComponent<Image> ().color = _data.GetColorByNum (nn);
+				GenerateNewCell (ins [0], ins [1]);
 			}
 			_view.SetScore (score);
 			_view.SetGrade (_data.GetGradeByLevel (maxLv));
@@ -310,5 +321,28 @@ public class Initialize : MonoBehaviour {
 
 		_view.UpdateLocalRank (s1, s2, s3, g1, g2, g3);
     }
+
+	/// <summary>
+	/// 将各元素随机交换位置
+	/// </summary>
+	public void ResetAllCells(){
+		for (int i = 0; i < 100; i++) {
+			int row1 = Random.Range (0, 5);
+			int column1 = Random.Range (0, nums [row1].Length);
+
+			int row2 = Random.Range (0, 5);
+			int column2 = Random.Range (0, nums [row2].Length);
+
+			SwitchCell (row1, column1, row2, column2);
+		}
+	}
+
+	void SwitchCell(int r1,int c1,int r2,int c2){
+		int t = nums [r1] [c1];
+		nums [r1] [c1] = nums [r2] [c2];
+		nums [r2] [c2] = t;
+		SetCell (r1, c1, nums [r1] [c1]);
+		SetCell (r2, c2, nums [r2] [c2]);
+	}
 
 }
