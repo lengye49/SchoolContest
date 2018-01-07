@@ -24,6 +24,7 @@ public class Initialize : MonoBehaviour {
 	private PlayMusic _playerMusic;
 	private int maxLv;
 
+	private bool hasResetEnergy = false;
 	private bool isResetCell = false;
 
 	void Start () {
@@ -49,6 +50,11 @@ public class Initialize : MonoBehaviour {
 		_view.GoToGamePanel ();
 		_view.SetScore (score);
 		_view.SetGrade (_data.GetGradeByLevel (maxLv));
+		isResetCell = false;
+		hasResetEnergy = false;
+		_view.SetResetOneState (false);
+		_view.ResetOneOn (isResetCell);
+
 		UpdateRankPanel ();
 
 		InitCell ();
@@ -122,6 +128,9 @@ public class Initialize : MonoBehaviour {
 			GenerateNewCell (row, column);
 			CheckGameOver ();
 			isResetCell = false;
+			hasResetEnergy = false;
+			_view.SetResetOneState (hasResetEnergy);
+			_view.ResetOneOn (false);
 		} else {
 			CheckThisCell (row, column);
 			if (totalNum >= 3) {
@@ -198,6 +207,9 @@ public class Initialize : MonoBehaviour {
 			if (maxLv >= 5) {
 				string msg= "突破到" + _data.GetGradeByLevel (maxLv) + "！";
 				_warning.ShowWarning (1, msg);
+				hasResetEnergy = true;
+				Debug.Log ("获得能量");
+				_view.SetResetOneState (hasResetEnergy);
 			}
 		}
 		int newSeed = (int)Mathf.Pow (3,n);
@@ -219,6 +231,9 @@ public class Initialize : MonoBehaviour {
 				if (maxLv >= 5) {
 					msg= "突破到" + _data.GetGradeByLevel (maxLv) + "！";
 					_warning.ShowWarning (1, msg);
+					hasResetEnergy = true;
+					Debug.Log ("获得能量");
+					_view.SetResetOneState (hasResetEnergy);
 				}
 			}
 
@@ -345,4 +360,12 @@ public class Initialize : MonoBehaviour {
 		SetCell (r2, c2, nums [r2] [c2]);
 	}
 
+	public void ChangeResetOneState(){
+		if (!hasResetEnergy || isResetCell) {
+			isResetCell = false;
+		} else {
+			isResetCell = true;
+		}
+		_view.ResetOneOn (isResetCell);
+	}
 }

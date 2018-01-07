@@ -17,7 +17,7 @@ public class ViewManager : MonoBehaviour {
     public GameObject instructions;
 //    public GameObject instrCover;
 
-    //游戏辅助
+    //音乐
     private PlayMusic _playMusic;
 
     //结算
@@ -31,8 +31,8 @@ public class ViewManager : MonoBehaviour {
 	public Text localScore2;
 	public Text localScore3;
 
-	//等级图
-//	public Image[] gradeImages;
+	//辅助
+	public Button ResetOne;
 
     void Start(){
 		registerPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
@@ -135,5 +135,21 @@ public class ViewManager : MonoBehaviour {
 		else
 			localScore3.text = "第三：虚位以待";
 	}
+
+	public void SetResetOneState(bool hasEnergy){
+		ResetOne.interactable = hasEnergy;
+	}
+
+	public void ResetOneOn(bool isOn){
+	
+		if (isOn) {
+			Debug.Log ("开启仙人指路");
+			//特效打开
+		} else {
+			Debug.Log ("关闭仙人指路");
+			//特效关闭
+		}
+	}
+
 		
 }
