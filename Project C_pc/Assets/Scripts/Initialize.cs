@@ -26,6 +26,7 @@ public class Initialize : MonoBehaviour {
 
 	private bool hasResetEnergy = false;
 	private bool isResetCell = false;
+	private bool isAdDone = false;
 
 	void Start () {
 		_data = GetComponentInParent<DataManager> ();
@@ -52,6 +53,7 @@ public class Initialize : MonoBehaviour {
 		_view.SetGrade (_data.GetGradeByLevel (maxLv));
 		isResetCell = false;
 		hasResetEnergy = false;
+		isAdDone = false;
 		_view.SetResetOneState (false);
 		_view.ResetOneOn (isResetCell);
 
@@ -126,11 +128,12 @@ public class Initialize : MonoBehaviour {
 		if (isResetCell) {
 			_playerMusic.PlayerSound ("success");
 			GenerateNewCell (row, column);
-			CheckGameOver ();
 			isResetCell = false;
 			hasResetEnergy = false;
 			_view.SetResetOneState (hasResetEnergy);
 			_view.ResetOneOn (false);
+
+			CheckGameOver ();
 		} else {
 			CheckThisCell (row, column);
 			if (totalNum >= 3) {
@@ -168,9 +171,9 @@ public class Initialize : MonoBehaviour {
 		if (maxLv > 11) {
 			//游戏通关
 			_playerMusic.PlayerSound ("win");
-			string winTxt = "游戏通关!\n 你本局的积分是 " + score.ToString () + "！";
-			winTxt += UpdateRank();
-			_view.WinMsg (winTxt);
+			int localRank = _data.SetHighScore ();
+			_view.WinMsg (score,localRank);
+			UpdateRankPanel ();
 		} else {
 			for (int i = 0; i < cells.Length; i++) {
 				for (int j = 0; j < cells [i].Length; j++) {
@@ -186,10 +189,16 @@ public class Initialize : MonoBehaviour {
 
 		//游戏失败
 		_playerMusic.PlayerSound ("fail");
-		string failTxt = "陨落!\n 真气" + score.ToString () + "! \n"+_data.GetGradeByLevel(maxLv)+"水平，来世再会!";
-		failTxt += UpdateRank ();
-		_view.FailMsg (failTxt);
+
+		if (isAdDone) {
+			ConfirmComplete ();
+		} else {
+			_view.ShowAdNotce ();
+			isAdDone = true;
+		}
 	}
+
+
 
 	void SetCell(int row,int column,int newSeed){
 		nums [row] [column] = newSeed;
@@ -316,15 +325,6 @@ public class Initialize : MonoBehaviour {
 	}
 		
 
-    string UpdateRank(){
-        int n = _data.SetHighScore ();
-        if (n > 0) {
-            UpdateRankPanel ();
-            return "\n你的本地排名是第" + n + "名！";
-        }else
-            return "";
-    }
-
     void UpdateRankPanel(){
 		int s1 = _data.HighScore1;
 		int s2 = _data.HighScore2;
@@ -350,6 +350,7 @@ public class Initialize : MonoBehaviour {
 
 			SwitchCell (row1, column1, row2, column2);
 		}
+		CheckGameOver ();
 	}
 
 	void SwitchCell(int r1,int c1,int r2,int c2){
@@ -367,5 +368,11 @@ public class Initialize : MonoBehaviour {
 			isResetCell = true;
 		}
 		_view.ResetOneOn (isResetCell);
+	}
+
+	public void ConfirmComplete(){
+		int _localRank = _data.SetHighScore ();
+		_view.FailMsg (maxLv,score,_localRank);
+		UpdateRankPanel ();
 	}
 }

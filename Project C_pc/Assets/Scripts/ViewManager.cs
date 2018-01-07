@@ -25,6 +25,7 @@ public class ViewManager : MonoBehaviour {
     public Text failText;
     public GameObject coverWin;
     public Text winText;
+	public GameObject coverNotice;
 
 	//本地排名积分
 	public Text localScore1;
@@ -109,14 +110,22 @@ public class ViewManager : MonoBehaviour {
 		gradeText.text = grade;
 	}
 
-	public void WinMsg(string msg){
+	public void WinMsg(int score,int localRank){
 		coverWin.gameObject.SetActive (true);
-		winText.text = msg;
+		winText.text = score + ";" + localRank;
 	}
 
-	public void FailMsg(string msg){
+	public void FailMsg(int maxLv,int score,int localRank){
 		coverFail.gameObject.SetActive (true);
-		failText.text = msg;
+		failText.text = maxLv + ";" + score + ";" + localRank;
+	}
+
+	public void ShowAdNotce(){
+		coverNotice.gameObject.SetActive (true);
+	}
+
+	public void HideAdNotice(){
+		coverNotice.gameObject.SetActive (false);
 	}
 
 	public void UpdateLocalRank(int s1,int s2,int s3,string g1,string g2,string g3){
@@ -151,5 +160,23 @@ public class ViewManager : MonoBehaviour {
 		}
 	}
 
+	public void OnShowAd(){
+		HideAdNotice ();
+		//ShowAd
+		//Todo...
+
+		//测试时直接完成广告
+		CompleteAd();
+
+	}
+
+	void CompleteAd(){
+		GetComponentInChildren<Initialize> ().ResetAllCells ();
+	}
+
+	public void OnCancelAd(){
+		HideAdNotice ();
+		GetComponentInChildren<Initialize> ().ConfirmComplete ();
+	}
 		
 }
