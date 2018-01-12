@@ -171,9 +171,10 @@ public class Initialize : MonoBehaviour {
 		if (maxLv > 11) {
 			//游戏通关
 			_playerMusic.PlayerSound ("win");
-			int localRank = _data.SetHighScore ();
-			_view.WinMsg (score,localRank);
-			UpdateRankPanel ();
+			int localRank;
+            int onlineRank;
+            SettleRank(out localRank,out onlineRank);
+			_view.WinMsg (score,localRank,onlineRank);
 		} else {
 			for (int i = 0; i < cells.Length; i++) {
 				for (int j = 0; j < cells [i].Length; j++) {
@@ -371,8 +372,19 @@ public class Initialize : MonoBehaviour {
 	}
 
 	public void ConfirmComplete(){
-		int _localRank = _data.SetHighScore ();
-		_view.FailMsg (maxLv,score,_localRank);
-		UpdateRankPanel ();
+		int localRank;
+        int onlineRank;
+        SettleRank(out localRank,out onlineRank);
+		_view.FailMsg (maxLv,score,localRank,onlineRank);
+
 	}
+
+    void SettleRank(out int localRank,out int onlineRank){
+        localRank = _data.SetHighScore ();
+        onlineRank = 0;
+        if (localRank == 1)
+            onlineRank = _data.GetOnlineRank();
+
+        UpdateRankPanel ();
+    }
 }

@@ -110,14 +110,14 @@ public class ViewManager : MonoBehaviour {
 		gradeText.text = grade;
 	}
 
-	public void WinMsg(int score,int localRank){
+    public void WinMsg(int score,int localRank,int onlineRank){
 		coverWin.gameObject.SetActive (true);
-		winText.text = score + ";" + localRank;
+        winText.text = score + ";" + localRank + ";" + onlineRank;
 	}
 
-	public void FailMsg(int maxLv,int score,int localRank){
+    public void FailMsg(int maxLv,int score,int localRank,int onlineRank){
 		coverFail.gameObject.SetActive (true);
-		failText.text = maxLv + ";" + score + ";" + localRank;
+        failText.text = maxLv + ";" + score + ";" + localRank + ";" + onlineRank;
 	}
 
 	public void ShowAdNotce(){

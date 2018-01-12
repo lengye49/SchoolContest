@@ -250,9 +250,12 @@ public class DataManager : MonoBehaviour  {
 		AccountExist = true;
 	}
 
-	public void SettleScore(){
+    public int GetOnlineRank(){
 		
+        return 1;
 	}
+
+
 
 }
 
