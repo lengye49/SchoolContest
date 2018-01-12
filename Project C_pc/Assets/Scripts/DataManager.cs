@@ -250,6 +250,10 @@ public class DataManager : MonoBehaviour  {
 		AccountExist = true;
 	}
 
+	public void SettleScore(){
+		
+	}
+
 }
 
 //	#region SaveData
