@@ -14,8 +14,6 @@ public class ViewManager : MonoBehaviour {
     public GameObject playPanel;
     public Text scoreText;
     public Text gradeText;
-    public GameObject instructions;
-//    public GameObject instrCover;
 
     //音乐
     private PlayMusic _playMusic;
@@ -43,8 +41,7 @@ public class ViewManager : MonoBehaviour {
 
 		coverFail.gameObject.SetActive (false);
 		coverWin.gameObject.SetActive (false);
-		instructions.SetActive (false);
-//		instrCover.SetActive (false);
+
 
 		if (DataManager.AccountExist) {
 			GoToStartPanel ();
@@ -77,27 +74,13 @@ public class ViewManager : MonoBehaviour {
 		startPanel.transform.localPosition = Vector3.zero;
 		coverFail.gameObject.SetActive (false);
 	}
-
-	public void OnInstrButton(){
-//		instrCover.SetActive (true);
-		instructions.SetActive (true);
-		instructions.transform.localPosition = Vector3.zero;
-		instructions.transform.localScale = new Vector3 (0.1f, 0.1f, 1f);
-		instructions.transform.DOBlendableScaleBy (new Vector3 (0.8f, 0.8f, 1f), 0.5f);
-	}
-
-	public void OnInstrCover(){
-//		instrCover.SetActive (false);
-		instructions.SetActive (false);
-	}
+        
 
 	public void GoToGamePanel(){
 		startPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
 		playPanel.transform.localPosition = Vector3.zero;
 
 		//设置游戏面板
-		instructions.SetActive (false);
-//		instrCover.SetActive (false);
 		coverFail.gameObject.SetActive (false);
 		coverWin.gameObject.SetActive (false);
 	}

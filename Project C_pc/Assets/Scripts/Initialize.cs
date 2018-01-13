@@ -12,7 +12,7 @@ public class Initialize : MonoBehaviour {
 	private GameObject[][] cells = new GameObject[5][];
 	private int[][] nums = new int[5][];
 	private bool[][] allCellsCheck = new bool[5][];
-	private Vector3 offsetPos = new Vector3 (0, 100, 0);
+	private Vector3 offsetPos = new Vector3 (0, -300, 0);
 
 	private ArrayList sameNumIndex;
 	private ArrayList unCheckNeighbour;
@@ -112,7 +112,8 @@ public class Initialize : MonoBehaviour {
             for (int j=0; j<cells[i].Length; j++) {
                 GameObject g = Instantiate (o) as GameObject;
                 g.gameObject.transform.SetParent (this.gameObject.transform);
-                g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 152.1f, (midNum - i) * 127.8f, 0f);
+//                g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 152.1f, (midNum - i) * 127.8f, 0f);
+                g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 172.1f, (midNum - i) * 138f, 0f);
                 g.name = i.ToString () + "," + j.ToString ();
                 cells [i] [j] = g;
 				g.GetComponent<Image> ().color = _data.GetColorByNum (nums[i][j]);
