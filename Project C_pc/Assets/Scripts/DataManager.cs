@@ -126,29 +126,55 @@ public class DataManager : MonoBehaviour  {
 
 
 	#region GameValueProcess
-	public Color GetColorByNum(int num)
+	public Color GetImageColor(int num)
 	{
 		switch (num) {
 		case 1:
-			return new Color32 (192, 192, 192, 255); //Grey
+			return new Color32 (255, 255, 255, 255); 
 		case 3:
-			return new Color32 (255, 250, 250, 255); //SnowWhite
+			return new Color32 (0, 255, 0, 255); //SnowWhite
 		case 9:
-			return new Color32 (0, 250, 154, 255); 	 //MedSpringGreen
+			return new Color32 (0, 255, 255, 255); 	 //MedSpringGreen
 		case 27:
-			return new Color32 (0, 191, 255, 255);	 //DeepSkyBlue
+			return new Color32 (2, 126, 248, 255);	 //DeepSkyBlue
 		case 81:
-			return new Color32 (147, 112, 219, 255); //MediumPurple
+			return new Color32 (0, 63, 255, 255); //MediumPurple
 		case 243:
-			return new Color32 (255, 215, 0, 255);	 //Gold
+			return new Color32 (255, 255, 0, 255);	 //Gold
 		case 729:
-			return new Color32 (255, 0, 0, 255);	 //Red
+			return new Color32 (255, 0, 255, 255);	 //Red
 		case 2187:
-			return new Color32 (139, 69, 19, 255);	 //SaddleBrown
+			return new Color32 (255, 0, 0, 255);	 //SaddleBrown
 		case 6561:
-			return new Color32 (0, 0, 0, 255);		 //Black
+			return new Color32 (251, 183, 6, 255);		 //Black
 		default:
 			return Color.black;
+		}
+	}
+
+	public Color GetTextColor(int num)
+	{
+		switch (num) {
+		case 1:
+			return Color.grey; 
+		case 3:
+			return Color.grey; //SnowWhite
+		case 9:
+			return Color.magenta; 	 //MedSpringGreen
+		case 27:
+			return Color.magenta;	 //DeepSkyBlue
+		case 81:
+			return Color.yellow; //MediumPurple
+		case 243:
+			return Color.yellow;	 //Gold
+		case 729:
+			return Color.blue;	 //Red
+		case 2187:
+			return Color.blue;	 //SaddleBrown
+		case 6561:
+			return Color.white;		 //Black
+		default:
+			return Color.white;
 		}
 	}
 

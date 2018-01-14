@@ -32,6 +32,7 @@ public class ViewManager : MonoBehaviour {
 
 	//辅助
 	public Button ResetOne;
+	public LevelShow _levelShow;
 
     void Start(){
 		registerPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
@@ -123,9 +124,9 @@ public class ViewManager : MonoBehaviour {
 			localScore2.text = "次席：虚位以待";
 
 		if (s3 > 0)
-			localScore3.text = "第三：" + g3 + ", " + s3 + "分";
+			localScore3.text = "末位：" + g3 + ", " + s3 + "分";
 		else
-			localScore3.text = "第三：虚位以待";
+			localScore3.text = "末位：虚位以待";
 	}
 
 	public void SetResetOneState(bool hasEnergy){
@@ -140,6 +141,13 @@ public class ViewManager : MonoBehaviour {
 		} else {
 			Debug.Log ("关闭仙人指路");
 			//特效关闭
+		}
+	}
+
+	public void Upgrade(int newLevel){
+		_levelShow.UpdateLevelShow (newLevel);
+		if (newLevel >= 5) {
+			//ToDo 特效
 		}
 	}
 

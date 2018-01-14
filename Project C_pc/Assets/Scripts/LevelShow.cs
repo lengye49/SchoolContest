@@ -12,16 +12,15 @@ public class LevelShow : MonoBehaviour {
 
 	
     public void UpdateLevelShow (int levelNow) {
-        for (int i = 0; i < levelList.Length; i++)
-        {
-            if (i < levelNow)
-                levelList[i].sprite = done;
-            else if(i== levelNow)
-                levelList[i].sprite = going;
-            else
-                levelList[i].sprite = undone;
-        }
+		for (int i = 0; i < levelList.Length; i++) {
+			if (i < levelNow - 1)
+				levelList [i].sprite = done;
+			else if (i == levelNow - 1)
+				levelList [i].sprite = going;
+			else
+				levelList [i].sprite = undone;
+		}
 
-        levelText.transform.DOLocalMoveX(levelList[levelNow].transform.localPosition.x, 0.5f);
+		levelText.transform.DOLocalMoveX (levelList [levelNow - 1].transform.localPosition.x, 0.5f);
 	}
 }

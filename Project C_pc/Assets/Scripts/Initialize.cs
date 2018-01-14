@@ -68,33 +68,31 @@ public class Initialize : MonoBehaviour {
 	/// </param></param>
 	void InitData(){
 
-            score = 0;
-            maxLv = 1;
+		score = 0;
+		maxLv = 1;
 
-            nums [0] = new int[3];
-            nums [1] = new int[4];
-            nums [2] = new int[5];
-            nums [3] = new int[4];
-            nums [4] = new int[3];
+		nums [0] = new int[3];
+		nums [1] = new int[4];
+		nums [2] = new int[5];
+		nums [3] = new int[4];
+		nums [4] = new int[3];
 
-			allCellsCheck [0] = new bool[3];
-			allCellsCheck [1] = new bool[4];
-			allCellsCheck [2] = new bool[5];
-			allCellsCheck [3] = new bool[4];
-			allCellsCheck [4] = new bool[3];
+		allCellsCheck [0] = new bool[3];
+		allCellsCheck [1] = new bool[4];
+		allCellsCheck [2] = new bool[5];
+		allCellsCheck [3] = new bool[4];
+		allCellsCheck [4] = new bool[3];
 
-            for (int i = 0; i < nums.Length; i++)
-            {
-                for (int j = 0; j < nums[i].Length; j++)
-                {
-                    int n = Random.Range (0, 3);
-                    int num = (int)Mathf.Pow (3, n);
-                    nums [i] [j] = num;
-                    maxLv = (maxLv > n + 1) ? maxLv : n + 1;
-                }
-            }
-            StoreData();
-
+		for (int i = 0; i < nums.Length; i++) {
+			for (int j = 0; j < nums [i].Length; j++) {
+				int n = Random.Range (0, 3);
+				int num = (int)Mathf.Pow (3, n);
+				nums [i] [j] = num;
+				maxLv = (maxLv > n + 1) ? maxLv : n + 1;
+			}
+		}
+		StoreData ();
+		_view.Upgrade (maxLv);
 	}
 
     /// <summary>
@@ -116,9 +114,10 @@ public class Initialize : MonoBehaviour {
                 g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 172.1f, (midNum - i) * 138f, 0f);
                 g.name = i.ToString () + "," + j.ToString ();
                 cells [i] [j] = g;
-				g.GetComponent<Image> ().color = _data.GetColorByNum (nums[i][j]);
+				g.GetComponent<Image> ().color = _data.GetImageColor (nums[i][j]);
                 string s = _data.GetGradeByScore (nums[i][j]);
                 g.GetComponentInChildren<Text> ().text = s;
+				g.GetComponentInChildren<Text> ().color = _data.GetTextColor (nums [i] [j]);
 				listCells.Add (g);
             }
         }
@@ -206,7 +205,8 @@ public class Initialize : MonoBehaviour {
 		nums [row] [column] = newSeed;
 		string s = _data.GetGradeByScore (newSeed);
 		cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
-		cells [row] [column].gameObject.GetComponent<Image> ().color = _data.GetColorByNum (newSeed);
+		cells [row] [column].gameObject.GetComponent<Image> ().color = _data.GetImageColor (newSeed);
+		cells[row][column].gameObject.GetComponentInChildren<Text>().color = _data.GetTextColor (newSeed);
 	}
 
 	void GenerateNewCell(int row,int column){
@@ -215,11 +215,9 @@ public class Initialize : MonoBehaviour {
 		int n = Random.Range (min, max);
 		if (maxLv < n + 1) {
 			maxLv = (n + 1);
+			_view.Upgrade (maxLv);
 			if (maxLv >= 5) {
-				string msg= "突破到" + _data.GetGradeByLevel (maxLv) + "！";
-				_warning.ShowWarning (1, msg);
 				hasResetEnergy = true;
-				Debug.Log ("获得能量");
 				_view.SetResetOneState (hasResetEnergy);
 			}
 		}
@@ -232,16 +230,15 @@ public class Initialize : MonoBehaviour {
 		if (totalNum >= 3) {
 			
 			score += seed * totalNum;
-			string msg = "真气 +" + seed * totalNum;
-			_warning.ShowWarning (0, msg);
+			string msg = "真元 +" + seed * totalNum;
+			_warning.ShowWarning (1, msg, new Vector3 (-345, 0, 0));
 
 			int newN = (int)(Mathf.Log (totalNum, 3f));
 
 			if ((maxLv < (newN + 1 + (int)(Mathf.Log (seed, 3f))))) {
 				maxLv = (newN + 1+(int)(Mathf.Log(seed,3f)));
+				_view.Upgrade (maxLv);
 				if (maxLv >= 5) {
-					msg= "突破到" + _data.GetGradeByLevel (maxLv) + "！";
-					_warning.ShowWarning (1, msg);
 					hasResetEnergy = true;
 					Debug.Log ("获得能量");
 					_view.SetResetOneState (hasResetEnergy);
