@@ -325,15 +325,9 @@ public class Initialize : MonoBehaviour {
 		
 
     void UpdateRankPanel(){
-		int s1 = _data.HighScore1;
-		int s2 = _data.HighScore2;
-		int s3 = _data.HighScore3;
-
-		string g1 = _data.GetGradeByLevel (_data.HighLevel1);
-		string g2 = _data.GetGradeByLevel (_data.HighLevel2);
-		string g3 = _data.GetGradeByLevel (_data.HighLevel3);
-
-		_view.UpdateLocalRank (s1, s2, s3, g1, g2, g3);
+		int s = _data.HighScore;
+		string g = _data.GetGradeByLevel (_data.HighLevel);
+		_view.UpdateLocalRank (s, g);
     }
 
 	/// <summary>

@@ -67,57 +67,23 @@ public class DataManager : MonoBehaviour  {
 		}
 	}
 
-	public int HighScore1 {
-		get{ return PlayerPrefs.GetInt ("HighScore1", 0); }
+	public int HighScore {
+		get{ return PlayerPrefs.GetInt ("HighScore", 0); }
 		set {
-			PlayerPrefs.SetInt ("HighScore1", value);
+			PlayerPrefs.SetInt ("HighScore", value);
 		}
 	}
-	public int HighScore2{
-		get{ return PlayerPrefs.GetInt ("HighScore2", 0);}
-		set{
-			PlayerPrefs.SetInt ("HighScore2",value);}
-	}
-	public int HighScore3{
-		get{ return PlayerPrefs.GetInt ("HighScore3", 0);}
-		set{
-			PlayerPrefs.SetInt ("HighScore3",value);}
-	}
-	public int HighLevel1{
+	public int HighLevel{
 		get{return PlayerPrefs.GetInt ("HighLevel1", 0);}
 		set{
 			PlayerPrefs.SetInt ("HighLevel1",value);}
 	}
-	public int HighLevel2 {
-		get{ return PlayerPrefs.GetInt ("HighLevel2", 0); }
-		set{
-			PlayerPrefs.SetInt ("HighLevel2", value); }
-	}
-	public int HighLevel3{
-		get{ return PlayerPrefs.GetInt ("HighLevel3", 0);}
-		set{
-			PlayerPrefs.SetInt ("HighLevel3",value);}
-	}
 
 	public int SetHighScore(){
-		if ((level > HighLevel1) || (level == HighLevel1 && score > HighScore1)) {
-			HighLevel3 = HighLevel2;
-			HighLevel2 = HighLevel1;
-			HighLevel1 = level;
-			HighScore3 = HighScore2;
-			HighScore2 = HighScore1;
-			HighScore1 = score;
+		if ((level > HighLevel) || (level == HighLevel && score > HighScore)) {
+			HighLevel = level;
+			HighScore = score;
 			return 1;
-		} else if ((level > HighLevel2) || (level == HighLevel2 && score > HighScore2)) {
-			HighLevel3 = HighLevel2;
-			HighLevel2 = level;
-			HighScore3 = HighScore2;
-			HighScore2 = score;
-			return 2;
-		} else if ((level > HighLevel3) || (level == HighLevel3 && score > HighScore3)) {
-			HighLevel3 = level;
-			HighScore3 = score;
-			return 3;
 		} else {
 			return 0;
 		}
@@ -132,21 +98,21 @@ public class DataManager : MonoBehaviour  {
 		case 1:
 			return new Color32 (255, 255, 255, 255); 
 		case 3:
-			return new Color32 (0, 255, 0, 255); //SnowWhite
+			return new Color32 (0, 255, 0, 255); 
 		case 9:
-			return new Color32 (0, 255, 255, 255); 	 //MedSpringGreen
+			return new Color32 (0, 255, 255, 255); 	
 		case 27:
-			return new Color32 (2, 126, 248, 255);	 //DeepSkyBlue
+			return new Color32 (2, 126, 248, 255);	
 		case 81:
-			return new Color32 (0, 63, 255, 255); //MediumPurple
+			return new Color32 (0, 63, 255, 255); 
 		case 243:
-			return new Color32 (255, 255, 0, 255);	 //Gold
+			return new Color32 (255, 255, 0, 255);
 		case 729:
-			return new Color32 (255, 0, 255, 255);	 //Red
+			return new Color32 (255, 0, 255, 255);
 		case 2187:
-			return new Color32 (255, 0, 0, 255);	 //SaddleBrown
+			return new Color32 (255, 0, 0, 255);
 		case 6561:
-			return new Color32 (251, 183, 6, 255);		 //Black
+			return new Color32 (251, 183, 6, 255);
 		default:
 			return Color.black;
 		}
@@ -158,21 +124,21 @@ public class DataManager : MonoBehaviour  {
 		case 1:
 			return Color.grey; 
 		case 3:
-			return Color.grey; //SnowWhite
+			return Color.grey; 
 		case 9:
-			return Color.magenta; 	 //MedSpringGreen
+			return Color.magenta;
 		case 27:
-			return Color.magenta;	 //DeepSkyBlue
+			return Color.magenta;
 		case 81:
-			return Color.yellow; //MediumPurple
+			return Color.yellow;
 		case 243:
-			return Color.yellow;	 //Gold
+			return Color.yellow;
 		case 729:
-			return Color.blue;	 //Red
+			return Color.blue;
 		case 2187:
-			return Color.blue;	 //SaddleBrown
+			return Color.blue;
 		case 6561:
-			return Color.white;		 //Black
+			return Color.white;
 		default:
 			return Color.white;
 		}

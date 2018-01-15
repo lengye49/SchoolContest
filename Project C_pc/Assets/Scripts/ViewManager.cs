@@ -26,9 +26,7 @@ public class ViewManager : MonoBehaviour {
 	public GameObject coverNotice;
 
 	//本地排名积分
-	public Text localScore1;
-	public Text localScore2;
-	public Text localScore3;
+	public Text localScore;
 
 	//辅助
 	public Button ResetOne;
@@ -112,21 +110,11 @@ public class ViewManager : MonoBehaviour {
 		coverNotice.gameObject.SetActive (false);
 	}
 
-	public void UpdateLocalRank(int s1,int s2,int s3,string g1,string g2,string g3){
-		if(s1>0)
-			localScore1.text = "首座：" + g1 + ", " + s1 + "分";
+	public void UpdateLocalRank(int s,string g){
+        if (s > 0)
+            localScore.text = "个人最高修为：" + g + ", " + "道行：" + s;
 		else
-			localScore1.text = "首座：虚位以待";	
-
-		if (s2 > 0)
-			localScore2.text = "次席：" + g2 + ", " + s2 + "分";
-		else
-			localScore2.text = "次席：虚位以待";
-
-		if (s3 > 0)
-			localScore3.text = "末位：" + g3 + ", " + s3 + "分";
-		else
-			localScore3.text = "末位：虚位以待";
+			localScore.text = "";	
 	}
 
 	public void SetResetOneState(bool hasEnergy){
