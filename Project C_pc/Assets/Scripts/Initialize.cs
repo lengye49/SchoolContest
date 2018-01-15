@@ -168,6 +168,7 @@ public class Initialize : MonoBehaviour {
 
 	void CheckGameOver()
 	{
+		StoreData();
 		if (maxLv > 11) {
 			//游戏通关
 			_playerMusic.PlayerSound ("win");
@@ -181,7 +182,6 @@ public class Initialize : MonoBehaviour {
 					CheckThisCell (i, j);
                     if (totalNum >= 3)
                     {
-                        StoreData();
                         return;
                     }
 				}

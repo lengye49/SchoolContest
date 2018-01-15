@@ -7,6 +7,7 @@ public class DataManager : MonoBehaviour  {
 
 	void Awake(){
 //		PlayerPrefs.DeleteAll ();
+//		Debug.Log ("Delete all memmory");
 	}
 
 

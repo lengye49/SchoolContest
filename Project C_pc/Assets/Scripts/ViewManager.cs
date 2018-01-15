@@ -111,8 +111,8 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	public void UpdateLocalRank(int s,string g){
-        if (s > 0)
-            localScore.text = "个人最高修为：" + g + ", " + "道行：" + s;
+		if (s > 0)
+			localScore.text = "个人最高修为：" + g + "(" + s + ")";
 		else
 			localScore.text = "";	
 	}
