@@ -21,7 +21,28 @@ public class Message
     }
 
     public void ReadMessage(int newDataCount,Action<RequestCode,string> HandleMessage){
-        
+        startIndex += newDataCount;
+        while (true)
+        {
+            if (startIndex <= 4)
+                return;
+
+            //数据长度
+            int count = BitConverter.ToInt32(data, 0);
+            if (startIndex - 4 >= count)
+            {
+                RequestCode requestCode = (RequestCode)BitConverter.ToInt32(data, 4);
+                string s = System.Text.Encoding.UTF8.GetString(data, 12, count - 8);
+
+                HandleMessage(requestCode, s);
+                Array.Copy(data, count + 4, data, 0, startIndex - 4 - count);
+                startIndex -= (count + 4);
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 
     public static byte[] PackData(RequestCode request,string data){

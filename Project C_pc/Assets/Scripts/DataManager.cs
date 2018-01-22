@@ -50,24 +50,12 @@ public class DataManager : MonoBehaviour  {
 		set { PlayerPrefs.SetString ("playerSchool", value); }
 	}
 
-	int AccountId{
-		get{ return PlayerPrefs.GetInt ("accountId", 0);}
-		set{ 
-			if (value > 0)
-				PlayerPrefs.SetInt ("accountId", value);
-		}
-	}
-
-	public static bool AccountExist{
-		get{ return PlayerPrefs.GetInt ("account", 0) > 0;}
-		set{
-			if (value)
-				PlayerPrefs.SetInt ("account", 1);
-			else
-				PlayerPrefs.SetInt ("account", 0);
-		}
-	}
-
+	public static int AccountId
+    {
+        get{ return PlayerPrefs.GetInt("accountId", 0); }
+        set{ PlayerPrefs.SetInt("accountId", value); }
+    }
+        
 	public int HighScore {
 		get{ return PlayerPrefs.GetInt ("HighScore", 0); }
 		set {
@@ -188,7 +176,7 @@ public class DataManager : MonoBehaviour  {
 		return s;
 	} 
 
-	public  string GetGradeByScore(int score){
+	public string GetGradeByScore(int score){
 		string s = "";
 		switch (score) {
 		case 1:
@@ -240,7 +228,6 @@ public class DataManager : MonoBehaviour  {
 		//Get Remote AccountId
 		AccountId = 1;
 
-		AccountExist = true;
 	}
 
     public int GetOnlineRank(){

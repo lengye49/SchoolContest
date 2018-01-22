@@ -22,7 +22,9 @@ public class Client
         }
     }
 
-    public int GetRemoteService(RequestCode requestCode,string data){
+    public void GetRemoteService(RequestCode requestCode,string data){
+        //Todo:申请排名时，要先判断是否有id，没有先申请id
+
         int netState = ConnectSever();
         if (netState > 0)
         {
@@ -33,7 +35,6 @@ public class Client
         {
             Debug.Log("无法链接服务器，请检查网络！");  
         }
-        return netState;
     }
 
     void SendRequest(RequestCode requestCode,string data){
@@ -48,18 +49,42 @@ public class Client
     void ReceiveCallBack(IAsyncResult ar){
         try{
             int count = clientSocket.EndReceive(ar);
-            if(count==0){
-                CloseClient();
-            }
             msg.ReadMessage(count,HandleMessage);
         }catch(Exception e){
             Debug.Log("Can Not Handle Received Message!" + e);
+        }finally{
             CloseClient();
         }
     }
 
     void HandleMessage(RequestCode requestCode,string data){
-        
+        switch (requestCode)
+        {
+            case RequestCode.Register:
+                int id = 0;
+                try
+                {
+                    id = int.Parse(data);
+                    DataManager.AccountId = int.Parse(data);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("无法获取id" + e + "稍后自动重试");
+                }
+                break;
+            case RequestCode.Rank:
+                int rank = 0;
+                try{
+                    rank=int.Parse(data);
+                    //Todo
+                }catch(Exception e){
+                    Debug.Log("无法获得排名" + e);
+                }
+                break;
+            default:
+                Debug.Log("没有找到RequestCode!");
+                break;
+        }
     }
 
     void CloseClient(){
@@ -68,9 +93,7 @@ public class Client
             clientSocket.Close();
         }
     }
-
-
-
+        
 }
 
 

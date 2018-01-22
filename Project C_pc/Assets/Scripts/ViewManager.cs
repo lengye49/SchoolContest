@@ -42,7 +42,7 @@ public class ViewManager : MonoBehaviour {
 		coverWin.gameObject.SetActive (false);
 
 
-		if (DataManager.AccountExist) {
+		if (DataManager.AccountId>0) {
 			GoToStartPanel ();
 		} else {
 			GoToRegisterPanel ();
