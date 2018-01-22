@@ -1,21 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using System.Collections;
 
 public class Warning : MonoBehaviour {
 
-	private float upTime = 0.2f;
-	private float waitTime = 1.3f;
-	private float disappearTime = 0.5f;
-	private float y;
+	/// <summary>
+	/// 显示警告信息
+	/// </summary>
+	public void ShowWarning(){
+		
+	}
 
 	/// <summary>
-	/// Shows the warning.
+	/// 显示加载圈圈
+	/// </summary>
+	public void ShowLoading(){
+		
+	}
+
+
+
+	/// <summary>
+	/// 小提示.
 	/// </summary>
 	/// <param name="type">Type 0Black 1Green 2Red</param>
 	/// <param name="content">Content.</param>
-	public void ShowWarning(int colorType,string content,Vector3 pos){
+	public void ShowTip(int colorType,string content,Vector3 pos){
 		GameObject f = Instantiate (Resources.Load ("shortWarning")) as GameObject;
 		f.SetActive (true);
 		f.transform.SetParent (this.gameObject.transform);
@@ -31,42 +41,8 @@ public class Warning : MonoBehaviour {
 			c = Color.red;
 		t.color = c;
 
-		PopWarning (f,pos);
+		GetComponent<MyTween> ().PopIn (f.transform);
 	}
 
-	void PopWarning(GameObject f,Vector3 pos){
-		f.transform.localPosition = pos;
-		y = pos.y;
-		f.transform.localScale = new Vector3 (0.1f, 0.1f, 1);
-		f.transform.DOLocalMoveY (y + 100f, upTime);
-		f.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 1f),upTime);
-		f.GetComponentInChildren<Text> ().DOFade (1, upTime);
-		StartCoroutine (WaitAndNext (f));
-	}
-
-	IEnumerator WaitAndNext(GameObject f){
-		yield return new WaitForSeconds (upTime + waitTime);
-		EndFloat (f);
-	}
-
-	void EndFloat(GameObject f){
-		f.transform.DOLocalMoveY (y + 250f, disappearTime);
-		f.GetComponentInChildren<Text>().DOFade (0, disappearTime);
-		StartCoroutine (WaitAndEnd (f));
-	}
-
-	IEnumerator WaitAndEnd(GameObject f){
-		yield return new WaitForSeconds (disappearTime);
-		Destroy (f);
-	}
-
-	/// <summary>
-	/// Shows the big words.
-	/// </summary>
-	/// <param name="g">The green component.</param>
-//	public void ShowBigWords(GameObject g){
-//		g.transform.localScale = new Vector3 (0.1f, 0.1f, 1f);
-//		g.SetActive (true);
-//		g.transform.DOBlendableScaleBy (new Vector3 (1f, 1f, 1f),upTime);
-//	}
+		
 }

@@ -55,6 +55,16 @@ public class DataManager : MonoBehaviour  {
         get{ return PlayerPrefs.GetInt("accountId", 0); }
         set{ PlayerPrefs.SetInt("accountId", value); }
     }
+
+	public static int Rank{
+		get{ return PlayerPrefs.GetInt("rank", 0); }
+		set{ PlayerPrefs.SetInt("rank", value); }
+	}
+
+	public static int Rate{
+		get{ return PlayerPrefs.GetInt("rate", 0); }
+		set{ PlayerPrefs.SetInt("rate", value); }
+	}
         
 	public int HighScore {
 		get{ return PlayerPrefs.GetInt ("HighScore", 0); }
@@ -220,19 +230,41 @@ public class DataManager : MonoBehaviour  {
 	}
 	#endregion
 
+
+	int tryCount;
 	public void Register(string playerName,string playerCountry,string playerSchool){
 		PlayerName = playerName;
 		PlayerCountry = playerCountry;
 		PlayerSchool = playerSchool;
-
-		//Get Remote AccountId
-		AccountId = 1;
-
+		tryCount = 0;
+		StartCoroutine (TryRegister ());
+	}
+		
+	IEnumerator TryRegister(){
+		tryCount++;
+		Client client = new Client ();
+		string msg ="";
+		client.GetRemoteService (RequestCode.Register, msg);
+		yield return new WaitForSeconds (1.0f);
+		if (tryCount <= 5 && AccountId <= 0) {
+			StartCoroutine (TryRegister ());
+		} else if (tryCount > 5) {
+			Debug.Log ("注册失败！");
+		} else {
+			Debug.Log ("注册成功！");
+		}
 	}
 
-    public int GetOnlineRank(){
-		
-        return 1;
+	public void SetOnlineRank(){
+		if (AccountId <= 0) {
+			Debug.Log ("暂时没有网络账号，请获取账号id后再上传成绩！");
+			return;
+		} 
+		Client client = new Client ();
+		string msg = PlayerName + "," + PlayerCountry + "," + PlayerSchool + "," + HighLevel + "," + HighScore;
+		client.GetRemoteService (RequestCode.Register, msg);
+		//ToDo
+		//"如果没有获得网络数据。。。"
 	}
 
 

@@ -173,9 +173,8 @@ public class Initialize : MonoBehaviour {
 			//游戏通关
 			_playerMusic.PlayerSound ("win");
 			int localRank;
-            int onlineRank;
-            SettleRank(out localRank,out onlineRank);
-			_view.WinMsg (score,localRank,onlineRank);
+            SettleRank(out localRank);
+			_view.WinMsg (score,localRank);
 		} else {
 			for (int i = 0; i < cells.Length; i++) {
 				for (int j = 0; j < cells [i].Length; j++) {
@@ -231,7 +230,7 @@ public class Initialize : MonoBehaviour {
 			
 			score += seed * totalNum;
 			string msg = "真元 +" + seed * totalNum;
-			_warning.ShowWarning (1, msg, new Vector3 (-345, 0, 0));
+			_warning.ShowTip (1, msg, new Vector3 (-345, 0, 0));
 
 			int newN = (int)(Mathf.Log (totalNum, 3f));
 
@@ -365,18 +364,14 @@ public class Initialize : MonoBehaviour {
 
 	public void ConfirmComplete(){
 		int localRank;
-        int onlineRank;
-        SettleRank(out localRank,out onlineRank);
-		_view.FailMsg (maxLv,score,localRank,onlineRank);
+        SettleRank(out localRank);
+		_view.FailMsg (maxLv,score,localRank);
 
 	}
 
-    void SettleRank(out int localRank,out int onlineRank){
+    void SettleRank(out int localRank){
         localRank = _data.SetHighScore ();
-        onlineRank = 0;
-        if (localRank == 1)
-            onlineRank = _data.GetOnlineRank();
-
+		_data.SetOnlineRank ();
         UpdateRankPanel ();
     }
 }

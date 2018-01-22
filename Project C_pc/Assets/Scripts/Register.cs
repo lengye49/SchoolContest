@@ -17,19 +17,19 @@ public class Register : MonoBehaviour {
 	public void Confirm(){
 		playerName = textName.text;
 		if (playerName == "") {
-			this.GetComponentInParent<Warning> ().ShowWarning (2, "请道友报上大名！",pos);
+			this.GetComponentInParent<Warning> ().ShowTip (2, "请道友报上大名！",pos);
 			return;
 		}
 
 		playerCountry = textCountry.text;
 		if (playerCountry == "") {
-			this.GetComponentInParent<Warning> ().ShowWarning (2, "请道友报上仙府！",pos);
+			this.GetComponentInParent<Warning> ().ShowTip (2, "请道友报上仙府！",pos);
 			return;
 		}
 
 		playerSchool = textSchool.text;
 		if (playerSchool == "") {
-			this.GetComponentInParent<Warning> ().ShowWarning (2, "请道友报上派别！",pos);
+			this.GetComponentInParent<Warning> ().ShowTip (2, "请道友报上派别！",pos);
 			return;
 		}
 			

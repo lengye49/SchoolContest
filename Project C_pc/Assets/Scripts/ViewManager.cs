@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class ViewManager : MonoBehaviour {
 
@@ -32,10 +31,13 @@ public class ViewManager : MonoBehaviour {
 	public Button ResetOne;
 	public LevelShow _levelShow;
 
+	//动画
+	private MyTween myTween;
+
     void Start(){
-		registerPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
-		startPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
-		playPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
+		registerPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
+		startPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
+		playPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
 		_playMusic = transform.GetComponentInParent<PlayMusic> ();
 
 		coverFail.gameObject.SetActive (false);
@@ -50,9 +52,10 @@ public class ViewManager : MonoBehaviour {
     }
 		
 	public void GoToStartPanel(){
-		startPanel.transform.DOLocalMoveX (0, 0.5f);
-		registerPanel.transform.DOLocalMoveX (5000f, 0.5f);
-		playPanel.transform.DOLocalMoveX (5000f, 0.5f);
+		myTween.SlideIn (startPanel.transform);
+		myTween.SlideOut (registerPanel.transform);
+		myTween.SlideOut (playPanel.transform);
+
 		_playMusic.PlayBg ("startMenuBg");
 
 		DataManager _data = GetComponent<DataManager> ();
@@ -61,23 +64,24 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	public void GoToRegisterPanel(){
-		registerPanel.transform.DOLocalMoveX (0, 0.5f);
-//		startPanel.transform.DOLocalMoveX (2000f, 0.5f);
-//		playPanel.transform.DOLocalMoveX (2000f, 0.5f);
+		myTween.SlideIn (registerPanel.transform);
 		_playMusic.PlayBg ("startMenuBg");
 	}
 
 	public void OnFailReturnButton()
 	{
-		playPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
-		startPanel.transform.localPosition = Vector3.zero;
+		myTween.SlideIn (startPanel.transform);
+		myTween.SlideOut (playPanel.transform);
+
 		coverFail.gameObject.SetActive (false);
 	}
         
 
 	public void GoToGamePanel(){
-		startPanel.transform.localPosition = new Vector3 (5000f, 0, 0);
-		playPanel.transform.localPosition = Vector3.zero;
+
+		myTween.SlideIn (playPanel.transform);
+		myTween.SlideOut (startPanel.transform);
+
 
 		//设置游戏面板
 		coverFail.gameObject.SetActive (false);
@@ -92,14 +96,14 @@ public class ViewManager : MonoBehaviour {
 		gradeText.text = grade;
 	}
 
-    public void WinMsg(int score,int localRank,int onlineRank){
+    public void WinMsg(int score,int localRank){
 		coverWin.gameObject.SetActive (true);
-        winText.text = score + ";" + localRank + ";" + onlineRank;
+        winText.text = score + ";" + localRank ;
 	}
 
-    public void FailMsg(int maxLv,int score,int localRank,int onlineRank){
+    public void FailMsg(int maxLv,int score,int localRank){
 		coverFail.gameObject.SetActive (true);
-        failText.text = maxLv + ";" + score + ";" + localRank + ";" + onlineRank;
+        failText.text = maxLv + ";" + score + ";" + localRank + ";" ;
 	}
 
 	public void ShowAdNotce(){
