@@ -34,6 +34,12 @@ public class ViewManager : MonoBehaviour {
 	//动画
 	private MyTween myTween;
 
+	//网络加载
+	public static bool isLoading = false;
+	public GameObject loadingCover;
+	private float loadingTime = 0f;
+	private RequestCode requestCode = 0;
+
     void Start(){
 		registerPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
 		startPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
@@ -51,6 +57,31 @@ public class ViewManager : MonoBehaviour {
 		}
     }
 		
+	void Update(){
+		if ((!isLoading && loadingCover.activeSelf) || loadingTime > 5f) {
+			isLoading = false;
+			loadingCover.SetActive (false);
+			loadingTime = 0;
+		}
+		if (isLoading) {
+			loadingTime += Time.deltaTime;
+		}
+	}
+
+	void HandleLoading(){
+		switch (requestCode) {
+			default:
+				break;
+		}
+	}
+
+	public void StartNetLoading(RequestCode requestCode){
+		isLoading = true;
+		this.requestCode = requestCode;
+		loadingTime = 0f;
+		loadingCover.SetActive (true);
+	}
+
 	public void GoToStartPanel(){
 		myTween.SlideIn (startPanel.transform);
 		myTween.SlideOut (registerPanel.transform);
@@ -162,4 +193,143 @@ public class ViewManager : MonoBehaviour {
 		GetComponentInChildren<Initialize> ().ConfirmComplete ();
 	}
 		
+	#region GameValueProcess
+	public Color GetImageColor(int num)
+	{
+		switch (num) {
+			case 1:
+				return new Color32 (255, 255, 255, 255); 
+			case 3:
+				return new Color32 (0, 255, 0, 255); 
+			case 9:
+				return new Color32 (0, 255, 255, 255); 	
+			case 27:
+				return new Color32 (2, 126, 248, 255);	
+			case 81:
+				return new Color32 (0, 63, 255, 255); 
+			case 243:
+				return new Color32 (255, 255, 0, 255);
+			case 729:
+				return new Color32 (255, 0, 255, 255);
+			case 2187:
+				return new Color32 (255, 0, 0, 255);
+			case 6561:
+				return new Color32 (251, 183, 6, 255);
+			default:
+				return Color.black;
+		}
+	}
+
+	public Color GetTextColor(int num)
+	{
+		switch (num) {
+			case 1:
+				return Color.grey; 
+			case 3:
+				return Color.grey; 
+			case 9:
+				return Color.magenta;
+			case 27:
+				return Color.magenta;
+			case 81:
+				return Color.yellow;
+			case 243:
+				return Color.yellow;
+			case 729:
+				return Color.blue;
+			case 2187:
+				return Color.blue;
+			case 6561:
+				return Color.white;
+			default:
+				return Color.white;
+		}
+	}
+
+	public string GetGradeByLevel(int level){
+		string s = "";
+		switch (level) {
+			case 1:
+				s = "练气";
+				break;
+			case 2:
+				s = "筑基";
+				break;
+			case 3:
+				s = "金丹";
+				break;
+			case 4:
+				s = "元婴";
+				break;
+			case 5:
+				s = "出窍";
+				break;
+			case 6:
+				s = "分神";
+				break;
+			case 7:
+				s = "合体";
+				break;
+			case 8:
+				s = "洞虚";
+				break;
+			case 9:
+				s = "大成";
+				break;
+			case 10:
+				s = "渡劫";
+				break;
+			case 11:
+				s = "升仙";
+				break;
+			default:
+				s = "";
+				break;
+		}
+		return s;
+	} 
+
+	public string GetGradeByScore(int score){
+		string s = "";
+		switch (score) {
+			case 1:
+				s = "练气";
+				break;
+			case 3:
+				s = "筑基";
+				break;
+			case 9:
+				s = "金丹";
+				break;
+			case 27:
+				s = "元婴";
+				break;
+			case 81:
+				s = "出窍";
+				break;
+			case 243:
+				s = "分神";
+				break;
+			case 729:
+				s = "合体";
+				break;
+			case 2187:
+				s = "洞虚";
+				break;
+			case 6561:
+				s = "大成";
+				break;
+			case 19684:
+				s = "渡劫";
+				break;
+			case 59049:
+				s = "升仙";
+				break;	
+			default:
+				s = "";
+				break;
+		}
+		return s;
+	}
+	#endregion
 }

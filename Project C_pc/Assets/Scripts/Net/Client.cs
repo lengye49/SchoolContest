@@ -5,7 +5,6 @@ using System;
 
 public class Client
 {
-
     private Socket clientSocket;
     private Message msg;
 
@@ -25,7 +24,6 @@ public class Client
 	~Client(){
 		CloseClient ();
 	}
-		
 
     public void GetRemoteService(RequestCode requestCode,string data){
         //Todo:申请排名时，要先判断是否有id，没有先申请id
@@ -55,12 +53,14 @@ public class Client
         try{
             int count = clientSocket.EndReceive(ar);
             msg.ReadMessage(count,HandleMessage);
+			ViewManager.isLoading=false;
         }catch(Exception e){
             Debug.Log("Can Not Handle Received Message!" + e);
         }finally{
-            CloseClient();
-        }
+			CloseClient ();
+		}
     }
+
 
     void HandleMessage(RequestCode requestCode,string data){
 		switch (requestCode) {
@@ -69,7 +69,7 @@ public class Client
 				try {
 					id = int.Parse (data);
 					DataManager.AccountId = id;
-					Debug.Log ("成功获取id");
+					ViewManager.isLoading = false;
 				} catch (Exception e) {
 					Debug.Log ("无法获取id" + e + "自动重试..");
 				}
@@ -81,11 +81,35 @@ public class Client
 					string[] s = data.Split (',');
 					rank = int.Parse (s [0]);
 					rate = int.Parse (s [1]);
-					Debug.Log ("rank:" + rank + "\trate:" + rate);
-					//Todo
+					DataManager.OnlineRank = rank;
+					DataManager.OnlineRate = rate;
 				} catch (Exception e) {
 					Debug.Log ("无法获得排名" + e);
 				}
+				break;
+			case RequestCode.PlaceArea:
+				DataManager.PlaceAreaRank = data;
+				break;
+			case RequestCode.RankList:
+				DataManager.TotalRank = data;
+//				User[] ranks = new User[100];
+//				try {
+//					string[] s = data.Split (';');
+//					for (int i = 0; i < ranks.Length; i++) {
+//						if (i < s.Length) {
+//							string[] userStr = s [i].Split (',');
+//							ranks [i].name = userStr [0];
+//							ranks [i].place = int.Parse (userStr [1]);
+//							ranks [i].school = int.Parse (userStr [2]);
+//							ranks [i].level = int.Parse (userStr [3]);
+//							ranks [i].score = int.Parse (userStr [4]);
+//						}
+//					}
+//					//Todo
+//					ViewManager.isLoading = false;
+//				} catch (Exception e) {
+//					Debug.Log ("获取排名列表失败！\n" + e);
+//				}
 				break;
 			default:
 				Debug.Log ("没有找到RequestCode!");

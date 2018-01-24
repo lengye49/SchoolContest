@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 public class DataManager : MonoBehaviour  {
 
@@ -10,10 +9,7 @@ public class DataManager : MonoBehaviour  {
 //		Debug.Log ("Delete all memmory");
 	}
 
-
-
 	#region LocalData
-
 	private int score=0;
 	private int level=0;
     private string numList;
@@ -56,14 +52,24 @@ public class DataManager : MonoBehaviour  {
         set{ PlayerPrefs.SetInt("accountId", value); }
     }
 
-	public static int Rank{
-		get{ return PlayerPrefs.GetInt("rank", 0); }
-		set{ PlayerPrefs.SetInt("rank", value); }
+	public static int OnlineRank{
+		get{ return PlayerPrefs.GetInt("personalRank", 0); }
+		set{ PlayerPrefs.SetInt("personalRank", value); }
 	}
 
-	public static int Rate{
+	public static int OnlineRate{
 		get{ return PlayerPrefs.GetInt("rate", 0); }
 		set{ PlayerPrefs.SetInt("rate", value); }
+	}
+
+	public static string PlaceAreaRank{
+		get{ return PlayerPrefs.GetString ("areaRank", "");}
+		set{ PlayerPrefs.SetString ("areaRank", "");}
+	}
+
+	public static string TotalRank{
+		get{ return PlayerPrefs.GetString ("totalRank", "");}
+		set{ PlayerPrefs.SetString ("totalRank", "");}
 	}
         
 	public int HighScore {
@@ -89,172 +95,17 @@ public class DataManager : MonoBehaviour  {
 	}
 	#endregion
 
-
-	#region GameValueProcess
-	public Color GetImageColor(int num)
-	{
-		switch (num) {
-		case 1:
-			return new Color32 (255, 255, 255, 255); 
-		case 3:
-			return new Color32 (0, 255, 0, 255); 
-		case 9:
-			return new Color32 (0, 255, 255, 255); 	
-		case 27:
-			return new Color32 (2, 126, 248, 255);	
-		case 81:
-			return new Color32 (0, 63, 255, 255); 
-		case 243:
-			return new Color32 (255, 255, 0, 255);
-		case 729:
-			return new Color32 (255, 0, 255, 255);
-		case 2187:
-			return new Color32 (255, 0, 0, 255);
-		case 6561:
-			return new Color32 (251, 183, 6, 255);
-		default:
-			return Color.black;
-		}
-	}
-
-	public Color GetTextColor(int num)
-	{
-		switch (num) {
-		case 1:
-			return Color.grey; 
-		case 3:
-			return Color.grey; 
-		case 9:
-			return Color.magenta;
-		case 27:
-			return Color.magenta;
-		case 81:
-			return Color.yellow;
-		case 243:
-			return Color.yellow;
-		case 729:
-			return Color.blue;
-		case 2187:
-			return Color.blue;
-		case 6561:
-			return Color.white;
-		default:
-			return Color.white;
-		}
-	}
-
-	public string GetGradeByLevel(int level){
-		string s = "";
-		switch (level) {
-		case 1:
-			s = "练气";
-			break;
-		case 2:
-			s = "筑基";
-			break;
-		case 3:
-			s = "金丹";
-			break;
-		case 4:
-			s = "元婴";
-			break;
-		case 5:
-			s = "出窍";
-			break;
-		case 6:
-			s = "分神";
-			break;
-		case 7:
-			s = "合体";
-			break;
-		case 8:
-			s = "洞虚";
-			break;
-		case 9:
-			s = "大成";
-			break;
-		case 10:
-			s = "渡劫";
-			break;
-		case 11:
-			s = "升仙";
-			break;
-		default:
-			s = "";
-			break;
-		}
-		return s;
-	} 
-
-	public string GetGradeByScore(int score){
-		string s = "";
-		switch (score) {
-		case 1:
-			s = "练气";
-			break;
-		case 3:
-			s = "筑基";
-			break;
-		case 9:
-			s = "金丹";
-			break;
-		case 27:
-			s = "元婴";
-			break;
-		case 81:
-			s = "出窍";
-			break;
-		case 243:
-			s = "分神";
-			break;
-		case 729:
-			s = "合体";
-			break;
-		case 2187:
-			s = "洞虚";
-			break;
-		case 6561:
-			s = "大成";
-			break;
-		case 19684:
-			s = "渡劫";
-			break;
-		case 59049:
-			s = "升仙";
-			break;	
-		default:
-			s = "";
-			break;
-		}
-		return s;
-	}
-	#endregion
-
-
-	int tryCount;
 	public void Register(string playerName,string playerCountry,string playerSchool){
 		PlayerName = playerName;
 		PlayerCountry = playerCountry;
 		PlayerSchool = playerSchool;
-		tryCount = 0;
-		StartCoroutine (TryRegister ());
-	}
-		
-	IEnumerator TryRegister(){
-		tryCount++;
+
 		Client client = new Client ();
 		string msg ="";
 		client.GetRemoteService (RequestCode.Register, msg);
-		yield return new WaitForSeconds (1.0f);
-		if (tryCount <= 5 && AccountId <= 0) {
-			StartCoroutine (TryRegister ());
-		} else if (tryCount > 5) {
-			Debug.Log ("注册失败！");
-		} else {
-			Debug.Log ("注册成功！");
-		}
 	}
 
+	//注意账号的处理
 	public void SetOnlineRank(){
 		if (AccountId <= 0) {
 			Debug.Log ("暂时没有网络账号，请获取账号id后再上传成绩！");
@@ -262,16 +113,15 @@ public class DataManager : MonoBehaviour  {
 		} 
 		Client client = new Client ();
 		string msg = PlayerName + "," + PlayerCountry + "," + PlayerSchool + "," + HighLevel + "," + HighScore;
-		client.GetRemoteService (RequestCode.Register, msg);
+		client.GetRemoteService (RequestCode.Rank, msg);
 		//ToDo
 		//"如果没有获得网络数据。。。"
 	}
-
-
-
+		
 }
 
 //	#region SaveData
+//using System.Runtime.Serialization.Formatters.Binary;
 //	void Save(){
 //		BinaryFormatter bf = new BinaryFormatter ();
 //		FileStream file = File.Create(Application.persistentDataPath+"/info.dat");
