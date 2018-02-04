@@ -37,8 +37,7 @@ public class ViewManager : MonoBehaviour {
 	//网络加载
 	public static bool isLoading = false;
 	public GameObject loadingCover;
-	private float loadingTime = 0f;
-	private RequestCode requestCode = 0;
+	public GameObject loadingImage;
 
     void Start(){
 		registerPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
@@ -48,7 +47,7 @@ public class ViewManager : MonoBehaviour {
 
 		coverFail.gameObject.SetActive (false);
 		coverWin.gameObject.SetActive (false);
-
+		myTween = GetComponent<MyTween> ();
 
 		if (DataManager.AccountId>0) {
 			GoToStartPanel ();
@@ -58,28 +57,14 @@ public class ViewManager : MonoBehaviour {
     }
 		
 	void Update(){
-		if ((!isLoading && loadingCover.activeSelf) || loadingTime > 5f) {
-			isLoading = false;
+		if ((!isLoading && loadingCover.activeSelf)) {
 			loadingCover.SetActive (false);
-			loadingTime = 0;
 		}
-		if (isLoading) {
-			loadingTime += Time.deltaTime;
+		if (isLoading ) {
+			if (!loadingCover.activeSelf)
+				loadingCover.SetActive (true);
+			loadingImage.transform.Rotate (Vector3.back);
 		}
-	}
-
-	void HandleLoading(){
-		switch (requestCode) {
-			default:
-				break;
-		}
-	}
-
-	public void StartNetLoading(RequestCode requestCode){
-		isLoading = true;
-		this.requestCode = requestCode;
-		loadingTime = 0f;
-		loadingCover.SetActive (true);
 	}
 
 	public void GoToStartPanel(){

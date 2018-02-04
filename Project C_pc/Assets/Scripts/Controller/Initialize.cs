@@ -7,7 +7,6 @@ public class Initialize : MonoBehaviour {
 
 	private DataManager _data;
 	private ViewManager _view;
-	private Warning _warning;
 	private Object o;
 	private GameObject[][] cells = new GameObject[5][];
 	private int[][] nums = new int[5][];
@@ -31,7 +30,6 @@ public class Initialize : MonoBehaviour {
 	void Start () {
 		_data = GetComponentInParent<DataManager> ();
 		_view = GetComponentInParent<ViewManager> ();
-		_warning = GetComponentInParent<Warning> ();
 
 		_playerMusic = this.gameObject.GetComponentInParent<PlayMusic> ();
 		o = Resources.Load("Cell");
@@ -230,7 +228,7 @@ public class Initialize : MonoBehaviour {
 			
 			score += seed * totalNum;
 			string msg = "真元 +" + seed * totalNum;
-			_warning.ShowTip (1, msg, new Vector3 (-345, 0, 0));
+			Warning.ShowShortWarning (1, msg, new Vector3 (-345, 0, 0));
 
 			int newN = (int)(Mathf.Log (totalNum, 3f));
 

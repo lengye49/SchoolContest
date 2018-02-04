@@ -102,7 +102,7 @@ public class DataManager : MonoBehaviour  {
 
 		Client client = new Client ();
 		string msg ="";
-		client.GetRemoteService (RequestCode.Register, msg);
+		client.GetRemoteService (RequestCode.Register,ActionCode.None, msg);
 	}
 
 	//注意账号的处理
@@ -113,9 +113,7 @@ public class DataManager : MonoBehaviour  {
 		} 
 		Client client = new Client ();
 		string msg = PlayerName + "," + PlayerCountry + "," + PlayerSchool + "," + HighLevel + "," + HighScore;
-		client.GetRemoteService (RequestCode.Rank, msg);
-		//ToDo
-		//"如果没有获得网络数据。。。"
+		client.GetRemoteService (RequestCode.Game,ActionCode.PersonalRank, msg);
 	}
 		
 }

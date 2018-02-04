@@ -5,67 +5,38 @@ using System.Linq;
 public class Message
 {
 
-    private byte[] data = new byte[1024];
-    private int startIndex = 0;
+    private byte[] data = new byte[2048];
 
     public byte[] Data{
         get{ return data;}
+		set{ data = value;}
     }
 
-    public int StartIndex{
-        get{ return startIndex;}
-    }
+    public void ReadMessage(int newDataCount,Action<RequestCode,ActionCode,string> HandleMessage){
 
-    public int LeftSize{
-        get{ return LeftSize;}
-    }
-
-    public void ReadMessage(int newDataCount,Action<RequestCode,string> HandleMessage){
-        startIndex += newDataCount;
         while (true)
         {
-            if (startIndex <= 4)
-                return;
-
             //数据长度
             int count = BitConverter.ToInt32(data, 0);
-            if (startIndex - 4 >= count)
-            {
-                RequestCode requestCode = (RequestCode)BitConverter.ToInt32(data, 4);
-                string s = System.Text.Encoding.UTF8.GetString(data, 12, count - 8);
 
-                HandleMessage(requestCode, s);
-                Array.Copy(data, count + 4, data, 0, startIndex - 4 - count);
-                startIndex -= (count + 4);
-            }
-            else
-            {
-                return;
-            }
+            RequestCode requestCode = (RequestCode)BitConverter.ToInt32(data, 4);
+			ActionCode actionCode = (ActionCode)BitConverter.ToInt32 (data, 8);
+			string s = System.Text.Encoding.UTF8.GetString (data, 12, count - 12);
+			data = new byte[2048];
+			HandleMessage (requestCode, actionCode, s);
         }
     }
 
-    public static byte[] PackData(RequestCode request,string data){
+    public static byte[] PackData(RequestCode request,ActionCode action, string data){
         byte[] reqBytes = BitConverter.GetBytes((int)request);
+		byte[] actBytes = BitConverter.GetBytes ((int)action);
         byte[] dataBytes = System.Text.Encoding.UTF8.GetBytes(data);
-        int dataLength = reqBytes.Length + dataBytes.Length;
+		int dataLength = reqBytes.Length + actBytes.Length + dataBytes.Length;
         byte[] lengthBytes = BitConverter.GetBytes(dataLength);
 
-        return lengthBytes.Concat(reqBytes).ToArray<byte>()
-            .Concat(dataBytes).ToArray<byte>();
-    }
-
-
-    public static byte[] GetBytes(string data){
-        byte[] dataBytes = System.Text.Encoding.UTF8.GetBytes(data);
-        byte[] countBytes = BitConverter.GetBytes(dataBytes.Length);
-        byte[] newBytes = countBytes.Concat(dataBytes).ToArray();
-        return newBytes;
-    }
-
-    public static string GetMsg(byte[] b, int count){
-        string msg = System.Text.Encoding.UTF8.GetString(b, 0, count);
-        return msg;
+		return lengthBytes.Concat (reqBytes).ToArray<byte> ()
+			.Concat (actBytes).ToArray<byte> ()
+			.Concat (dataBytes).ToArray<byte> ();
     }
 }
 

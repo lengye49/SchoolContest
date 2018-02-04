@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class MyTween:MonoBehaviour  {
 
-#region 滑进滑出效果
+	#region 滑进滑出效果
 	private float slideTime = 0.5f;
 	private Vector3 startPos = new Vector3 (-5000, 0, 0);
 	private Vector3 endPos = new Vector3 (5000, 0, 0);
@@ -53,17 +53,17 @@ public class MyTween:MonoBehaviour  {
 
 	#region 冒泡效果
 	private float popTime = 0.2f;
-	private float showTime = 1.3f;
 	private float disappearTime = 0.5f;
 	private float yShiftPop = 100f;
 	private float yShiftDisappear = 150f;
-	public void PopIn(Transform t){
+	public void PopIn(Transform t,float showTime = 1.3f){
 		t.localScale = startScale;
 		t.DOLocalMoveY (t.localPosition.y + yShiftPop, popTime);
 		t.DOBlendableScaleBy (scaleRate, popTime);
-		StartCoroutine(ShowTime(t));
+		StartCoroutine(ShowTime(t,showTime));
 	}
-	IEnumerator ShowTime(Transform t){
+
+	IEnumerator ShowTime(Transform t,float showTime){
 		yield return new WaitForSeconds (showTime);
 		Disappear (t);
 	}
@@ -78,9 +78,7 @@ public class MyTween:MonoBehaviour  {
 	}
 	#endregion
 
-	#region 转圈效果
-
-
+	#region 关闭弹窗
 
 	#endregion
 }
