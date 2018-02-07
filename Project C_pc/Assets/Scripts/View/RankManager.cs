@@ -27,7 +27,7 @@ public class RankManager : MonoBehaviour {
 			t [1].text = u.name;
 			t [2].text = Configs.PlaceList [u.place];
 			t [3].text = Configs.SchoolList [u.school];
-			t [4].text = Configs.LevelList [u.level];
+			t [4].text = Configs.LevelList [u.level-1];
 			t [5].text = u.score.ToString ();
 			Color c = CellColor (u.id, i + 1);
 			for (int j = 0; j < 6; j++)

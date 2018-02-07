@@ -167,7 +167,7 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	public void Upgrade(int newLevel){
-		_levelShow.UpdateLevelShow (newLevel);
+//		_levelShow.UpdateLevelShow (newLevel);
 		if (newLevel >= 5) {
 			//ToDo 特效
 		}
@@ -220,37 +220,37 @@ public class ViewManager : MonoBehaviour {
 		}
 	}
 
-	public Color GetTextColor(int num)
-	{
-		return Color.white;
-		switch (num) {
-			case 1:
-				return Color.grey; 
-			case 3:
-				return Color.grey; 
-			case 9:
-				return Color.magenta;
-			case 27:
-				return Color.magenta;
-			case 81:
-				return Color.yellow;
-			case 243:
-				return Color.yellow;
-			case 729:
-				return Color.blue;
-			case 2187:
-				return Color.blue;
-			case 6561:
-				return Color.white;
-			default:
-				return Color.white;
-		}
-	}
+//	public Color GetTextColor(int num)
+//	{
+//		return Color.white;
+//		switch (num) {
+//			case 1:
+//				return Color.grey; 
+//			case 3:
+//				return Color.grey; 
+//			case 9:
+//				return Color.magenta;
+//			case 27:
+//				return Color.magenta;
+//			case 81:
+//				return Color.yellow;
+//			case 243:
+//				return Color.yellow;
+//			case 729:
+//				return Color.blue;
+//			case 2187:
+//				return Color.blue;
+//			case 6561:
+//				return Color.white;
+//			default:
+//				return Color.white;
+//		}
+//	}
 
 	public string GetGradeByScore(int score){
 		for (int i = 0; i <= 10; i++) {
 			if (Mathf.Pow (3, i) == score)
-				return Configs.LevelList [i];
+				return Configs.LevelList [i-1];
 		}
 		return Configs.LevelList [0];
 	}

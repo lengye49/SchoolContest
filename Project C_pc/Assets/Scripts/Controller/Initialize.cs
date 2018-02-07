@@ -10,7 +10,7 @@ public class Initialize : MonoBehaviour {
 	private GameObject[][] cells = new GameObject[5][];
 	private int[][] nums = new int[5][];
 	private bool[][] allCellsCheck = new bool[5][];
-	private Vector3 offsetPos = new Vector3 (0, -300, 0);
+	private Vector3 offsetPos = new Vector3 (0, -200, 0);
 
 	private ArrayList sameNumIndex;
 	private ArrayList unCheckNeighbour;
@@ -46,7 +46,7 @@ public class Initialize : MonoBehaviour {
 		_playerMusic.PlayBg ("playPanelBg");
 		_view.GoToGamePanel ();
 		_view.SetScore (score);
-		_view.SetGrade (Configs.LevelList [maxLv]);
+		_view.SetGrade (Configs.LevelList [maxLv-1]);
 		isResetCell = false;
 		hasResetEnergy = false;
 		isAdDone = false;
@@ -111,9 +111,9 @@ public class Initialize : MonoBehaviour {
                 g.name = i.ToString () + "," + j.ToString ();
                 cells [i] [j] = g;
 				g.GetComponent<Image> ().sprite = _view.GetCellSprite (nums[i][j]);
-                string s = _view.GetGradeByScore (nums[i][j]);
-                g.GetComponentInChildren<Text> ().text = s;
-				g.GetComponentInChildren<Text> ().color = _view.GetTextColor (nums [i] [j]);
+//                string s = _view.GetGradeByScore (nums[i][j]);
+//                g.GetComponentInChildren<Text> ().text = s;
+//				g.GetComponentInChildren<Text> ().color = _view.GetTextColor (nums [i] [j]);
 				listCells.Add (g);
             }
         }
@@ -199,9 +199,9 @@ public class Initialize : MonoBehaviour {
 	void SetCell(int row,int column,int newSeed){
 		nums [row] [column] = newSeed;
 		string s = _view.GetGradeByScore (newSeed);
-		cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
 		cells [row] [column].gameObject.GetComponent<Image> ().sprite = _view.GetCellSprite (newSeed);
-		cells[row][column].gameObject.GetComponentInChildren<Text>().color = _view.GetTextColor (newSeed);
+//		cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
+//		cells[row][column].gameObject.GetComponentInChildren<Text>().color = _view.GetTextColor (newSeed);
 	}
 
 	void GenerateNewCell(int row,int column){
@@ -250,7 +250,7 @@ public class Initialize : MonoBehaviour {
 				GenerateNewCell (ins [0], ins [1]);
 			}
 			_view.SetScore (score);
-			_view.SetGrade (Configs.LevelList [maxLv]);
+			_view.SetGrade (Configs.LevelList [maxLv-1]);
 		}
 	}
 		
@@ -321,7 +321,7 @@ public class Initialize : MonoBehaviour {
 
     void UpdateRankPanel(){
 		int s = DataManager.HighScore;
-		string g = Configs.LevelList [DataManager.HighLevel];
+		string g = Configs.LevelList [DataManager.HighLevel-1];
 		_view.UpdateLocalRank (s, g);
     }
 
