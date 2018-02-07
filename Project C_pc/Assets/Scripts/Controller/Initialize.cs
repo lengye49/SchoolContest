@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class Initialize : MonoBehaviour {
 
-	private DataManager _data;
 	private ViewManager _view;
 	private Object o;
 	private GameObject[][] cells = new GameObject[5][];
@@ -28,7 +27,6 @@ public class Initialize : MonoBehaviour {
 	private bool isAdDone = false;
 
 	void Start () {
-		_data = GetComponentInParent<DataManager> ();
 		_view = GetComponentInParent<ViewManager> ();
 
 		_playerMusic = this.gameObject.GetComponentInParent<PlayMusic> ();
@@ -48,7 +46,7 @@ public class Initialize : MonoBehaviour {
 		_playerMusic.PlayBg ("playPanelBg");
 		_view.GoToGamePanel ();
 		_view.SetScore (score);
-		_view.SetGrade (_view.GetGradeByLevel (maxLv));
+		_view.SetGrade (Configs.LevelList [maxLv]);
 		isResetCell = false;
 		hasResetEnergy = false;
 		isAdDone = false;
@@ -112,7 +110,7 @@ public class Initialize : MonoBehaviour {
                 g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 172.1f, (midNum - i) * 138f, 0f);
                 g.name = i.ToString () + "," + j.ToString ();
                 cells [i] [j] = g;
-				g.GetComponent<Image> ().color = _view.GetImageColor (nums[i][j]);
+				g.GetComponent<Image> ().sprite = _view.GetCellSprite (nums[i][j]);
                 string s = _view.GetGradeByScore (nums[i][j]);
                 g.GetComponentInChildren<Text> ().text = s;
 				g.GetComponentInChildren<Text> ().color = _view.GetTextColor (nums [i] [j]);
@@ -160,8 +158,8 @@ public class Initialize : MonoBehaviour {
     }
         
     void StoreData(){
-        _data.Score = score;
-        _data.Level = maxLv;
+        DataManager.Score = score;
+        DataManager.Level = maxLv;
     }
 
 	void CheckGameOver()
@@ -202,7 +200,7 @@ public class Initialize : MonoBehaviour {
 		nums [row] [column] = newSeed;
 		string s = _view.GetGradeByScore (newSeed);
 		cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
-		cells [row] [column].gameObject.GetComponent<Image> ().color = _view.GetImageColor (newSeed);
+		cells [row] [column].gameObject.GetComponent<Image> ().sprite = _view.GetCellSprite (newSeed);
 		cells[row][column].gameObject.GetComponentInChildren<Text>().color = _view.GetTextColor (newSeed);
 	}
 
@@ -252,7 +250,7 @@ public class Initialize : MonoBehaviour {
 				GenerateNewCell (ins [0], ins [1]);
 			}
 			_view.SetScore (score);
-			_view.SetGrade (_view.GetGradeByLevel (maxLv));
+			_view.SetGrade (Configs.LevelList [maxLv]);
 		}
 	}
 		
@@ -322,8 +320,8 @@ public class Initialize : MonoBehaviour {
 		
 
     void UpdateRankPanel(){
-		int s = _data.HighScore;
-		string g = _view.GetGradeByLevel (_data.HighLevel);
+		int s = DataManager.HighScore;
+		string g = Configs.LevelList [DataManager.HighLevel];
 		_view.UpdateLocalRank (s, g);
     }
 
@@ -368,8 +366,8 @@ public class Initialize : MonoBehaviour {
 	}
 
     void SettleRank(out int localRank){
-        localRank = _data.SetHighScore ();
-		_data.SetOnlineRank ();
+        localRank = DataManager.SetHighScore ();
+		DataManager.SetOnlineRank ();
         UpdateRankPanel ();
     }
 }

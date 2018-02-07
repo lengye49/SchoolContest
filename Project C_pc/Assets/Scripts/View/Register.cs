@@ -34,7 +34,7 @@ public class Register : MonoBehaviour {
 		}
 			
 		//DataManager.Register(playerName,playerCountry,playerSchool)
-		this.GetComponentInParent<DataManager> ().Register (playerName, playerCountry, playerSchool);
+		DataManager.Register (playerName, playerCountry, playerSchool);
 	
 		//Turn to StartPanel
 		this.GetComponentInParent<ViewManager>().GoToStartPanel();

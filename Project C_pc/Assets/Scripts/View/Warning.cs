@@ -33,25 +33,6 @@ public class Warning : MonoBehaviour {
 		p.GetComponent<MyTween> ().PopIn (f.transform,3f);
 	}
 
-	public static void ShowTotalRank(User[] uList){
-		GameObject p = GameObject.Find ("RankContainer");
-		for (int i = 0; i < uList.Length; i++) {
-			GameObject f = Instantiate (Resources.Load ("rankCell")) as GameObject;
-			f.SetActive (true);
-			f.transform.SetParent (p.transform);
-			Text[] t = f.GetComponentsInChildren<Text> ();
-			t [0].text = uList [i].name;
-			t [1].text = Configs.PlaceList [uList [i].place];
-			t [2].text = Configs.SchoolList [uList [i].school];
-		}
-	}
-
-
-
-	public static void ShowAreaRank(){
-	
-	}
-
 	static Color GetWarningColor(int colorType){
 		Color c = Color.black;
 		if (colorType == 0)

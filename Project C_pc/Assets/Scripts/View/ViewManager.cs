@@ -5,14 +5,17 @@ using UnityEngine.UI;
 public class ViewManager : MonoBehaviour {
 
     //界面
-    public GameObject startPanel;
+    public Transform startPanel;
+	public Transform rankPanel;
+	public Transform playPanel;
 	public Text welcomeMsg;
-	public GameObject registerPanel;
+	public Transform registerPanel;
+	private Vector3 startPos = new Vector3 (-5000, 0, 0);
 
     //游戏界面
-    public GameObject playPanel;
     public Text scoreText;
     public Text gradeText;
+	public Sprite[] cells;
 
     //音乐
     private PlayMusic _playMusic;
@@ -40,10 +43,11 @@ public class ViewManager : MonoBehaviour {
 	public GameObject loadingImage;
 
     void Start(){
-		registerPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
-		startPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
-		playPanel.transform.localPosition = new Vector3 (-5000f, 0, 0);
-		_playMusic = transform.GetComponentInParent<PlayMusic> ();
+		registerPanel.localPosition = startPos;
+		startPanel.localPosition = startPos;
+		playPanel.localPosition = startPos;
+		rankPanel.localPosition = startPos;
+		_playMusic = GetComponentInParent<PlayMusic> ();
 
 		coverFail.gameObject.SetActive (false);
 		coverWin.gameObject.SetActive (false);
@@ -68,26 +72,36 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	public void GoToStartPanel(){
-		myTween.SlideIn (startPanel.transform);
-		myTween.SlideOut (registerPanel.transform);
-		myTween.SlideOut (playPanel.transform);
+		myTween.SlideIn (startPanel);
+		myTween.SlideOut (registerPanel);
+		myTween.SlideOut (playPanel);
 
 		_playMusic.PlayBg ("startMenuBg");
 
-		DataManager _data = GetComponent<DataManager> ();
-		welcomeMsg.text = "恭迎" + "\t" + _data.PlayerCountry + "\t" 
-			+ _data.PlayerSchool + "\n" + _data.PlayerName + "\n道友大驾光临!";
+		welcomeMsg.text = "恭迎" + "\t" + DataManager.PlayerCountry + "\t" 
+			+ DataManager.PlayerSchool + "\n" + DataManager.PlayerName + "\n道友大驾光临!";
+	}
+
+	public void GoToRankPanel(){
+		myTween.SlideIn (rankPanel);
+		myTween.SlideOut (startPanel);
+		DataManager.SetTotalRank ();
+	}
+
+	public void OnRankReturnButton(){
+		myTween.SlideIn (startPanel);
+		myTween.SlideOut (rankPanel);
 	}
 
 	public void GoToRegisterPanel(){
-		myTween.SlideIn (registerPanel.transform);
+		myTween.SlideIn (registerPanel);
 		_playMusic.PlayBg ("startMenuBg");
 	}
 
 	public void OnFailReturnButton()
 	{
-		myTween.SlideIn (startPanel.transform);
-		myTween.SlideOut (playPanel.transform);
+		myTween.SlideIn (startPanel);
+		myTween.SlideOut (playPanel);
 
 		coverFail.gameObject.SetActive (false);
 	}
@@ -95,8 +109,8 @@ public class ViewManager : MonoBehaviour {
 
 	public void GoToGamePanel(){
 
-		myTween.SlideIn (playPanel.transform);
-		myTween.SlideOut (startPanel.transform);
+		myTween.SlideIn (playPanel);
+		myTween.SlideOut (startPanel);
 
 
 		//设置游戏面板
@@ -178,35 +192,37 @@ public class ViewManager : MonoBehaviour {
 		GetComponentInChildren<Initialize> ().ConfirmComplete ();
 	}
 		
-	#region GameValueProcess
-	public Color GetImageColor(int num)
-	{
+	#region 单元格属性
+	public Sprite GetCellSprite(int num){
 		switch (num) {
 			case 1:
-				return new Color32 (255, 255, 255, 255); 
+				return cells[0]; 
 			case 3:
-				return new Color32 (0, 255, 0, 255); 
+				return cells[1]; 
 			case 9:
-				return new Color32 (0, 255, 255, 255); 	
+				return cells[2]; 	
 			case 27:
-				return new Color32 (2, 126, 248, 255);	
+				return cells[3];	
 			case 81:
-				return new Color32 (0, 63, 255, 255); 
+				return cells[4]; 
 			case 243:
-				return new Color32 (255, 255, 0, 255);
+				return cells[5];
 			case 729:
-				return new Color32 (255, 0, 255, 255);
+				return cells[6];
 			case 2187:
-				return new Color32 (255, 0, 0, 255);
+				return cells[7];
 			case 6561:
-				return new Color32 (251, 183, 6, 255);
+				return cells[8];
+			case 19683:
+				return cells [9];
 			default:
-				return Color.black;
+				return cells[10];
 		}
 	}
 
 	public Color GetTextColor(int num)
 	{
+		return Color.white;
 		switch (num) {
 			case 1:
 				return Color.grey; 
@@ -231,90 +247,12 @@ public class ViewManager : MonoBehaviour {
 		}
 	}
 
-	public string GetGradeByLevel(int level){
-		string s = "";
-		switch (level) {
-			case 1:
-				s = "练气";
-				break;
-			case 2:
-				s = "筑基";
-				break;
-			case 3:
-				s = "金丹";
-				break;
-			case 4:
-				s = "元婴";
-				break;
-			case 5:
-				s = "出窍";
-				break;
-			case 6:
-				s = "分神";
-				break;
-			case 7:
-				s = "合体";
-				break;
-			case 8:
-				s = "洞虚";
-				break;
-			case 9:
-				s = "大成";
-				break;
-			case 10:
-				s = "渡劫";
-				break;
-			case 11:
-				s = "升仙";
-				break;
-			default:
-				s = "";
-				break;
-		}
-		return s;
-	} 
-
 	public string GetGradeByScore(int score){
-		string s = "";
-		switch (score) {
-			case 1:
-				s = "练气";
-				break;
-			case 3:
-				s = "筑基";
-				break;
-			case 9:
-				s = "金丹";
-				break;
-			case 27:
-				s = "元婴";
-				break;
-			case 81:
-				s = "出窍";
-				break;
-			case 243:
-				s = "分神";
-				break;
-			case 729:
-				s = "合体";
-				break;
-			case 2187:
-				s = "洞虚";
-				break;
-			case 6561:
-				s = "大成";
-				break;
-			case 19684:
-				s = "渡劫";
-				break;
-			case 59049:
-				s = "升仙";
-				break;	
-			default:
-				s = "";
-				break;
+		for (int i = 0; i <= 10; i++) {
+			if (Mathf.Pow (3, i) == score)
+				return Configs.LevelList [i];
 		}
-		return s;
+		return Configs.LevelList [0];
 	}
 	#endregion
 }

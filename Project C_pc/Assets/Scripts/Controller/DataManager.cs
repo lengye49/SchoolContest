@@ -10,11 +10,11 @@ public class DataManager : MonoBehaviour  {
 	}
 
 	#region LocalData
-	private int score=0;
-	private int level=0;
-    private string numList;
+	static int score=0;
+	static int level=0;
+    static string numList;
 
-	public int Score {
+	public static int Score {
 		get {
 			return score;
 		}
@@ -22,7 +22,7 @@ public class DataManager : MonoBehaviour  {
 			score = value; 
 		}
 	}
-	public int Level {
+	public static int Level {
 		get {
 			return level;
 		}
@@ -31,17 +31,17 @@ public class DataManager : MonoBehaviour  {
 		}
 	}
 
-	public string PlayerName {
+	public static string PlayerName {
 		get{ return PlayerPrefs.GetString ("playerName", "无名氏"); }
 		set { PlayerPrefs.SetString ("playerName", value); }
 	}
 
-	public string PlayerCountry {
+	public static string PlayerCountry {
 		get{ return PlayerPrefs.GetString ("playerCountry", "流浪者"); }
 		set { PlayerPrefs.SetString ("playerCountry", value); }
 	}
 
-	public string PlayerSchool {
+	public static string PlayerSchool {
 		get{ return PlayerPrefs.GetString ("playerSchool", "散修"); }
 		set { PlayerPrefs.SetString ("playerSchool", value); }
 	}
@@ -72,19 +72,19 @@ public class DataManager : MonoBehaviour  {
 		set{ PlayerPrefs.SetString ("totalRank", "");}
 	}
         
-	public int HighScore {
+	public static int HighScore {
 		get{ return PlayerPrefs.GetInt ("HighScore", 0); }
 		set {
 			PlayerPrefs.SetInt ("HighScore", value);
 		}
 	}
-	public int HighLevel{
+	public static int HighLevel{
 		get{return PlayerPrefs.GetInt ("HighLevel1", 0);}
 		set{
 			PlayerPrefs.SetInt ("HighLevel1",value);}
 	}
 
-	public int SetHighScore(){
+	public static int SetHighScore(){
 		if ((level > HighLevel) || (level == HighLevel && score > HighScore)) {
 			HighLevel = level;
 			HighScore = score;
@@ -95,7 +95,7 @@ public class DataManager : MonoBehaviour  {
 	}
 	#endregion
 
-	public void Register(string playerName,string playerCountry,string playerSchool){
+	public static void Register(string playerName,string playerCountry,string playerSchool){
 		PlayerName = playerName;
 		PlayerCountry = playerCountry;
 		PlayerSchool = playerSchool;
@@ -106,16 +106,30 @@ public class DataManager : MonoBehaviour  {
 	}
 
 	//注意账号的处理
-	public void SetOnlineRank(){
+	public static void SetOnlineRank(){
 		if (AccountId <= 0) {
 			Debug.Log ("暂时没有网络账号，请获取账号id后再上传成绩！");
 			return;
 		} 
 		Client client = new Client ();
-		string msg = PlayerName + "," + PlayerCountry + "," + PlayerSchool + "," + HighLevel + "," + HighScore;
+		string msg = AccountId + "," + PlayerName + "," + PlayerCountry + "," + PlayerSchool + "," + HighLevel + "," + HighScore;
 		client.GetRemoteService (RequestCode.Game,ActionCode.PersonalRank, msg);
 	}
 		
+	public static void SetTotalRank(){
+		//判断上次申请的时间是否>10分钟，否则不申请。
+
+		RankManager.TopUserList = new User[100];
+		for (int i = 0; i < 100; i++) {
+			RankManager.TopUserList [i].id = 1;
+			RankManager.TopUserList [i].name = "飘飘姐姐" + i;
+			RankManager.TopUserList [i].place = i % 30;
+			RankManager.TopUserList [i].school = i % 10;
+			RankManager.TopUserList [i].level = i % 10;
+			RankManager.TopUserList [i].score = (100 - i) * 99;
+		}
+		RankManager.isRankReady = true;
+	}
 }
 
 //	#region SaveData
