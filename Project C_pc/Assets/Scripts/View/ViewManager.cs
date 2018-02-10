@@ -151,20 +151,20 @@ public class ViewManager : MonoBehaviour {
 			localScore.text = "";	
 	}
 
-	public void SetResetOneState(bool hasEnergy){
+	public void SetResetState(bool hasEnergy){
 		ResetOne.interactable = hasEnergy;
 	}
 
-	public void ResetOneOn(bool isOn){
-	
-		if (isOn) {
-			Debug.Log ("开启仙人指路");
-			//特效打开
-		} else {
-			Debug.Log ("关闭仙人指路");
-			//特效关闭
-		}
-	}
+//	public void ResetOneOn(bool isOn){
+//	
+//		if (isOn) {
+//			Debug.Log ("开启仙人指路");
+//			//特效打开
+//		} else {
+//			Debug.Log ("关闭仙人指路");
+//			//特效关闭
+//		}
+//	}
 
 	public void Upgrade(int newLevel){
 //		_levelShow.UpdateLevelShow (newLevel);
@@ -184,7 +184,7 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	void CompleteAd(){
-		GetComponentInChildren<Initialize> ().ResetAllCells ();
+		GetComponentInChildren<Initialize> ().ResetAllSmallNum ();
 	}
 
 	public void OnCancelAd(){

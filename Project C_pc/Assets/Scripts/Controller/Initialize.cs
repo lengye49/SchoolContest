@@ -23,7 +23,7 @@ public class Initialize : MonoBehaviour {
 	private int maxLv;
 
 	private bool hasResetEnergy = false;
-	private bool isResetCell = false;
+//	private bool isResetCell = false;
 	private bool isAdDone = false;
 
 	void Start () {
@@ -47,11 +47,11 @@ public class Initialize : MonoBehaviour {
 		_view.GoToGamePanel ();
 		_view.SetScore (score);
 		_view.SetGrade (Configs.LevelList [maxLv-1]);
-		isResetCell = false;
+//		isResetCell = false;
 		hasResetEnergy = false;
 		isAdDone = false;
-		_view.SetResetOneState (false);
-		_view.ResetOneOn (isResetCell);
+		_view.SetResetState (false);
+//		_view.ResetOneOn (isResetCell);
 
 		UpdateRankPanel ();
 
@@ -121,16 +121,16 @@ public class Initialize : MonoBehaviour {
 
     public void ClickCell(int row,int column)
     {
-		if (isResetCell) {
-			_playerMusic.PlayerSound ("success");
-			GenerateNewCell (row, column);
-			isResetCell = false;
-			hasResetEnergy = false;
-			_view.SetResetOneState (hasResetEnergy);
-			_view.ResetOneOn (false);
-
-			CheckGameOver ();
-		} else {
+//		if (isResetCell) {
+//			_playerMusic.PlayerSound ("success");
+//			GenerateNewCell (row, column);
+//			isResetCell = false;
+//			hasResetEnergy = false;
+//			_view.SetResetState (hasResetEnergy);
+////			_view.ResetOneOn (false);
+//
+//			CheckGameOver ();
+//		} else {
 			CheckThisCell (row, column);
 			if (totalNum >= 3) {
 				_playerMusic.PlayerSound ("success");
@@ -139,7 +139,7 @@ public class Initialize : MonoBehaviour {
 			} else {
 				_playerMusic.PlayerSound ("click");
 			}
-		}
+//		}
     }
 
     void CheckThisCell(int row,int column)
@@ -213,7 +213,7 @@ public class Initialize : MonoBehaviour {
 			_view.Upgrade (maxLv);
 			if (maxLv >= 5) {
 				hasResetEnergy = true;
-				_view.SetResetOneState (hasResetEnergy);
+				_view.SetResetState (hasResetEnergy);
 			}
 		}
 		int newSeed = (int)Mathf.Pow (3,n);
@@ -236,7 +236,7 @@ public class Initialize : MonoBehaviour {
 				if (maxLv >= 5) {
 					hasResetEnergy = true;
 					Debug.Log ("获得能量");
-					_view.SetResetOneState (hasResetEnergy);
+					_view.SetResetState (hasResetEnergy);
 				}
 			}
 
@@ -325,38 +325,51 @@ public class Initialize : MonoBehaviour {
 		_view.UpdateLocalRank (s, g);
     }
 
+	public void ResetAllSmallNum(){
+		int min = Calculation.ArrayMin(nums);
+		for(int i=0;i<nums.Length;i++) {
+			for (int j = 0; j < nums [i].Length; i++) {
+				if (nums [i][j] == min)
+					GenerateNewCell (i, j);
+			}
+		}
+	}
+
+
+
+
 	/// <summary>
 	/// 将各元素随机交换位置
 	/// </summary>
-	public void ResetAllCells(){
-		for (int i = 0; i < 100; i++) {
-			int row1 = Random.Range (0, 5);
-			int column1 = Random.Range (0, nums [row1].Length);
+//	public void ResetAllCells(){
+//		for (int i = 0; i < 100; i++) {
+//			int row1 = Random.Range (0, 5);
+//			int column1 = Random.Range (0, nums [row1].Length);
+//
+//			int row2 = Random.Range (0, 5);
+//			int column2 = Random.Range (0, nums [row2].Length);
+//
+//			SwitchCell (row1, column1, row2, column2);
+//		}
+//		CheckGameOver ();
+//	}
+//
+//	void SwitchCell(int r1,int c1,int r2,int c2){
+//		int t = nums [r1] [c1];
+//		nums [r1] [c1] = nums [r2] [c2];
+//		nums [r2] [c2] = t;
+//		SetCell (r1, c1, nums [r1] [c1]);
+//		SetCell (r2, c2, nums [r2] [c2]);
+//	}
 
-			int row2 = Random.Range (0, 5);
-			int column2 = Random.Range (0, nums [row2].Length);
-
-			SwitchCell (row1, column1, row2, column2);
-		}
-		CheckGameOver ();
-	}
-
-	void SwitchCell(int r1,int c1,int r2,int c2){
-		int t = nums [r1] [c1];
-		nums [r1] [c1] = nums [r2] [c2];
-		nums [r2] [c2] = t;
-		SetCell (r1, c1, nums [r1] [c1]);
-		SetCell (r2, c2, nums [r2] [c2]);
-	}
-
-	public void ChangeResetOneState(){
-		if (!hasResetEnergy || isResetCell) {
-			isResetCell = false;
-		} else {
-			isResetCell = true;
-		}
-		_view.ResetOneOn (isResetCell);
-	}
+//	public void ChangeResetState(){
+//		if (!hasResetEnergy ) {
+//			isResetCell = false;
+//		} else {
+//			isResetCell = true;
+//		}
+////		_view.ResetOneOn (isResetCell);
+//	}
 
 	public void ConfirmComplete(){
 		int localRank;
