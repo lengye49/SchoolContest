@@ -16,6 +16,7 @@ public class ViewManager : MonoBehaviour {
     public Text scoreText;
     public Text gradeText;
 	public Sprite[] cells;
+	public Sprite[] resetBg;
 
     //音乐
     private PlayMusic _playMusic;
@@ -153,6 +154,10 @@ public class ViewManager : MonoBehaviour {
 
 	public void SetResetState(bool hasEnergy){
 		ResetOne.interactable = hasEnergy;
+		if (hasEnergy) {
+			ResetOne.image.sprite = resetBg [0];
+		}else
+			ResetOne.image.sprite = resetBg [1];
 	}
 
 //	public void ResetOneOn(bool isOn){
@@ -250,7 +255,7 @@ public class ViewManager : MonoBehaviour {
 	public string GetGradeByScore(int score){
 		for (int i = 0; i <= 10; i++) {
 			if (Mathf.Pow (3, i) == score)
-				return Configs.LevelList [i-1];
+				return Configs.LevelList [i];
 		}
 		return Configs.LevelList [0];
 	}

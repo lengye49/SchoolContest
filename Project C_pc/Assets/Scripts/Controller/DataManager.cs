@@ -121,7 +121,8 @@ public class DataManager : MonoBehaviour  {
 
 		RankManager.TopUserList = new User[100];
 		for (int i = 0; i < 100; i++) {
-			RankManager.TopUserList [i].id = 1;
+			RankManager.TopUserList [i] = new User ();
+			RankManager.TopUserList [i].id = i;
 			RankManager.TopUserList [i].name = "飘飘姐姐" + i;
 			RankManager.TopUserList [i].place = i % 30;
 			RankManager.TopUserList [i].school = i % 10;

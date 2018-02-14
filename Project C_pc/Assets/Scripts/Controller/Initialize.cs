@@ -47,11 +47,9 @@ public class Initialize : MonoBehaviour {
 		_view.GoToGamePanel ();
 		_view.SetScore (score);
 		_view.SetGrade (Configs.LevelList [maxLv-1]);
-//		isResetCell = false;
 		hasResetEnergy = false;
 		isAdDone = false;
 		_view.SetResetState (false);
-//		_view.ResetOneOn (isResetCell);
 
 		UpdateRankPanel ();
 
@@ -328,11 +326,12 @@ public class Initialize : MonoBehaviour {
 	public void ResetAllSmallNum(){
 		int min = Calculation.ArrayMin(nums);
 		for(int i=0;i<nums.Length;i++) {
-			for (int j = 0; j < nums [i].Length; i++) {
+			for (int j = 0; j < nums [i].Length; j++) {
 				if (nums [i][j] == min)
 					GenerateNewCell (i, j);
 			}
 		}
+		CheckGameOver ();
 	}
 
 
