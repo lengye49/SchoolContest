@@ -41,11 +41,6 @@ public class DataManager : MonoBehaviour  {
 		set { PlayerPrefs.SetString ("playerCountry", value); }
 	}
 
-	public static string PlayerSchool {
-		get{ return PlayerPrefs.GetString ("playerSchool", "散修"); }
-		set { PlayerPrefs.SetString ("playerSchool", value); }
-	}
-
 	public static int AccountId
     {
         get{ return PlayerPrefs.GetInt("accountId", 0); }
@@ -56,17 +51,7 @@ public class DataManager : MonoBehaviour  {
 		get{ return PlayerPrefs.GetInt("personalRank", 0); }
 		set{ PlayerPrefs.SetInt("personalRank", value); }
 	}
-
-	public static int OnlineRate{
-		get{ return PlayerPrefs.GetInt("rate", 0); }
-		set{ PlayerPrefs.SetInt("rate", value); }
-	}
-
-	public static string PlaceAreaRank{
-		get{ return PlayerPrefs.GetString ("areaRank", "");}
-		set{ PlayerPrefs.SetString ("areaRank", "");}
-	}
-
+		
 	public static string TotalRank{
 		get{ return PlayerPrefs.GetString ("totalRank", "");}
 		set{ PlayerPrefs.SetString ("totalRank", "");}
@@ -95,10 +80,9 @@ public class DataManager : MonoBehaviour  {
 	}
 	#endregion
 
-	public static void Register(string playerName,string playerCountry,string playerSchool){
+	public static void Register(string playerName,string playerCountry){
 		PlayerName = playerName;
 		PlayerCountry = playerCountry;
-		PlayerSchool = playerSchool;
 
 		Client client = new Client ();
 		string msg ="";
@@ -112,7 +96,7 @@ public class DataManager : MonoBehaviour  {
 			return;
 		} 
 		Client client = new Client ();
-		string msg = AccountId + "," + PlayerName + "," + PlayerCountry + "," + PlayerSchool + "," + HighLevel + "," + HighScore;
+		string msg = AccountId + "," + PlayerName + "," + PlayerCountry + "," + HighLevel + "," + HighScore;
 		client.GetRemoteService (RequestCode.Game,ActionCode.PersonalRank, msg);
 	}
 		
@@ -125,7 +109,6 @@ public class DataManager : MonoBehaviour  {
 			RankManager.TopUserList [i].id = i;
 			RankManager.TopUserList [i].name = "飘飘姐姐" + i;
 			RankManager.TopUserList [i].place = i % 30;
-			RankManager.TopUserList [i].school = i % 10;
 			RankManager.TopUserList [i].level = i % 10;
 			RankManager.TopUserList [i].score = (100 - i) * 99;
 		}

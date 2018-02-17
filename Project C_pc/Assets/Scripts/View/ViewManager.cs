@@ -8,7 +8,7 @@ public class ViewManager : MonoBehaviour {
     public Transform startPanel;
 	public Transform rankPanel;
 	public Transform playPanel;
-	public Text welcomeMsg;
+
 	public Transform registerPanel;
 	private Vector3 startPos = new Vector3 (-5000, 0, 0);
 
@@ -49,6 +49,7 @@ public class ViewManager : MonoBehaviour {
 		playPanel.localPosition = startPos;
 		rankPanel.localPosition = startPos;
 		_playMusic = GetComponentInParent<PlayMusic> ();
+		UpdateLocalRank ();
 
 		coverFail.gameObject.SetActive (false);
 		coverWin.gameObject.SetActive (false);
@@ -78,9 +79,6 @@ public class ViewManager : MonoBehaviour {
 		myTween.SlideOut (playPanel);
 
 		_playMusic.PlayBg ("startMenuBg");
-
-		welcomeMsg.text = "恭迎" + "\t" + DataManager.PlayerCountry + "\t" 
-			+ DataManager.PlayerSchool + "\n" + DataManager.PlayerName + "\n道友大驾光临!";
 	}
 
 	public void GoToRankPanel(){
@@ -145,9 +143,12 @@ public class ViewManager : MonoBehaviour {
 		coverNotice.gameObject.SetActive (false);
 	}
 
-	public void UpdateLocalRank(int s,string g){
+	public void UpdateLocalRank(){
+		int s = DataManager.HighScore;
+		string g = Configs.LevelList [DataManager.HighLevel-1];
+
 		if (s > 0)
-			localScore.text = "个人最高修为：" + g + "(" + s + ")";
+			localScore.text = "个人最高记录：" + g + "(" + s + "分)";
 		else
 			localScore.text = "";	
 	}

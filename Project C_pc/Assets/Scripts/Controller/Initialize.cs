@@ -50,9 +50,6 @@ public class Initialize : MonoBehaviour {
 		hasResetEnergy = false;
 		isAdDone = false;
 		_view.SetResetState (false);
-
-		UpdateRankPanel ();
-
 		InitCell ();
 	}
 
@@ -196,7 +193,7 @@ public class Initialize : MonoBehaviour {
 
 	void SetCell(int row,int column,int newSeed){
 		nums [row] [column] = newSeed;
-		string s = _view.GetGradeByScore (newSeed);
+//		string s = _view.GetGradeByScore (newSeed);
 		cells [row] [column].gameObject.GetComponent<Image> ().sprite = _view.GetCellSprite (newSeed);
 //		cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
 //		cells[row][column].gameObject.GetComponentInChildren<Text>().color = _view.GetTextColor (newSeed);
@@ -231,7 +228,7 @@ public class Initialize : MonoBehaviour {
 			if ((maxLv < (newN + 1 + (int)(Mathf.Log (seed, 3f))))) {
 				maxLv = (newN + 1+(int)(Mathf.Log(seed,3f)));
 				_view.Upgrade (maxLv);
-				if (maxLv >= 5) {
+				if (maxLv >= 7) {
 					hasResetEnergy = true;
 					Debug.Log ("获得能量");
 					_view.SetResetState (hasResetEnergy);
@@ -315,13 +312,6 @@ public class Initialize : MonoBehaviour {
 		}
 		return ns;
 	}
-		
-
-    void UpdateRankPanel(){
-		int s = DataManager.HighScore;
-		string g = Configs.LevelList [DataManager.HighLevel-1];
-		_view.UpdateLocalRank (s, g);
-    }
 
 	public void ResetAllSmallNum(){
 		int min = Calculation.ArrayMin(nums);
@@ -380,6 +370,6 @@ public class Initialize : MonoBehaviour {
     void SettleRank(out int localRank){
         localRank = DataManager.SetHighScore ();
 		DataManager.SetOnlineRank ();
-        UpdateRankPanel ();
+		_view.UpdateLocalRank ();
     }
 }
