@@ -15,3 +15,30 @@
 /Users/oas/Documents/Test/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/oas/Documents/Test/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/oas/Documents/Test/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/obj/Debug/Assembly-CSharp.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/UnityEngine.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/UnityEditor.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/UnityEngine.TestRunner.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/nunit.framework.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/UnityEngine.Analytics.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/UnityEngine.HoloLens.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/UnityEngine.VR.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/DemiLib.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/DOTween.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/DOTween43.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/DOTween50.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/DOTween46.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Mono.Cecil.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Unity.DataContract.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/Cn_Sky/SchoolContest/Project C_pc/Temp/bin/Debug/Mono.Cecil.Mdb.dll

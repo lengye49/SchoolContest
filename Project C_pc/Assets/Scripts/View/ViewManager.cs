@@ -104,6 +104,12 @@ public class ViewManager : MonoBehaviour {
 
 		coverFail.gameObject.SetActive (false);
 	}
+
+	public void OnWinReturnButton(){
+		myTween.SlideIn (startPanel);
+		myTween.SlideOut (playPanel);
+		coverWin.gameObject.SetActive (false);
+	}
         
 
 	public void GoToGamePanel(){
@@ -148,7 +154,7 @@ public class ViewManager : MonoBehaviour {
 		string g = Configs.LevelList [DataManager.HighLevel-1];
 
 		if (s > 0)
-			localScore.text = "个人最高记录：" + g + "(" + s + "分)";
+			localScore.text = "个人最高道行：" + g + "(法力" + s + ")";
 		else
 			localScore.text = "";	
 	}
@@ -226,32 +232,63 @@ public class ViewManager : MonoBehaviour {
 		}
 	}
 
-//	public Color GetTextColor(int num)
-//	{
-//		return Color.white;
+	public Color GetCellColor(int num){
+		switch (num) {
+			case 1:
+				return new Color (249f / 255f, 231f / 255f, 211f / 255f);
+			case 3:
+				return new Color (210f / 255f, 243f / 255f, 138f / 255f);
+			case 9:
+				return new Color (103f / 255f, 204f / 255f, 50f / 255f);
+			case 27:
+				return new Color (255f / 255f, 216f / 255f, 0f / 255f);
+			case 81:
+				return new Color (54f / 255f, 141f / 255f, 234f / 255f);
+			case 243:
+				return new Color (153f / 255f, 51f / 255f, 153f / 255f);
+			case 729:
+				return new Color (255f / 255f, 102f / 255f, 0f / 255f);
+			case 2187:
+				return new Color (210f / 255f, 31f / 255f, 217f / 255f);
+			case 6561:
+				return new Color (0f / 255f, 255f / 255f, 255f / 255f);
+			case 19683:
+				return new Color (255f / 255f, 56f / 255f, 104f / 255f);
+			default:
+				return Color.red;
+		}
+	}
+
+	public Color GetTextColor(int num)
+	{
+		if (num > 27 && num <= 2187)
+			return Color.white;
+		return Color.black;
 //		switch (num) {
 //			case 1:
-//				return Color.grey; 
+//				return new Color (0f / 255f, 160f / 255f, 233f / 255f);
 //			case 3:
-//				return Color.grey; 
+//				return new Color (250f / 255f, 205f / 255f, 137f / 255f);
 //			case 9:
-//				return Color.magenta;
+//				return new Color (128f / 255f, 194f / 255f, 105f / 255f);
 //			case 27:
-//				return Color.magenta;
+//				return new Color (255f / 255f, 247f / 255f, 153f / 255f);
 //			case 81:
-//				return Color.yellow;
+//				return new Color (236f / 255f, 105f / 255f, 65f / 255f);
 //			case 243:
-//				return Color.yellow;
+//				return new Color (0f / 255f, 255f / 255f, 255f / 255f);
 //			case 729:
-//				return Color.blue;
+//				return new Color (0f / 255f, 255f / 255f, 0f / 255f);
 //			case 2187:
-//				return Color.blue;
+//				return new Color (255f / 255f, 255f / 255f, 0f / 255f);
 //			case 6561:
-//				return Color.white;
+//				return new Color (255f / 255f, 0f / 255f, 0f / 255f);
+//			case 19683:
+//				return new Color (255f / 255f, 255f / 255f, 255f / 255f);
 //			default:
 //				return Color.white;
 //		}
-//	}
+	}
 
 	public string GetGradeByScore(int score){
 		for (int i = 0; i <= 10; i++) {
