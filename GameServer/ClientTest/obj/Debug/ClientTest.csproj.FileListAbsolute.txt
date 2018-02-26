@@ -1,0 +1,6 @@
+E:\testcoding\ServerTest\ClientTest\bin\Debug\ClientTest.exe.config
+E:\testcoding\ServerTest\ClientTest\bin\Debug\ClientTest.exe
+E:\testcoding\ServerTest\ClientTest\bin\Debug\ClientTest.pdb
+E:\testcoding\ServerTest\ClientTest\obj\Debug\ClientTest.exe
+E:\testcoding\ServerTest\ClientTest\obj\Debug\ClientTest.pdb
+E:\testcoding\ServerTest\ClientTest\obj\Debug\ClientTest.csprojResolveAssemblyReference.cache
