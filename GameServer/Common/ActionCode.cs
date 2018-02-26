@@ -11,7 +11,6 @@ namespace Common
         InitRanks,
         SaveRanks,
         GetTotalRank,
-        GetAreaList,
         GetPersonalResult,
     }
 }

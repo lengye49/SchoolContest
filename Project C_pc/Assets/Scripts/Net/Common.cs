@@ -12,9 +12,9 @@ public enum RequestCode{
 }
 
 public enum ActionCode{
-	None,
-	PersonalRank,
-	TotalRank,
-	PlaceArea,
+    None,
+    Register,
+    GetTotalRank,
+    GetPersonalResult,
 }
 	
