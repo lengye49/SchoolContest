@@ -46,11 +46,6 @@ public class DataManager : MonoBehaviour  {
         get{ return PlayerPrefs.GetInt("accountId", 0); }
         set{ PlayerPrefs.SetInt("accountId", value); }
     }
-//
-//	public static int OnlineRank{
-//		get{ return PlayerPrefs.GetInt("personalRank", 0); }
-//		set{ PlayerPrefs.SetInt("personalRank", value); }
-//	}
 		
 	public static string GetRankStr(int rank){
 		string s = "";
@@ -114,7 +109,8 @@ public class DataManager : MonoBehaviour  {
 		
 	public static void SetOnlineRank(){
 		if (AccountId <= 0) {
-			Debug.Log ("暂时没有网络账号，请获取账号id后再上传成绩！");
+			//提示获取账号
+
 			return;
 		} 
 		Client client = new Client ();
@@ -122,6 +118,9 @@ public class DataManager : MonoBehaviour  {
 		client.GetRemoteService (RequestCode.Game,ActionCode.GetPersonalResult, msg);
 	}
 		
+
+	
+	
 	public static void SetTotalRank(){
 		RankManager.TopUserList = new User[100];
 		for (int i = 0; i < 100; i++) {

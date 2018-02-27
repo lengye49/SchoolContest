@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class ViewManager : MonoBehaviour {
 
@@ -15,6 +16,7 @@ public class ViewManager : MonoBehaviour {
     //游戏界面
     public Text scoreText;
     public Text gradeText;
+    public Text resetPointText;
 	public Sprite[] cells;
 	public Sprite[] resetBg;
 
@@ -30,10 +32,6 @@ public class ViewManager : MonoBehaviour {
 
 	//本地排名积分
 	public Text localScore;
-
-	//辅助
-	public Button ResetOne;
-	public LevelShow _levelShow;
 
 	//动画
 	private MyTween myTween;
@@ -158,24 +156,10 @@ public class ViewManager : MonoBehaviour {
 			localScore.text = "";	
 	}
 
-	public void SetResetState(bool hasEnergy){
-		ResetOne.interactable = hasEnergy;
-		if (hasEnergy) {
-			ResetOne.image.sprite = resetBg [0];
-		}else
-			ResetOne.image.sprite = resetBg [1];
+    public void SetResetState(int num){
+        resetPointText.text = num.ToString();
 	}
-
-//	public void ResetOneOn(bool isOn){
-//	
-//		if (isOn) {
-//			Debug.Log ("开启仙人指路");
-//			//特效打开
-//		} else {
-//			Debug.Log ("关闭仙人指路");
-//			//特效关闭
-//		}
-//	}
+        
 
 	public void Upgrade(int newLevel){
 //		_levelShow.UpdateLevelShow (newLevel);
@@ -195,7 +179,9 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	void CompleteAd(){
-		GetComponentInChildren<Initialize> ().ResetAllSmallNum ();
+        Initialize.hasResetEnergy = true;
+        SetResetState(1);
+		GetComponentInChildren<Initialize> ().Reset ();
 	}
 
 	public void OnCancelAd(){

@@ -22,7 +22,7 @@ public class Initialize : MonoBehaviour {
 	private PlayMusic _playerMusic;
 	private int maxLv;
 
-	private bool hasResetEnergy = false;
+    public static bool hasResetEnergy = false;
 //	private bool isResetCell = false;
 	private bool isAdDone = false;
 
@@ -48,8 +48,8 @@ public class Initialize : MonoBehaviour {
 		_view.SetScore (score);
 		_view.SetGrade (Configs.LevelList [maxLv-1]);
 		hasResetEnergy = false;
+        _view.SetResetState (0);
 		isAdDone = false;
-		_view.SetResetState (false);
 		InitCell ();
 	}
 
@@ -161,23 +161,37 @@ public class Initialize : MonoBehaviour {
 	void CheckGameOver()
 	{
 		StoreData();
-		if (maxLv > 10) {
-			//游戏通关
-			GameWin();
-		} else {
-			for (int i = 0; i < cells.Length; i++) {
-				for (int j = 0; j < cells [i].Length; j++) {
-					CheckThisCell (i, j);
-                    if (totalNum >= 3)
-                    {
-                        return;
-                    }
-				}
-			}
-			//游戏失败
-			GameFail();
-		}
+        if (maxLv > 10)
+        {
+            //游戏通关
+            GameWin();
+        }
+        else
+        {
+            if (CheckBlocked() && hasResetEnergy)
+            {
+                Reset();
+            }
+            else
+            {
+                //游戏失败
+                GameFail();
+            }
+        }
 	}
+
+    bool CheckBlocked(){
+        for (int i = 0; i < cells.Length; i++) {
+            for (int j = 0; j < cells [i].Length; j++) {
+                CheckThisCell (i, j);
+                if (totalNum >= 3)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 	void GameWin(){
 		_playerMusic.PlayerSound ("win");
@@ -220,7 +234,7 @@ public class Initialize : MonoBehaviour {
 			_view.Upgrade (maxLv);
 			if (maxLv >= 5) {
 				hasResetEnergy = true;
-				_view.SetResetState (hasResetEnergy);
+				_view.SetResetState (1);
 			}
 		}
 		int newSeed = (int)Mathf.Pow (3,n);
@@ -242,8 +256,7 @@ public class Initialize : MonoBehaviour {
 				_view.Upgrade (maxLv);
 				if (maxLv >= 7) {
 					hasResetEnergy = true;
-					Debug.Log ("获得1次重置机会");
-					_view.SetResetState (hasResetEnergy);
+					_view.SetResetState (1);
 				}
 			}
 
@@ -316,7 +329,6 @@ public class Initialize : MonoBehaviour {
 				ns.Add (new int[]{row + 1,column });
 		}
 
-		//i++ will change ns
 		for (int i=ns.Count-1; i>=0; i--) {
 			int[] a = ns [i] as int[];
 			if (a [0] >= allCellsCheck.Length || a [0] < 0 || a [1] >= allCellsCheck [a [0]].Length || a [1] < 0 || allCellsCheck [a [0]] [a [1]])
@@ -324,19 +336,29 @@ public class Initialize : MonoBehaviour {
 		}
 		return ns;
 	}
-
-	public void ResetAllSmallNum(){
-		int min = Calculation.ArrayMin(nums);
-		for(int i=0;i<nums.Length;i++) {
-			for (int j = 0; j < nums [i].Length; j++) {
-				if (nums [i][j] == min)
-					GenerateNewCell (i, j);
-			}
-		}
-		CheckGameOver ();
+        
+	public void Reset(){
+        if (!hasResetEnergy)
+            return;
+        Warning.ShowResetWarning(ResetAllSmallNums);
+        hasResetEnergy = false;
+        _view.SetResetState(0);
 	}
 
-
+    void ResetAllSmallNums(){
+        while (CheckBlocked())
+        {
+            int min = Calculation.ArrayMin(nums);
+            for (int i = 0; i < nums.Length; i++)
+            {
+                for (int j = 0; j < nums[i].Length; j++)
+                {
+                    if (nums[i][j] == min)
+                        GenerateNewCell(i, j);
+                }
+            }
+        }
+    }
 
 
 	/// <summary>

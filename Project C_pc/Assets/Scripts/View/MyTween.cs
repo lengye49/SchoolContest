@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+
 
 public class MyTween:MonoBehaviour  {
 
@@ -60,11 +62,20 @@ public class MyTween:MonoBehaviour  {
 		t.localScale = startScale;
 		t.DOLocalMoveY (t.localPosition.y + yShiftPop, popTime);
 		t.DOBlendableScaleBy (scaleRate, popTime);
-		StartCoroutine(ShowTime(t,showTime));
+		StartCoroutine(ShowTime(t,null,showTime));
 	}
 
-	IEnumerator ShowTime(Transform t,float showTime){
+    public void PopIn(Transform t,Action process, float showTime=2.5f){
+        t.localScale = startScale;
+        t.DOLocalMoveY (t.localPosition.y + yShiftPop, popTime);
+        t.DOBlendableScaleBy (scaleRate, popTime);
+        StartCoroutine(ShowTime(t, process, showTime));
+    }
+
+    IEnumerator ShowTime(Transform t,Action process,float showTime){
 		yield return new WaitForSeconds (showTime);
+        if (process != null)
+            process();
 		Disappear (t);
 	}
 	void Disappear(Transform t){
@@ -79,7 +90,7 @@ public class MyTween:MonoBehaviour  {
 	#endregion
 
 
-	#region 关闭弹窗
+	#region 重置
 
 	#endregion
 }

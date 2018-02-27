@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class Warning : MonoBehaviour {
 
@@ -32,6 +33,17 @@ public class Warning : MonoBehaviour {
 
 		p.GetComponent<MyTween> ().ZoomIn (f.transform);
 	}
+
+    public static void ShowResetWarning(Action process){
+        GameObject f = Instantiate (Resources.Load ("shortWarning")) as GameObject;
+        GameObject p = GameObject.Find ("Canvas");
+        f.SetActive (true);
+        f.transform.SetParent (p.transform);
+        Text t = f.GetComponentInChildren<Text> ();
+        t.text = "当前无法进阶！\n自动使用回天之力...";
+        t.color = Color.green;
+        p.GetComponent<MyTween>().PopIn(f.transform, process);
+    }
 
 	static Color GetWarningColor(int colorType){
 		Color c = Color.black;
