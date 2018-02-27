@@ -53,7 +53,6 @@ public class Client
         try{
             int count = clientSocket.EndReceive(ar);
             msg.ReadMessage(count,HandleMessage);
-
         }catch(Exception e){
             Debug.Log("Can Not Handle Received Message!" + e);
         }finally{
@@ -61,7 +60,6 @@ public class Client
 			ViewManager.isLoading=false;
 		}
     }
-
 
     void HandleMessage(RequestCode requestCode,ActionCode actionCode, string data){
         if(requestCode == RequestCode.Register){
@@ -75,12 +73,19 @@ public class Client
         }else if(requestCode == RequestCode.Game){
             if(actionCode == ActionCode.GetPersonalResult){
                 try {
-                    DataManager.OnlineRank = int.Parse(data);
+					int rank = int.Parse(data);
+					if(rank<0){
+						//处理没有排名的情况
+					}else {
+						//展示排名
+					}
+
                 } catch (Exception e) {
                     Debug.Log ("无法获得排名!\n" + e);
                 }
-            }else if(actionCode == ActionCode.RankList){
+            }else if(actionCode == ActionCode.GetTotalRank){
                 string ranklist = data;
+				Debug.Log (ranklist);
             }else{
                 Debug.Log("没有找到actionCode:"+actionCode);
             }
@@ -88,8 +93,6 @@ public class Client
             Debug.Log("没有找到RequestCode:"+requestCode);
         }
     }
-
-
 
     void CloseClient(){
         if (clientSocket != null)

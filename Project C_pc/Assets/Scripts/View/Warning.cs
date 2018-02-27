@@ -30,7 +30,7 @@ public class Warning : MonoBehaviour {
 		t.text = content;
 		t.color = Color.green;
 
-		p.GetComponent<MyTween> ().PopIn (f.transform,3f);
+		p.GetComponent<MyTween> ().ZoomIn (f.transform);
 	}
 
 	static Color GetWarningColor(int colorType){

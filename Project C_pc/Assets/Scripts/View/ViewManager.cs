@@ -109,8 +109,7 @@ public class ViewManager : MonoBehaviour {
 		myTween.SlideIn (startPanel);
 		myTween.SlideOut (playPanel);
 		coverWin.gameObject.SetActive (false);
-	}
-        
+	}  
 
 	public void GoToGamePanel(){
 

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Text;
 using System.Linq;
 
 public class Message
@@ -29,7 +29,7 @@ public class Message
         Console.WriteLine("Request:" + requestCode + ",Action:" + actionCode + ",Message:" + s);
     }
 
-    public static byte[] PackData(RequestCode request,ActionCode action, string data){
+    public static byte[] PackData(RequestCode requestCode,ActionCode actionCode, string data){
         byte[] requestCodeBytes = BitConverter.GetBytes((int)requestCode);
         byte[] actionCodeBytes = BitConverter.GetBytes((int)actionCode);
         byte[] dataBytes = Encoding.UTF8.GetBytes(data);

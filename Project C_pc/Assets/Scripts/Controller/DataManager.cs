@@ -46,12 +46,35 @@ public class DataManager : MonoBehaviour  {
         get{ return PlayerPrefs.GetInt("accountId", 0); }
         set{ PlayerPrefs.SetInt("accountId", value); }
     }
-
-	public static int OnlineRank{
-		get{ return PlayerPrefs.GetInt("personalRank", 0); }
-		set{ PlayerPrefs.SetInt("personalRank", value); }
-	}
+//
+//	public static int OnlineRank{
+//		get{ return PlayerPrefs.GetInt("personalRank", 0); }
+//		set{ PlayerPrefs.SetInt("personalRank", value); }
+//	}
 		
+	public static string GetRankStr(int rank){
+		string s = "";
+		if (rank == 0) {
+			if (level < 6)
+				s = "籍籍无名！\n道友仍需努力！";
+			else {
+				s = "仙道";
+			}
+		} else {
+			s="道友已超过了99.9%的同道。\n位列仙道第"+rank+"名！";
+		}
+		return s;
+	}
+
+	private static float GetRankPercent(){
+		if (score < 1000)
+			return 50.0f;
+		else if (score > 9000)
+			return 99.0f;
+		else
+			return 50.0f + (score - 1000f) * 0.005f;
+	}
+
 	public static string TotalRank{
 		get{ return PlayerPrefs.GetString ("totalRank", "");}
 		set{ PlayerPrefs.SetString ("totalRank", "");}
@@ -88,8 +111,7 @@ public class DataManager : MonoBehaviour  {
 		string msg ="";
 		client.GetRemoteService (RequestCode.Register,ActionCode.None, msg);
 	}
-
-	//注意账号的处理
+		
 	public static void SetOnlineRank(){
 		if (AccountId <= 0) {
 			Debug.Log ("暂时没有网络账号，请获取账号id后再上传成绩！");
@@ -97,12 +119,10 @@ public class DataManager : MonoBehaviour  {
 		} 
 		Client client = new Client ();
 		string msg = AccountId + "," + PlayerName + "," + PlayerCountry + "," + HighLevel + "," + HighScore;
-		client.GetRemoteService (RequestCode.Game,ActionCode.PersonalRank, msg);
+		client.GetRemoteService (RequestCode.Game,ActionCode.GetPersonalResult, msg);
 	}
 		
 	public static void SetTotalRank(){
-		//判断上次申请的时间是否>10分钟，否则不申请。
-
 		RankManager.TopUserList = new User[100];
 		for (int i = 0; i < 100; i++) {
 			RankManager.TopUserList [i] = new User ();
