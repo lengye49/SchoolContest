@@ -163,10 +163,15 @@ public class ViewManager : MonoBehaviour {
         
 
 	public void Upgrade(int newLevel){
-//		_levelShow.UpdateLevelShow (newLevel);
-		if (newLevel >= 5) {
-			//ToDo 特效
+		if (newLevel < Configs.ShowUpgradeLevel)
+			return;
+		string msg = "";
+		if (newLevel >= Configs.GetResetPointLevel) {
+			msg = "恭喜您突破到" + Configs.LevelList [newLevel-1] + ",获得1点回天之力！";
+		} else {
+			msg = "恭喜您突破到" + Configs.LevelList [newLevel-1] + "！";
 		}
+		Warning.ShowShortWarning (2, msg, new Vector3 (0, 180, 0));
 	}
 
 	

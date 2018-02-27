@@ -12,37 +12,43 @@ public class Warning : MonoBehaviour {
 	/// <param name="content">Content.</param>
 	public static void ShowShortWarning(int colorType,string content,Vector3 pos){
 		GameObject f = Instantiate (Resources.Load ("shortWarning")) as GameObject;
-		GameObject p = GameObject.Find ("Canvas");
+		GameObject p = GameObject.Find ("Warnings");
 		f.SetActive (true);
 		f.transform.SetParent (p.transform);
+		f.transform.localPosition = pos;
 		Text t = f.GetComponentInChildren<Text> ();
 		t.text = content;
 		t.color = GetWarningColor(colorType);
 
-		p.GetComponent<MyTween> ().PopIn (f.transform);
+		if (colorType == 2)
+			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform, 3f);
+		else
+			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform);
 	}
 
 	public static void ShowNewRank(string content){
 		GameObject f = Instantiate (Resources.Load ("rankWarning")) as GameObject;
-		GameObject p = GameObject.Find ("Canvas");
+		GameObject p = GameObject.Find ("Warnings");
 		f.SetActive (true);
 		f.transform.SetParent (p.transform);
+		f.transform.localPosition = Vector3.zero;
 		Text t = f.GetComponentInChildren<Text> ();
 		t.text = content;
 		t.color = Color.green;
 
-		p.GetComponent<MyTween> ().ZoomIn (f.transform);
+		GameObject.Find("Canvas").GetComponent<MyTween> ().ZoomIn (f.transform);
 	}
 
     public static void ShowResetWarning(Action process){
         GameObject f = Instantiate (Resources.Load ("shortWarning")) as GameObject;
-        GameObject p = GameObject.Find ("Canvas");
+		GameObject p = GameObject.Find ("Warnings");
         f.SetActive (true);
         f.transform.SetParent (p.transform);
+		f.transform.localPosition = Vector3.zero;
         Text t = f.GetComponentInChildren<Text> ();
         t.text = "当前无法进阶！\n自动使用回天之力...";
         t.color = Color.green;
-        p.GetComponent<MyTween>().PopIn(f.transform, process);
+		GameObject.Find("Canvas").GetComponent<MyTween>().PopIn(f.transform, process);
     }
 
 	static Color GetWarningColor(int colorType){

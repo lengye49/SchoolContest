@@ -17,6 +17,11 @@ public class Calculation
 		}
 		return min;
 	}
+
+	public static int GetMyRandomForSeed(int min,int max){
+		int num=max-min;
+
+	}
 }
 
 

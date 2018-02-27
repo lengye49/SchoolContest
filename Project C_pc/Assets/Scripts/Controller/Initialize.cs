@@ -115,25 +115,14 @@ public class Initialize : MonoBehaviour {
 
     public void ClickCell(int row,int column)
     {
-//		if (isResetCell) {
-//			_playerMusic.PlayerSound ("success");
-//			GenerateNewCell (row, column);
-//			isResetCell = false;
-//			hasResetEnergy = false;
-//			_view.SetResetState (hasResetEnergy);
-////			_view.ResetOneOn (false);
-//
-//			CheckGameOver ();
-//		} else {
-			CheckThisCell (row, column);
-			if (totalNum >= 3) {
-				_playerMusic.PlayerSound ("success");
-				Calculate (row, column);
-				CheckGameOver ();
-			} else {
-				_playerMusic.PlayerSound ("click");
-			}
-//		}
+		CheckThisCell (row, column);
+		if (totalNum >= 3) {
+			_playerMusic.PlayerSound ("success");
+			Calculate (row, column);
+			CheckGameOver ();
+		} else {
+			_playerMusic.PlayerSound ("click");
+		}
     }
 
     void CheckThisCell(int row,int column)
@@ -164,9 +153,9 @@ public class Initialize : MonoBehaviour {
             //游戏通关
             GameWin();
         }
-        else
+		else if(CheckBlocked())
         {
-            if (CheckBlocked() && hasResetEnergy)
+            if (hasResetEnergy)
             {
                 Reset();
             }
@@ -244,14 +233,14 @@ public class Initialize : MonoBehaviour {
 			
 			score += seed * totalNum;
 			string msg = "法力 +" + seed * totalNum;
-			Warning.ShowShortWarning (1, msg, new Vector3 (-345, 0, 0));
+			Warning.ShowShortWarning (1, msg, new Vector3 (-300, 180, 0));
 
 			int newN = (int)(Mathf.Log (totalNum, 3f));
 
 			if ((maxLv < (newN + 1 + (int)(Mathf.Log (seed, 3f))))) {
 				maxLv = (newN + 1+(int)(Mathf.Log(seed,3f)));
 				_view.Upgrade (maxLv);
-				if (maxLv >= 7) {
+				if (maxLv >= Configs.GetResetPointLevel) {
                     AddResetPoint();
 				}
 			}
@@ -401,7 +390,7 @@ public class Initialize : MonoBehaviour {
 	public void ConfirmComplete(){
 		int localRank;
         SettleRank(out localRank);
-		_view.FailMsg (maxLv,score,localRank);
+		_view.FailMsg (maxLv,score);
 
 	}
 

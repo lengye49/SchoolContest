@@ -125,15 +125,15 @@ public class DataManager : MonoBehaviour  {
 	
 	public static void SetTotalRank(string str){
 		RankManager.TopUserList = new User[100];
-		string[] ss = str.split(';');
+		string[] ss = str.Split(';');
 		for (int i = 0; i < 100; i++) {
-			string s[] = ss[i].split(',');
+			string[] s = ss[i].Split(',');
 			RankManager.TopUserList [i] = new User ();
-			RankManager.TopUserList [i].id = int.Phase(s[0]);
+			RankManager.TopUserList [i].id = int.Parse(s[0]);
 			RankManager.TopUserList [i].name = s[1];
-			RankManager.TopUserList [i].place = int.Phase(s[2]);
-			RankManager.TopUserList [i].level = int.Phase(s[3]);
-			RankManager.TopUserList [i].score = int.Phase(s[4]);
+			RankManager.TopUserList [i].place = int.Parse(s[2]);
+			RankManager.TopUserList [i].level = int.Parse(s[3]);
+			RankManager.TopUserList [i].score = int.Parse(s[4]);
 		}
 		RankManager.isRankReady = true;
 	}

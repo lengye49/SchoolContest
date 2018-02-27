@@ -5,6 +5,9 @@ public class Configs
     public static string Ip = "127.0.0.1";
     public static int Port = 88;
 
+	public static int ShowUpgradeLevel = 5;
+	public static int GetResetPointLevel=7;
+
 	public static string[] PlaceList = new string[] {
 		"北京",
 		"天津",
