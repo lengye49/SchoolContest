@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -82,12 +82,13 @@ public class ViewManager : MonoBehaviour {
 	public void GoToRankPanel(){
 		myTween.SlideIn (rankPanel);
 		myTween.SlideOut (startPanel);
-		DataManager.SetTotalRank ();
+		DataManager.RequestTotalRank ();
 	}
 
 	public void OnRankReturnButton(){
 		myTween.SlideIn (startPanel);
 		myTween.SlideOut (rankPanel);
+		rankPanel.GetComponent<RankManager>().CloseRank();
 	}
 
 	public void GoToRegisterPanel(){
@@ -133,9 +134,9 @@ public class ViewManager : MonoBehaviour {
         winText.text = score + ";" + localRank ;
 	}
 
-    public void FailMsg(int maxLv,int score,int localRank){
+    public void FailMsg(int maxLv,int score){
 		coverFail.gameObject.SetActive (true);
-        failText.text = maxLv + ";" + score + ";" + localRank + ";" ;
+        failText.text = maxLv + ";" + score  ;
 	}
 
 	public void ShowAdNotce(){
@@ -168,26 +169,7 @@ public class ViewManager : MonoBehaviour {
 		}
 	}
 
-	public void OnShowAd(){
-		HideAdNotice ();
-		//ShowAd
-		//Todo...
-
-		//测试时直接完成广告
-		CompleteAd();
-
-	}
-
-	void CompleteAd(){
-        Initialize.hasResetEnergy = true;
-        SetResetState(1);
-		GetComponentInChildren<Initialize> ().Reset ();
-	}
-
-	public void OnCancelAd(){
-		HideAdNotice ();
-		GetComponentInChildren<Initialize> ().ConfirmComplete ();
-	}
+	
 		
 	#region 单元格属性
 	public Sprite GetCellSprite(int num){

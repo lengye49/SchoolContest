@@ -23,7 +23,6 @@ public class Initialize : MonoBehaviour {
 	private int maxLv;
 
     public static bool hasResetEnergy = false;
-//	private bool isResetCell = false;
 	private bool isAdDone = false;
 
 	void Start () {
@@ -47,8 +46,7 @@ public class Initialize : MonoBehaviour {
 		_view.GoToGamePanel ();
 		_view.SetScore (score);
 		_view.SetGrade (Configs.LevelList [maxLv-1]);
-		hasResetEnergy = false;
-        _view.SetResetState (0);
+        ClearResetPoint();
 		isAdDone = false;
 		InitCell ();
 	}
@@ -233,8 +231,7 @@ public class Initialize : MonoBehaviour {
 			maxLv = (n + 1);
 			_view.Upgrade (maxLv);
 			if (maxLv >= 5) {
-				hasResetEnergy = true;
-				_view.SetResetState (1);
+                AddResetPoint();
 			}
 		}
 		int newSeed = (int)Mathf.Pow (3,n);
@@ -255,8 +252,7 @@ public class Initialize : MonoBehaviour {
 				maxLv = (newN + 1+(int)(Mathf.Log(seed,3f)));
 				_view.Upgrade (maxLv);
 				if (maxLv >= 7) {
-					hasResetEnergy = true;
-					_view.SetResetState (1);
+                    AddResetPoint();
 				}
 			}
 
@@ -341,8 +337,7 @@ public class Initialize : MonoBehaviour {
         if (!hasResetEnergy)
             return;
         Warning.ShowResetWarning(ResetAllSmallNums);
-        hasResetEnergy = false;
-        _view.SetResetState(0);
+        ClearResetPoint();
 	}
 
     void ResetAllSmallNums(){
@@ -360,6 +355,15 @@ public class Initialize : MonoBehaviour {
         }
     }
 
+    public void AddResetPoint(){
+        hasResetEnergy = true;
+        _view.SetResetState(1);     
+    }
+
+    void ClearResetPoint(){
+        hasResetEnergy = false;
+        _view.SetResetState(0);
+    }
 
 	/// <summary>
 	/// 将各元素随机交换位置
@@ -403,7 +407,12 @@ public class Initialize : MonoBehaviour {
 
     void SettleRank(out int localRank){
         localRank = DataManager.SetHighScore ();
-		DataManager.SetOnlineRank ();
-		_view.UpdateLocalRank ();
+
+        //只有当超过本地排行的时候才申请网络排行
+        if (localRank > 0)
+        {
+            DataManager.SetOnlineRank();
+            _view.UpdateLocalRank();
+        }
     }
 }

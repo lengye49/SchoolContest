@@ -84,8 +84,7 @@ public class Client
                     Debug.Log ("无法获得排名!\n" + e);
                 }
             }else if(actionCode == ActionCode.GetTotalRank){
-                string ranklist = data;
-				Debug.Log (ranklist);
+                DataManager.SetTotalRank(data);
             }else{
                 Debug.Log("没有找到actionCode:"+actionCode);
             }

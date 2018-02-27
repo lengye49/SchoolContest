@@ -103,8 +103,7 @@ public class DataManager : MonoBehaviour  {
 		PlayerCountry = playerCountry;
 
 		Client client = new Client ();
-		string msg ="";
-		client.GetRemoteService (RequestCode.Register,ActionCode.None, msg);
+		client.GetRemoteService (RequestCode.Register,ActionCode.None, "");
 	}
 		
 	public static void SetOnlineRank(){
@@ -118,18 +117,23 @@ public class DataManager : MonoBehaviour  {
 		client.GetRemoteService (RequestCode.Game,ActionCode.GetPersonalResult, msg);
 	}
 		
-
+	public static void RequestTotalRank(){
+		Client client = new Client ();
+		client.GetRemoteService(RequestCode.Game,ActionCode.GetTotalRank,"");
+	}
 	
 	
-	public static void SetTotalRank(){
+	public static void SetTotalRank(string str){
 		RankManager.TopUserList = new User[100];
+		string[] ss = str.split(';');
 		for (int i = 0; i < 100; i++) {
+			string s[] = ss[i].split(',');
 			RankManager.TopUserList [i] = new User ();
-			RankManager.TopUserList [i].id = i;
-			RankManager.TopUserList [i].name = "飘飘姐姐" + i;
-			RankManager.TopUserList [i].place = i % 30;
-			RankManager.TopUserList [i].level = i % 10;
-			RankManager.TopUserList [i].score = (100 - i) * 99;
+			RankManager.TopUserList [i].id = int.Phase(s[0]);
+			RankManager.TopUserList [i].name = s[1];
+			RankManager.TopUserList [i].place = int.Phase(s[2]);
+			RankManager.TopUserList [i].level = int.Phase(s[3]);
+			RankManager.TopUserList [i].score = int.Phase(s[4]);
 		}
 		RankManager.isRankReady = true;
 	}
