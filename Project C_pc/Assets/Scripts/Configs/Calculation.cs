@@ -1,6 +1,5 @@
-﻿using System;
-
-
+﻿using System.Collections;
+using UnityEngine;
 public class Calculation
 {
 	public Calculation ()
@@ -19,8 +18,20 @@ public class Calculation
 	}
 
 	public static int GetMyRandomForSeed(int min,int max){
-		int num=max-min;
-
+        int totalWeight=0;
+        for (int i = min; i < max; i++)
+        {
+            totalWeight += Configs.levelWeight[i];
+        }
+        int r = Random.Range(0, totalWeight);
+        totalWeight = 0;
+        for (int i = min; i < max; i++)
+        {
+            totalWeight += Configs.levelWeight[i];
+            if (r <= totalWeight)
+                return i;
+        }
+        return 0;
 	}
 }
 

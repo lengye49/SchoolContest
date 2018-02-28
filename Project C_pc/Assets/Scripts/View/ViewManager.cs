@@ -24,11 +24,9 @@ public class ViewManager : MonoBehaviour {
     private PlayMusic _playMusic;
 
     //结算
-    public GameObject coverFail;
-    public Text failText;
-    public GameObject coverWin;
-    public Text winText;
-	public GameObject coverNotice;
+    public GameObject CompleteCover;
+    public Text CompleteText;
+	public GameObject NoticeCover;
 
 	//本地排名积分
 	public Text localScore;
@@ -49,8 +47,7 @@ public class ViewManager : MonoBehaviour {
 		_playMusic = GetComponentInParent<PlayMusic> ();
 		UpdateLocalRank ();
 
-		coverFail.gameObject.SetActive (false);
-		coverWin.gameObject.SetActive (false);
+		CompleteCover.gameObject.SetActive (false);
 		myTween = GetComponent<MyTween> ();
 
 		if (DataManager.AccountId>0) {
@@ -96,29 +93,19 @@ public class ViewManager : MonoBehaviour {
 		_playMusic.PlayBg ("startMenuBg");
 	}
 
-	public void OnFailReturnButton()
+	public void OnCompleteReturnButton()
 	{
 		myTween.SlideIn (startPanel);
 		myTween.SlideOut (playPanel);
-
-		coverFail.gameObject.SetActive (false);
+		CompleteCover.gameObject.SetActive (false);
 	}
-
-	public void OnWinReturnButton(){
-		myTween.SlideIn (startPanel);
-		myTween.SlideOut (playPanel);
-		coverWin.gameObject.SetActive (false);
-	}  
 
 	public void GoToGamePanel(){
 
 		myTween.SlideIn (playPanel);
 		myTween.SlideOut (startPanel);
-
-
 		//设置游戏面板
-		coverFail.gameObject.SetActive (false);
-		coverWin.gameObject.SetActive (false);
+		CompleteCover.gameObject.SetActive (false);
 	}
 
 	public void SetScore(int score){
@@ -129,22 +116,22 @@ public class ViewManager : MonoBehaviour {
 		gradeText.text = grade;
 	}
 
-    public void WinMsg(int score,int localRank){
-		coverWin.gameObject.SetActive (true);
-        winText.text = score + ";" + localRank ;
-	}
-
-    public void FailMsg(int maxLv,int score){
-		coverFail.gameObject.SetActive (true);
-        failText.text = maxLv + ";" + score  ;
+    public void CallInComplete(int maxLv,int score){
+		CompleteCover.gameObject.SetActive (true);
+        string msg="";
+        if (maxLv >= Configs.LevelList.Length - 1)
+            msg = "恭喜道友荣升真仙，从此\n超脱轮回，\n不死不灭，法力无边，\n万古长存！";
+        else
+            msg = "道友寿终正寝，修为止于" + Configs.LevelList[maxLv] + "(法力)" + score + "。";
+        CompleteText.text = msg;
 	}
 
 	public void ShowAdNotce(){
-		coverNotice.gameObject.SetActive (true);
+		NoticeCover.gameObject.SetActive (true);
 	}
 
 	public void HideAdNotice(){
-		coverNotice.gameObject.SetActive (false);
+		NoticeCover.gameObject.SetActive (false);
 	}
 
 	public void UpdateLocalRank(){

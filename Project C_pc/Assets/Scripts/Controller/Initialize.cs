@@ -180,22 +180,6 @@ public class Initialize : MonoBehaviour {
         return true;
     }
 
-	void GameWin(){
-		_playerMusic.PlayerSound ("win");
-		int localRank;
-		SettleRank(out localRank);
-		_view.WinMsg (score,localRank);
-	}
-	void GameFail(){
-		_playerMusic.PlayerSound ("fail");
-
-		if (isAdDone) {
-			ConfirmComplete ();
-		} else {
-			_view.ShowAdNotce ();
-			isAdDone = true;
-		}
-	}
 
 
 	void SetCell(int row,int column,int newSeed){
@@ -214,8 +198,7 @@ public class Initialize : MonoBehaviour {
 //		int min = Mathf.Max (maxLv - 4, 0);
 		int min = Mathf.Max (maxLv - 7, 0);
 
-
-		int n = Random.Range (min, max);
+        int n = Calculation.GetMyRandomForSeed(min, max);
 		if (maxLv < n + 1) {
 			maxLv = (n + 1);
 			_view.Upgrade (maxLv);
@@ -387,15 +370,28 @@ public class Initialize : MonoBehaviour {
 ////		_view.ResetOneOn (isResetCell);
 //	}
 
-	public void ConfirmComplete(){
-		int localRank;
-        SettleRank(out localRank);
-		_view.FailMsg (maxLv,score);
+    void GameWin(){
+        _playerMusic.PlayerSound ("win");
+        ConfirmComplete();
+    }
+    void GameFail(){
+        _playerMusic.PlayerSound ("fail");
 
+        if (isAdDone) {
+            ConfirmComplete ();
+        } else {
+            _view.ShowAdNotce ();
+            isAdDone = true;
+        }
+    }
+
+	public void ConfirmComplete(){
+        SettleRank();
+        _view.CallInComplete (maxLv,score);
 	}
 
-    void SettleRank(out int localRank){
-        localRank = DataManager.SetHighScore ();
+    void SettleRank(){
+        int localRank = DataManager.SetHighScore ();
 
         //只有当超过本地排行的时候才申请网络排行
         if (localRank > 0)

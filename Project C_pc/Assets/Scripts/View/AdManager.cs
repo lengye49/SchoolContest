@@ -9,6 +9,10 @@ public class AdManager:MonoBehaviour
         
     }
 
+    void Update(){
+        ShowAdBtn.interactable = true;
+    }
+
     public void OnShowAd(){
         HideAdNotice ();
         //ShowAd

@@ -7,6 +7,7 @@ public class Configs
 
 	public static int ShowUpgradeLevel = 5;
 	public static int GetResetPointLevel=7;
+    public static int[] levelWeight = new int[]{1000,800,500,300,200,100,50,30,20,10,5,3,2,1};
 
 	public static string[] PlaceList = new string[] {
 		"北京",
