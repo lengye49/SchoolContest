@@ -34,7 +34,7 @@ public class Client
         }
         else
         {
-            Debug.Log("无法链接服务器，请检查网络！");  
+			Warning.ShowShortWarning (0, "当前无法链接服务器，请检查网络！", Vector3.zero);
 			return;
         }
     }

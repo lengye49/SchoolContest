@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using System.IO;
+//using System.IO;
 
 public class DataManager : MonoBehaviour  {
 
@@ -107,16 +107,12 @@ public class DataManager : MonoBehaviour  {
 	}
 		
 	public static void SetOnlineRank(){
-		if (AccountId <= 0) {
-			//提示获取账号
-
-			return;
-		} 
 		Client client = new Client ();
 		string msg = AccountId + "," + PlayerName + "," + PlayerCountry + "," + HighLevel + "," + HighScore;
 		client.GetRemoteService (RequestCode.Game,ActionCode.GetPersonalResult, msg);
 	}
 		
+
 	public static void RequestTotalRank(){
 		Client client = new Client ();
 		client.GetRemoteService(RequestCode.Game,ActionCode.GetTotalRank,"");

@@ -74,7 +74,7 @@ public class Initialize : MonoBehaviour {
 
 		for (int i = 0; i < nums.Length; i++) {
 			for (int j = 0; j < nums [i].Length; j++) {
-				int n = Random.Range (0, 3);
+				int n = Calculation.GetMyRandomForSeed (0, 3);
 				int num = (int)Mathf.Pow (3, n);
 				nums [i] [j] = num;
 				maxLv = (maxLv > n + 1) ? maxLv : n + 1;
@@ -195,7 +195,7 @@ public class Initialize : MonoBehaviour {
 	void GenerateNewCell(int row,int column){
 		
 		int max = Mathf.Max (maxLv - 4, 3);
-//		int min = Mathf.Max (maxLv - 4, 0);
+//		int min = Mathf.Max (maxLv - 5, 0);
 		int min = Mathf.Max (maxLv - 7, 0);
 
         int n = Calculation.GetMyRandomForSeed(min, max);

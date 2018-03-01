@@ -33,6 +33,7 @@ public class Register : MonoBehaviour {
 //			return;
 //		}
 			
+
 		//DataManager.Register(playerName,playerCountry,playerSchool)
 		DataManager.Register (playerName, playerCountry);
 	

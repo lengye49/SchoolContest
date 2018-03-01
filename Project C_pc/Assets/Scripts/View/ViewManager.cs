@@ -120,9 +120,9 @@ public class ViewManager : MonoBehaviour {
 		CompleteCover.gameObject.SetActive (true);
         string msg="";
         if (maxLv >= Configs.LevelList.Length - 1)
-            msg = "恭喜道友荣升真仙，从此\n超脱轮回，\n不死不灭，法力无边，\n万古长存！";
+            msg = "恭喜道友荣升真仙，从此\n超脱轮回，\n不死不灭，\n法力无边，\n万古长存！";
         else
-            msg = "道友寿终正寝，修为止于" + Configs.LevelList[maxLv] + "(法力)" + score + "。";
+            msg = "仙路渺茫，\n道友修为止于" + Configs.LevelList[maxLv] + ",\n最终法力达" + score + "。";
         CompleteText.text = msg;
 	}
 
