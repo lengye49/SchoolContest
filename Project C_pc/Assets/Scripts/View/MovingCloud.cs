@@ -6,7 +6,7 @@ public class MovingCloud : MonoBehaviour {
 	public Transform[] clouds;
 	private float leftX = -1200f;
 	private float rightX = 1200f;
-	// Use this for initialization
+
 	void Start () {
 		for (int i = 0; i < clouds.Length; i++) {
 			bool ToLeft = (i % 2 == 0);

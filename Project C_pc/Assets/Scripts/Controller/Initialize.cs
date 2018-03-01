@@ -50,11 +50,7 @@ public class Initialize : MonoBehaviour {
 		isAdDone = false;
 		InitCell ();
 	}
-
-	/// <summary>
-	///初始化数据
-	/// </summary>
-	/// </param></param>
+		
 	void InitData(){
 
 		score = 0;
@@ -83,10 +79,7 @@ public class Initialize : MonoBehaviour {
 		StoreData ();
 		_view.Upgrade (maxLv);
 	}
-
-    /// <summary>
-    /// 初始化格子
-    /// </summary>
+		
     public void InitCell()
     {
         cells[0] = new GameObject[3];
@@ -99,7 +92,6 @@ public class Initialize : MonoBehaviour {
             for (int j=0; j<cells[i].Length; j++) {
                 GameObject g = Instantiate (o) as GameObject;
                 g.gameObject.transform.SetParent (this.gameObject.transform);
-//                g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 152.1f, (midNum - i) * 127.8f, 0f);
                 g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 172.1f, (midNum - i) * 138f, 0f);
                 g.name = i.ToString () + "," + j.ToString ();
                 cells [i] [j] = g;
@@ -231,7 +223,6 @@ public class Initialize : MonoBehaviour {
 			int newSeed = seed * (int)Mathf.Pow (3, newN);
 			SetCell (row, column, newSeed);
 
-			//生成新的单元格
 			for(int i=0;i<sameNumIndex.Count;i++)
 			{
 				int[] ins = sameNumIndex[i] as int[];
@@ -337,39 +328,6 @@ public class Initialize : MonoBehaviour {
         _view.SetResetState(0);
     }
 
-	/// <summary>
-	/// 将各元素随机交换位置
-	/// </summary>
-//	public void ResetAllCells(){
-//		for (int i = 0; i < 100; i++) {
-//			int row1 = Random.Range (0, 5);
-//			int column1 = Random.Range (0, nums [row1].Length);
-//
-//			int row2 = Random.Range (0, 5);
-//			int column2 = Random.Range (0, nums [row2].Length);
-//
-//			SwitchCell (row1, column1, row2, column2);
-//		}
-//		CheckGameOver ();
-//	}
-//
-//	void SwitchCell(int r1,int c1,int r2,int c2){
-//		int t = nums [r1] [c1];
-//		nums [r1] [c1] = nums [r2] [c2];
-//		nums [r2] [c2] = t;
-//		SetCell (r1, c1, nums [r1] [c1]);
-//		SetCell (r2, c2, nums [r2] [c2]);
-//	}
-
-//	public void ChangeResetState(){
-//		if (!hasResetEnergy ) {
-//			isResetCell = false;
-//		} else {
-//			isResetCell = true;
-//		}
-////		_view.ResetOneOn (isResetCell);
-//	}
-
     void GameWin(){
         _playerMusic.PlayerSound ("win");
         ConfirmComplete();
@@ -393,7 +351,6 @@ public class Initialize : MonoBehaviour {
     void SettleRank(){
         int localRank = DataManager.SetHighScore ();
 
-        //只有当超过本地排行的时候才申请网络排行
         if (localRank > 0)
         {
             DataManager.SetOnlineRank();

@@ -18,14 +18,12 @@ public class Calculation
 	}
 
 	public static int GetMyRandomForSeed(int min,int max){
-//		Debug.Log ("min=" + min + ",max=" + max);
         int totalWeight=0;
         for (int i = min; i < max; i++)
         {
             totalWeight += Configs.levelWeight[i];
         }
         int r = Random.Range(0, totalWeight);
-//		Debug.Log ("total=" + totalWeight + ",r=" + r);
         totalWeight = 0;
         for (int i = min; i < max; i++)
         {

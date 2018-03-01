@@ -89,8 +89,4 @@ public class MyTween:MonoBehaviour  {
 	}
 	#endregion
 
-
-	#region 重置
-
-	#endregion
 }

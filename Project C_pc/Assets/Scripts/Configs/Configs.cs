@@ -1,7 +1,6 @@
 ﻿
 public class Configs
 {
-    //网络地址
     public static string Ip = "127.0.0.1";
     public static int Port = 88;
 
@@ -45,41 +44,6 @@ public class Configs
 		"香港",
 		"澳门"
 	};
-
-//	public static string[] SchoolList = new string[]{
-//		"少林寺",
-//		"昆仑山",
-//		"武当派",
-//		"峨眉教",
-//		"莲花门",
-//		"逍遥门",
-//		"玉女剑宗",
-//		"缥缈阁",
-//		"全真教",
-//		"华山派",
-//		"蜀山剑派",
-//		"崆峒派",
-//		"阴阳宗",
-//		"五行宗",
-//		"青城剑派",
-//		"天魔宗",
-//		"鬼神门",
-//		"散修"
-//	};
-
-//	public static string[] LevelList = new string[] {
-//		"1级",
-//		"2级",
-//		"3级",
-//		"4级",
-//		"5级",
-//		"6级",
-//		"7级",
-//		"8级",
-//		"9级",
-//		"10级",
-//		"11级"
-//	};
 
 	public static string[] LevelList = new string[] {
 		"练气",

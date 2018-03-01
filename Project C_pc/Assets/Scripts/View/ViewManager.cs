@@ -194,7 +194,7 @@ public class ViewManager : MonoBehaviour {
 	public Color GetCellColor(int num){
 		switch (num) {
 			case 1:
-				return new Color (249f / 255f, 231f / 255f, 211f / 255f);
+				return new Color (255f / 255f, 255f / 255f, 255f / 255f);
 			case 3:
 				return new Color (210f / 255f, 243f / 255f, 138f / 255f);
 			case 9:

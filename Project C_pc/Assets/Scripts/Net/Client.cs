@@ -11,12 +11,11 @@ public class Client
     int ConnectSever(){
         clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(Configs.Ip), Configs.Port);
-        Debug.Log("Connecting...");
         try{
             clientSocket.Connect(ipEndPoint);
             return 1;
         }catch(Exception e){
-            Debug.Log("无法链接服务器，请检查网络！" + e);
+			Debug.Log (e);
             return 0;
         }
     }
@@ -73,6 +72,7 @@ public class Client
         }else if(requestCode == RequestCode.Game){
             if(actionCode == ActionCode.GetPersonalResult){
                 try {
+					//处理没有排行的问题
 					int rank = int.Parse(data);
 					if(rank<0){
 						//处理没有排名的情况

@@ -4,7 +4,6 @@ using System.Linq;
 
 public class Message
 {
-
     private byte[] data = new byte[3072];
 
     public Message() {

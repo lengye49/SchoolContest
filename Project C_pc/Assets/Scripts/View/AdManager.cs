@@ -36,22 +36,12 @@ public class AdManager:MonoBehaviour
     }
 
 	void AdFinished(string placementId, AdFinishedEventArgs args){
-		if (args.WasCallToActionClicked)
+		if (args.WasCallToActionClicked || args.IsCompletedView)
 		{
-			Debug.Log ("点击了下载按钮");
+			Initialize _ini = GetComponentInChildren<Initialize>();
+			_ini.AddResetPoint();
+			_ini.Reset();
 		}
-		else if (args.IsCompletedView)
-		{
-			Debug.Log ("完成了播放");
-		}
-		else
-		{
-			Debug.Log ("取消了播放");
-		}
-
-        Initialize _ini = GetComponentInChildren<Initialize>();
-        _ini.AddResetPoint();
-        _ini.Reset();
     }
 
     public void OnCancelAd(){
