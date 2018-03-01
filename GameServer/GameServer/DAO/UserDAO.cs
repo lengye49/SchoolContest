@@ -68,26 +68,6 @@ namespace GameServer.DAO
             }
         }
 
-        //public void SavePlaceScore(int[] placescore){
-        //    MySqlConnection conn = GetUserConn();
-        //    try
-        //    {
-        //        for (int i = 0; i < placescore.Length; i++)
-        //        {
-        //            MySqlCommand cmd = new MySqlCommand("update area set score=@score where id=" + i + ";", conn);
-        //            cmd.Parameters.Add("score", placescore[i]);
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //        Console.WriteLine("保存地区积分成功!!\n");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine("保存地区总积分异常!!\n" + e);
-        //    }
-        //    finally {
-        //        conn.Close();
-        //    }
-        //}
 
         public void SetServerTotalRank(ref User[] ranks)
         {
@@ -120,33 +100,6 @@ namespace GameServer.DAO
                 conn.Close();
             }
         }
-
-        
-
-        //public void SetServerPlaceScore(ref int[] areas){
-        //    MySqlConnection conn = GetUserConn();
-        //    try
-        //    {
-        //        MySqlCommand cmd = new MySqlCommand("select * from area", conn);
-        //        reader = cmd.ExecuteReader();
-        //        int i = 0;
-        //        while (reader.Read())
-        //        {
-        //            if (i >= areas.Length)
-        //                break;
-        //            areas[i] = reader.GetInt32(1);
-        //            i++;
-        //        }
-        //        Console.WriteLine("初始化地区面积成功!!\n");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine("初始化地区面积时出错！\n" + e);
-        //    }
-        //    finally {
-        //        conn.Close();
-        //    }
-        //}
 
 
 

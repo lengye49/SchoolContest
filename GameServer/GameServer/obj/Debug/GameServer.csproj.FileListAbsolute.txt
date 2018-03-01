@@ -17,3 +17,11 @@ E:\ServerTest\GameServer\bin\Debug\GameServer.pdb
 E:\ServerTest\GameServer\bin\Debug\Common.dll
 E:\ServerTest\GameServer\bin\Debug\Common.pdb
 E:\ServerTest\GameServer\obj\Debug\GameServer.csprojResolveAssemblyReference.cache
+D:\WorkSpace\SchoolContest\GameServer\GameServer\bin\Debug\GameServer.exe.config
+D:\WorkSpace\SchoolContest\GameServer\GameServer\obj\Debug\GameServer.exe
+D:\WorkSpace\SchoolContest\GameServer\GameServer\obj\Debug\GameServer.pdb
+D:\WorkSpace\SchoolContest\GameServer\GameServer\bin\Debug\GameServer.exe
+D:\WorkSpace\SchoolContest\GameServer\GameServer\bin\Debug\GameServer.pdb
+D:\WorkSpace\SchoolContest\GameServer\GameServer\bin\Debug\Common.dll
+D:\WorkSpace\SchoolContest\GameServer\GameServer\bin\Debug\Common.pdb
+D:\WorkSpace\SchoolContest\GameServer\GameServer\obj\Debug\GameServer.csprojResolveAssemblyReference.cache

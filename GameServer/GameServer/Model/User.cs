@@ -19,7 +19,6 @@ namespace GameServer.Model
         }
 
         public User(string userStr) {
-            Console.WriteLine("UserString:" + userStr);
             string[] s = userStr.Split(',');
             this.Id= int.Parse(s[0]);
             this.Name = s[1];

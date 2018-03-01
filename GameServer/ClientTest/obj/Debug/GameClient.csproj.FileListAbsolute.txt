@@ -6,3 +6,11 @@ E:\ServerTest\ClientTest\bin\Debug\Common.pdb
 E:\ServerTest\ClientTest\obj\Debug\GameClient.csprojResolveAssemblyReference.cache
 E:\ServerTest\ClientTest\obj\Debug\ClientTest.exe
 E:\ServerTest\ClientTest\obj\Debug\ClientTest.pdb
+D:\WorkSpace\SchoolContest\GameServer\ClientTest\bin\Debug\ClientTest.exe.config
+D:\WorkSpace\SchoolContest\GameServer\ClientTest\obj\Debug\ClientTest.exe
+D:\WorkSpace\SchoolContest\GameServer\ClientTest\obj\Debug\ClientTest.pdb
+D:\WorkSpace\SchoolContest\GameServer\ClientTest\bin\Debug\ClientTest.exe
+D:\WorkSpace\SchoolContest\GameServer\ClientTest\bin\Debug\ClientTest.pdb
+D:\WorkSpace\SchoolContest\GameServer\ClientTest\bin\Debug\Common.dll
+D:\WorkSpace\SchoolContest\GameServer\ClientTest\bin\Debug\Common.pdb
+D:\WorkSpace\SchoolContest\GameServer\ClientTest\obj\Debug\GameClient.csprojResolveAssemblyReference.cache

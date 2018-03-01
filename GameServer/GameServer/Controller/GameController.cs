@@ -8,7 +8,6 @@ namespace GameServer.Controller
     class GameController : BaseController
     {
         private User[] TotalRank = new User[100];
-        private int[] PlaceScore = new int[33];
         private long TotalArea = 14400000000;
         private UserDAO userDAO = new UserDAO();
 
@@ -16,15 +15,17 @@ namespace GameServer.Controller
             requestCode = RequestCode.Game;
         }
 
-
+        //返回的数据是 id,排名
         public string GetPersonalResult(string data,Client client,Server server)
         {
             User user = new User(data);
-            SetScore(user);
+            if (user.Id == 0) {
+                user.Id = userDAO.AddUser();
+            }
 
             int rank = 0;
             if (!Compare(user.Level, user.Score, TotalRank.Length - 1))
-                return rank.ToString();
+                return user.Id + "," + rank;
             
             //判断有无重复
             for (int i = 0; i < TotalRank.Length; i++) {
@@ -35,7 +36,7 @@ namespace GameServer.Controller
                         TotalRank[i] = user;
                         rank = ReOrder(i);
                     }
-                    return rank.ToString();
+                    return user.Id + "," + rank; ;
                 }
             }
             //没有重复则插入
@@ -49,7 +50,7 @@ namespace GameServer.Controller
                     break;
                 }
             }
-            return rank.ToString();
+            return user.Id + "," + rank;
         }
 
         bool Compare(int level, int score,int index) {
@@ -94,22 +95,6 @@ namespace GameServer.Controller
             return s;
         }
 
-        public string GetGetAreaList(string data, Client client, Server server) {
-            string s = "";
-  
-            long totalScore = 0;
-            for (int i = 0; i < PlaceScore.Length; i++)
-            {
-                totalScore += PlaceScore[i];
-            }
-            for (int i = 0; i < PlaceScore.Length; i++)
-            {
-                s += GetArea(PlaceScore[i], totalScore)+",";
-            }
-            s = s.Substring(0, s.Length - 1);
-            return "";
-        }
-
         public void InitRanks(string data, Client client, Server server){
             userDAO.SetServerTotalRank(ref TotalRank);
             //userDAO.SetServerPlaceScore(ref PlaceScore);
@@ -119,17 +104,10 @@ namespace GameServer.Controller
         public void SaveRanks(string data, Client client, Server server){
             CheckRank();
             userDAO.SaveTotalRank(TotalRank);
-            //userDAO.SavePlaceScore(PlaceScore);
         }
 
         void CheckRank() {
             Console.WriteLine("Rank30 is " + TotalRank[30].Name);
-        }
-
-
-        void SetScore(User user)
-        {
-            PlaceScore[user.Place] += user.Score;
         }
 
         long GetArea(long score,long totalScore) {

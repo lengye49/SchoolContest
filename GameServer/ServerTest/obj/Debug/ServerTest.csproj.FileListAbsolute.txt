@@ -1,0 +1,17 @@
+E:/testcoding/ServerTest/ServerTest/bin/Debug/ServerTest.exe.config
+E:/testcoding/ServerTest/ServerTest/bin/Debug/ServerTest.exe
+E:/testcoding/ServerTest/ServerTest/bin/Debug/ServerTest.pdb
+E:/testcoding/ServerTest/ServerTest/obj/Debug/ServerTest.exe
+E:/testcoding/ServerTest/ServerTest/obj/Debug/ServerTest.pdb
+E:/testcoding/ServerTest/ServerTest/obj/Debug/ServerTest.csprojResolveAssemblyReference.cache
+/Users/oas/Downloads/allstar/ServerTest/ServerTest/bin/Debug/ServerTest.exe.config
+/Users/oas/Downloads/allstar/ServerTest/ServerTest/bin/Debug/ServerTest.exe
+/Users/oas/Downloads/allstar/ServerTest/ServerTest/bin/Debug/ServerTest.pdb
+/Users/oas/Downloads/allstar/ServerTest/ServerTest/bin/Debug/MySql.Data.dll
+/Users/oas/Downloads/allstar/ServerTest/ServerTest/obj/Debug/ServerTest.csprojResolveAssemblyReference.cache
+/Users/oas/Downloads/allstar/ServerTest/ServerTest/obj/Debug/ServerTest.csproj.CoreCompileInputs.cache
+/Users/oas/Downloads/allstar/ServerTest/ServerTest/obj/Debug/ServerTest.exe
+/Users/oas/Downloads/allstar/ServerTest/ServerTest/obj/Debug/ServerTest.pdb
+E:\ServerTest\ServerTest\bin\Debug\ServerTest.exe.config
+E:\ServerTest\ServerTest\obj\Debug\ServerTest.exe
+E:\ServerTest\ServerTest\obj\Debug\ServerTest.pdb

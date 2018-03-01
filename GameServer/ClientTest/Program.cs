@@ -38,7 +38,7 @@ namespace ClientTest
                     case "2":
                         Console.WriteLine("尝试获取个人排名！");
                         Random r = new Random();
-                        int id = 5;//r.Next(1, 99);
+                        int id = 0;//r.Next(1, 99);
                         User u = new User(id, "honey", 1, 9, 9800);
                         msgBytes = Message.PackData(RequestCode.Game, ActionCode.GetPersonalResult, u.GetUserStr());
                         break;
