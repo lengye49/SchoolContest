@@ -158,7 +158,7 @@ public class ViewManager : MonoBehaviour {
 		} else {
 			msg = "恭喜您突破到" + Configs.LevelList [newLevel-1] + "！";
 		}
-		Warning.ShowShortWarning (2, msg, new Vector3 (0, 180, 0));
+		Warning.ShowShortWarning (1, msg, new Vector3 (0, 180, 0),false);
 	}
 
 	

@@ -10,7 +10,7 @@ public class Warning : MonoBehaviour {
 	/// </summary>
 	/// <param name="type">Type 0Black 1Green 2Red</param>
 	/// <param name="content">Content.</param>
-	public static void ShowShortWarning(int colorType,string content,Vector3 pos){
+	public static void ShowShortWarning(int colorType,string content,Vector3 pos,bool shortTime=true){
 		GameObject f = Instantiate (Resources.Load ("shortWarning")) as GameObject;
 		GameObject p = GameObject.Find ("Warnings");
 		f.SetActive (true);
@@ -20,24 +20,24 @@ public class Warning : MonoBehaviour {
 		t.text = content;
 		t.color = GetWarningColor(colorType);
 
-		if (colorType == 2)
+		if (shortTime)
 			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform, 3f);
 		else
 			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform);
 	}
 
-	public static void ShowNewRank(string content){
-		GameObject f = Instantiate (Resources.Load ("rankWarning")) as GameObject;
-		GameObject p = GameObject.Find ("Warnings");
-		f.SetActive (true);
-		f.transform.SetParent (p.transform);
-		f.transform.localPosition = Vector3.zero;
-		Text t = f.GetComponentInChildren<Text> ();
-		t.text = content;
-		t.color = Color.green;
-
-		GameObject.Find("Canvas").GetComponent<MyTween> ().ZoomIn (f.transform);
-	}
+//	public static void ShowNewRank(string content){
+//		GameObject f = Instantiate (Resources.Load ("rankWarning")) as GameObject;
+//		GameObject p = GameObject.Find ("Warnings");
+//		f.SetActive (true);
+//		f.transform.SetParent (p.transform);
+//		f.transform.localPosition = Vector3.zero;
+//		Text t = f.GetComponentInChildren<Text> ();
+//		t.text = content;
+//		t.color = Color.green;
+//
+//		GameObject.Find("Canvas").GetComponent<MyTween> ().ZoomIn (f.transform);
+//	}
 
     public static void ShowResetWarning(Action process){
         GameObject f = Instantiate (Resources.Load ("shortWarning")) as GameObject;

@@ -33,7 +33,7 @@ public class Client
         }
         else
         {
-			Warning.ShowShortWarning (0, "当前无法链接服务器，请检查网络！", Vector3.zero);
+			Warning.ShowShortWarning (0, "当前无法链接服务器，请检查网络！", Vector3.zero,false);
 			return;
         }
     }
@@ -67,17 +67,25 @@ public class Client
                 id = int.Parse (data);
                 DataManager.AccountId = id;
             } catch (Exception e) {
-                Debug.Log ("无法获取id!\n" + e );
+				Debug.Log (e);
+				Warning.ShowShortWarning (0, "未能验明正身，将在稍后自动验证。",Vector3.zero,false);
             }
         }else if(requestCode == RequestCode.Game){
             if(actionCode == ActionCode.GetPersonalResult){
                 try {
-					//处理没有排行的问题
-					int rank = int.Parse(data);
-					if(rank<0){
+					string[] s= data.Split(',');
+					if(DataManager.AccountId==0)
+						DataManager.AccountId=int.Parse(s[0]);
+
+					int rank = int.Parse(s[1]);
+					string msg="";
+					if(rank<=0){
+						msg="未进入仙路排行，\n道友请重新来过！";
+						Warning.ShowShortWarning(0,msg,Vector3.zero,false);
 						//处理没有排名的情况
 					}else {
-						//展示排名
+						msg="恭喜道友登上仙路排行榜，\n名列仙榜第"+rank+"位";
+						Warning.ShowShortWarning(1,msg,Vector3.zero,false);
 					}
 
                 } catch (Exception e) {
