@@ -11,7 +11,11 @@ public class Warning : MonoBehaviour {
 	/// <param name="type">Type 0Black 1Green 2Red</param>
 	/// <param name="content">Content.</param>
 	public static void ShowShortWarning(int colorType,string content,Vector3 pos,bool shortTime=true){
-		GameObject f = Instantiate (Resources.Load ("shortWarning")) as GameObject;
+		GameObject f;
+		if (shortTime)
+			f = Instantiate (Resources.Load ("shortwarning1")) as GameObject;
+		else
+			f = Instantiate (Resources.Load ("shortwarning2")) as GameObject;
 		GameObject p = GameObject.Find ("Warnings");
 		f.SetActive (true);
 		f.transform.SetParent (p.transform);
@@ -21,9 +25,9 @@ public class Warning : MonoBehaviour {
 		t.color = GetWarningColor(colorType);
 
 		if (shortTime)
-			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform, 3f);
-		else
 			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform);
+		else
+			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform, 3f);
 	}
 
 //	public static void ShowNewRank(string content){

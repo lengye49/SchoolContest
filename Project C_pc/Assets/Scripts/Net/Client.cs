@@ -81,11 +81,11 @@ public class Client
 					string msg="";
 					if(rank<=0){
 						msg="未进入仙路排行，\n道友请重新来过！";
-						Warning.ShowShortWarning(0,msg,Vector3.zero,false);
+						Warning.ShowShortWarning(2,msg,Vector3.zero,false);
 						//处理没有排名的情况
 					}else {
 						msg="恭喜道友登上仙路排行榜，\n名列仙榜第"+rank+"位";
-						Warning.ShowShortWarning(1,msg,Vector3.zero,false);
+						Warning.ShowShortWarning(2,msg,Vector3.zero,false);
 					}
 
                 } catch (Exception e) {
