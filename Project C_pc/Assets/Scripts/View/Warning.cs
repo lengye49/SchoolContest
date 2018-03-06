@@ -44,7 +44,7 @@ public class Warning : MonoBehaviour {
 //	}
 
     public static void ShowResetWarning(Action process){
-        GameObject f = Instantiate (Resources.Load ("shortWarning")) as GameObject;
+        GameObject f = Instantiate (Resources.Load ("shortwarning2")) as GameObject;
 		GameObject p = GameObject.Find ("Warnings");
         f.SetActive (true);
         f.transform.SetParent (p.transform);

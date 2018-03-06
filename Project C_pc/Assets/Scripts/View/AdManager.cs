@@ -19,7 +19,13 @@ public class AdManager:MonoBehaviour
     }
 
     void Update(){
-        ShowAdBtn.interactable = true;
+		if (Vungle.isAdvertAvailable (placementStr [0])) {
+			ShowAdBtn.interactable = true;
+			ShowAdBtn.gameObject.GetComponentInChildren<Text> ().color = Color.green;
+		} else {
+			ShowAdBtn.interactable = false;
+			ShowAdBtn.gameObject.GetComponentInChildren<Text> ().color = Color.grey;
+		}
     }
 
 	public void OnShowAd(){
