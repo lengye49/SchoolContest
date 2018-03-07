@@ -15,7 +15,7 @@ namespace GameServer
         static ControllerManager controllerManager;
         static void Main(string[] args)
         {
-            server = new Server("127.0.0.1", 7457);
+            server = new Server("172.31.32.122", 7457);
             server.StartServer();
             controllerManager = server.Controller;
             InitTimer();
