@@ -82,7 +82,7 @@ public class DataManager : MonoBehaviour  {
 		}
 	}
 	public static int HighLevel{
-		get{return PlayerPrefs.GetInt ("HighLevel1", 0);}
+		get{return PlayerPrefs.GetInt ("HighLevel1", 1);}
 		set{
 			PlayerPrefs.SetInt ("HighLevel1",value);}
 	}
