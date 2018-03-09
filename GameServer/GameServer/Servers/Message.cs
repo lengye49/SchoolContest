@@ -24,11 +24,8 @@ namespace GameServer
 
         public void ReadMessage(int newDataCount,Action<RequestCode,ActionCode,string> processMsgCallBack)
         {
-            Console.WriteLine("尝试解读信息...");
-
             if (newDataCount < 8)
             {
-                Console.WriteLine("信息不完整！");
                 return;
             }
 
@@ -44,7 +41,7 @@ namespace GameServer
             }
             catch (Exception e)
             {
-                Console.WriteLine("接收到的数据有问题：" + e);
+                Console.WriteLine("Message Error!\n" + e);
             }
             finally {
                 data = new byte[3072];

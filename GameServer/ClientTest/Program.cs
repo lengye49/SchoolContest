@@ -13,7 +13,7 @@ namespace ClientTest
     {
         static void Main(string[] args)
         {
-            string ipStr = "127.0.0.1";
+            string ipStr = "18.216.190.32";
             int port = 7457;
 
 		    Socket clientSocket;
@@ -27,7 +27,7 @@ namespace ClientTest
                 msg = new Message();
                 clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 Console.WriteLine("Connecting...");
-                clientSocket.Connect(new IPEndPoint(IPAddress.Parse(ipStr), port));
+                try { clientSocket.Connect(new IPEndPoint(IPAddress.Parse(ipStr), port)); } catch (Exception e) { Console.WriteLine(e); }
                 Console.WriteLine("Connecting Accepted!");
                 msgSend = Console.ReadLine();
                 switch (msgSend) {

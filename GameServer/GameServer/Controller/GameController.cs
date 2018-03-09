@@ -97,17 +97,10 @@ namespace GameServer.Controller
 
         public void InitRanks(string data, Client client, Server server){
             userDAO.SetServerTotalRank(ref TotalRank);
-            //userDAO.SetServerPlaceScore(ref PlaceScore);
-            CheckRank();
         }
 
         public void SaveRanks(string data, Client client, Server server){
-            CheckRank();
             userDAO.SaveTotalRank(TotalRank);
-        }
-
-        void CheckRank() {
-            Console.WriteLine("Rank30 is " + TotalRank[30].Name);
         }
 
         long GetArea(long score,long totalScore) {

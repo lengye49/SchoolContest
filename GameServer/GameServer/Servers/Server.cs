@@ -35,14 +35,13 @@ namespace GameServer.Servers
         public void StartServer() {
             serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             serverSocket.Bind(ipEndPoint);
-            Console.WriteLine("服务器已开启!!\n");
+            Console.WriteLine("Server Started!");
             serverSocket.Listen(0);
-            Console.WriteLine("开始监听消息...\n");
             serverSocket.BeginAccept(AcceptCallBack, null);
         }
 
         void AcceptCallBack(IAsyncResult ar) {
-            Console.WriteLine("接受到新消息！");
+            Console.WriteLine("New Client Connected!");
             Socket clientSocket = serverSocket.EndAccept(ar);
             Client client = new Client(clientSocket, this);
             client.StartClient();
@@ -58,7 +57,7 @@ namespace GameServer.Servers
         }
 
         public void SendResponse(Client client,RequestCode requestCode,ActionCode actionCode, string data) {
-            Console.WriteLine("正在尝试回复客户端...");
+            Console.WriteLine("Replying...");
             client.Send(requestCode,actionCode, data);
         }
 

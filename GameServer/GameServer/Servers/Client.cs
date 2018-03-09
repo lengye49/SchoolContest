@@ -26,14 +26,12 @@ namespace GameServer.Servers
         }
 
         private void OnProgressMessage(RequestCode requestCode, ActionCode actionCode, string data) {
-            Console.WriteLine("尝试处理信息...");
             server.HandleRequest(requestCode, actionCode, data, this);
         }
         void ReceiveCallBack(IAsyncResult ar) {
             try
             {
                 int count = clientSocket.EndReceive(ar);
-                Console.WriteLine("count = " + count);
                 msg.ReadMessage(count, OnProgressMessage);
                 Close();
             }

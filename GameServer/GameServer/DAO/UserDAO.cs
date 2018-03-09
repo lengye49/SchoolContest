@@ -28,7 +28,7 @@ namespace GameServer.DAO
                 if (reader.Read())
                 {
                     id = reader.GetInt32(1);
-                    Console.WriteLine("当前的id为" + id);
+                    Console.WriteLine("Id is " + id);
                 }
                 conn.Close();
                 conn.Open();
@@ -39,7 +39,7 @@ namespace GameServer.DAO
             }
             catch (Exception e)
             {
-                Console.WriteLine("添加用户异常\n" + e);
+                Console.WriteLine("Add User:\n" + e);
                 conn.Close();
             }
 
@@ -57,11 +57,11 @@ namespace GameServer.DAO
                     //Console.WriteLine(cmd.CommandText);
                     cmd.ExecuteNonQuery();
                 }
-                Console.WriteLine("保存排行成功!!\n" );
+                Console.WriteLine("Rank Saved!\n" );
             }
             catch (Exception e)
             {
-                Console.WriteLine("保存排行异常!!\n" + e);
+                Console.WriteLine("Saving Rank Error!\n" + e);
             }
             finally {
                 conn.Close();
@@ -90,11 +90,11 @@ namespace GameServer.DAO
                     //Console.WriteLine(name);
                     i++;
                 }
-                Console.WriteLine("初始化排行成功!!\n");
+                Console.WriteLine("Rank Inited!\n");
             }
             catch (Exception e)
             {
-                Console.WriteLine("初始化排行时出错！\n" + e);
+                Console.WriteLine("Init Rank Error\n" + e);
             }
             finally {
                 conn.Close();

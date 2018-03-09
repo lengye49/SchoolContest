@@ -16,6 +16,7 @@ namespace GameServer
         static void Main(string[] args)
         {
             server = new Server("172.31.32.122", 7457);
+            //server = new Server("127.0.0.1", 7457);
             server.StartServer();
             controllerManager = server.Controller;
             InitTimer();
@@ -42,9 +43,7 @@ namespace GameServer
         }
 
         static void StoreRanks(object sender,System.Timers.ElapsedEventArgs e){
-            Console.WriteLine("正在保存排行信息...");
             controllerManager.HandleRequest(Common.RequestCode.Game, Common.ActionCode.SaveRanks, null, null);
-            Console.WriteLine("保存成功！");
         }
     }
 }
