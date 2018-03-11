@@ -42,11 +42,12 @@ public class AdManager:MonoBehaviour
     }
 
 	void AdFinished(string placementId, AdFinishedEventArgs args){
-		if (args.WasCallToActionClicked || args.IsCompletedView)
-		{
-			Initialize _ini = GetComponentInChildren<Initialize>();
-			_ini.AddResetPoint();
-			_ini.Reset();
+		if (args.WasCallToActionClicked || args.IsCompletedView) {
+			Initialize _ini = GetComponentInChildren<Initialize> ();
+			_ini.AddResetPoint ();
+			_ini.Reset ();
+		} else {
+			GetComponentInChildren<Initialize> ().ConfirmComplete ();
 		}
     }
 
