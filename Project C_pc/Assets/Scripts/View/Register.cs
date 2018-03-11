@@ -18,6 +18,10 @@ public class Register : MonoBehaviour {
 			Warning.ShowShortWarning (2, "请问道友高姓大名？",pos);
 			return;
 		}
+		if (playerName.Length > 5) {
+			Warning.ShowShortWarning (2, "道号最多五个字！", pos);
+			return;
+		}
 
 		playerCountry = textCountry.text;
 		if (playerCountry == "") {
