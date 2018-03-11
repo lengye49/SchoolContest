@@ -1,4 +1,4 @@
-﻿
+
 public class Configs
 {
     public static string Ip = "127.0.0.1";
@@ -6,7 +6,7 @@ public class Configs
 
 	public static int ShowUpgradeLevel = 5;
 	public static int GetResetPointLevel=7;
-    public static int[] levelWeight = new int[]{1000,800,500,300,200,100,50,30,20,10,5,3,2,1};
+    public static int[] levelWeight = new int[]{10000,6000,3000,1000,500,200,80,30,20,10,5,3,2,1};
 
 	public static string[] PlaceList = new string[] {
 		"北京",
