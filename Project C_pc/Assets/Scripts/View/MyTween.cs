@@ -19,6 +19,8 @@ public class MyTween:MonoBehaviour  {
 	}
 
 	public void SlideOut(Transform t){
+		if (isNear (startPos.x, t.localPosition.x))
+			return;
 		t.DOLocalMoveX (endPos.x, slideTime);
 		StartCoroutine (SetInitPos (t));
 	}
@@ -27,6 +29,12 @@ public class MyTween:MonoBehaviour  {
 		t.localPosition = startPos;
 		t.gameObject.SetActive (false);
 	}
+	bool isNear(float basicPos,float point){
+		if (basicPos - point > -100 && basicPos - point < 100)
+			return true;
+		return false;
+	}
+
 	#endregion
 
 

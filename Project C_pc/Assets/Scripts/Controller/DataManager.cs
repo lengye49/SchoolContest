@@ -101,15 +101,16 @@ public class DataManager : MonoBehaviour  {
 	public static void Register(string playerName,string playerCountry){
 		PlayerName = playerName;
 		PlayerCountry = playerCountry;
-
-		Client client = new Client ();
-		client.GetRemoteService (RequestCode.Register,ActionCode.None, "");
+		//测试关闭
+//		Client client = new Client ();
+//		client.GetRemoteService (RequestCode.Register,ActionCode.None, "");
 	}
 		
 	public static void SetOnlineRank(){
-		Client client = new Client ();
-		string msg = AccountId + "," + PlayerName + "," + PlayerCountry + "," + HighLevel + "," + HighScore;
-		client.GetRemoteService (RequestCode.Game,ActionCode.GetPersonalResult, msg);
+		//测试关闭
+//		Client client = new Client ();
+//		string msg = AccountId + "," + PlayerName + "," + PlayerCountry + "," + HighLevel + "," + HighScore;
+//		client.GetRemoteService (RequestCode.Game,ActionCode.GetPersonalResult, msg);
 	}
 		
 
