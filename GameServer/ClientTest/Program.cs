@@ -14,6 +14,7 @@ namespace ClientTest
         static void Main(string[] args)
         {
             string ipStr = "18.216.190.32";
+            //string ipStr = "127.0.0.1";
             int port = 7457;
 
 		    Socket clientSocket;
