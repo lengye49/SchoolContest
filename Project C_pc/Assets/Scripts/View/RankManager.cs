@@ -42,7 +42,7 @@ public class RankManager : MonoBehaviour {
 	}
 
 	Color CellColor(int uId,int rank){
-		if (uId == DataManager.AccountId)
+		if (uId == DataManager._player.AccountId)
 			return new Color (255f / 255f, 125f / 255f, 0f);
 		if (rank == 1)
 			return Color.red;

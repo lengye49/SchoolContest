@@ -8,6 +8,10 @@ public class Client
     private Socket clientSocket;
     private Message msg;
 
+	public Client(){
+		msg = new Message ();
+	}
+
     int ConnectSever(){
         clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(Configs.Ip), Configs.Port);
@@ -28,6 +32,7 @@ public class Client
         int netState = ConnectSever();
         if (netState > 0)
         {
+			Debug.Log ("Connecting Accepted!");
 			SendRequest (requestCode, actionCode, data);
             StartListening();
         }
@@ -39,18 +44,21 @@ public class Client
     }
 
     void SendRequest(RequestCode requestCode,ActionCode actionCode, string data){
-		byte[] msg = Message.PackData (requestCode, actionCode, data);
-        clientSocket.Send(msg);
+		byte[] msgSent = Message.PackData (requestCode, actionCode, data);
+		Debug.Log ("Sending Message...");
+        clientSocket.Send(msgSent);
     }
 
     void StartListening(){
 		ViewManager.isLoading = true;
+//		Debug.Log ("Listening...");
 		clientSocket.BeginReceive (msg.Data, 0, msg.Data.Length, SocketFlags.None, ReceiveCallBack, null);
     }
 
     void ReceiveCallBack(IAsyncResult ar){
+//		Debug.Log ("Receive...");
         try{
-            int count = clientSocket.EndReceive(ar);
+			int count = clientSocket.EndReceive(ar);
             msg.ReadMessage(count,HandleMessage);
         }catch(Exception e){
             Debug.Log("Can Not Handle Received Message!" + e);
@@ -65,7 +73,8 @@ public class Client
             int id = 0;
             try {
                 id = int.Parse (data);
-                DataManager.AccountId = id;
+                DataManager._player.AccountId = id;
+				Debug.Log("获得ID："+id);
             } catch (Exception e) {
 				Debug.Log (e);
 				Warning.ShowShortWarning (0, "未能验明正身，将在稍后自动验证。",Vector3.zero,false);
@@ -74,8 +83,9 @@ public class Client
             if(actionCode == ActionCode.GetPersonalResult){
                 try {
 					string[] s= data.Split(',');
-					if(DataManager.AccountId==0)
-						DataManager.AccountId=int.Parse(s[0]);
+					if(DataManager._player.AccountId==0){
+						DataManager._player.AccountId=int.Parse(s[0]);
+					}
 
 					int rank = int.Parse(s[1]);
 					string msg="";

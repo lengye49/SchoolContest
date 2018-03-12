@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
-//using System.IO;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 public class DataManager : MonoBehaviour  {
-
+	public static PlayerInfo _player;
 	void Awake(){
-//		PlayerPrefs.DeleteAll ();
-//		Debug.Log ("Delete all memmory");
+		_player = new PlayerInfo ();
+		_player.AccountId = 0;
+		_player.Name = "无名氏";
+		_player.Country = 0;
+		_player.HighLevel = 1;
+		_player.HighScore = 0;
+		LoadData ();
 	}
 
-	#region LocalData
+	#region 数据
 	static int score=0;
 	static int level=0;
     static string numList;
@@ -31,32 +37,17 @@ public class DataManager : MonoBehaviour  {
 		}
 	}
 
-	public static string PlayerName {
-		get{ return PlayerPrefs.GetString ("playerName", "无名氏"); }
-		set { PlayerPrefs.SetString ("playerName", value); }
-	}
-
-	public static string PlayerCountry {
-		get{ return PlayerPrefs.GetString ("playerCountry", "流浪者"); }
-		set { PlayerPrefs.SetString ("playerCountry", value); }
-	}
-
-	public static int AccountId
-    {
-        get{ return PlayerPrefs.GetInt("accountId", 0); }
-        set{ PlayerPrefs.SetInt("accountId", value); }
-    }
-		
 	public static string GetRankStr(int rank){
 		string s = "";
 		if (rank == 0) {
 			if (level < 6)
-				s = "籍籍无名！\n道友仍需努力！";
+				s = "籍籍无名！道友仍需努力！";
 			else {
-				s = "仙道";
+				//待处理
+				s = "名满天下！超过了"+GetRankPercent()+"%的道友！";
 			}
 		} else {
-			s="道友已超过了99.9%的同道。\n位列仙道第"+rank+"名！";
+			s="荣登仙榜！\n位列仙道第"+rank+"名！";
 		}
 		return s;
 	}
@@ -70,27 +61,10 @@ public class DataManager : MonoBehaviour  {
 			return 50.0f + (score - 1000f) * 0.005f;
 	}
 
-	public static string TotalRank{
-		get{ return PlayerPrefs.GetString ("totalRank", "");}
-		set{ PlayerPrefs.SetString ("totalRank", "");}
-	}
-        
-	public static int HighScore {
-		get{ return PlayerPrefs.GetInt ("HighScore", 0); }
-		set {
-			PlayerPrefs.SetInt ("HighScore", value);
-		}
-	}
-	public static int HighLevel{
-		get{return PlayerPrefs.GetInt ("HighLevel1", 1);}
-		set{
-			PlayerPrefs.SetInt ("HighLevel1",value);}
-	}
-
 	public static int SetHighScore(){
-		if ((level > HighLevel) || (level == HighLevel && score > HighScore)) {
-			HighLevel = level;
-			HighScore = score;
+		if ((level > _player.HighLevel) || (level == _player.HighLevel && score > _player.HighScore)) {
+			_player.HighLevel = level;
+			_player.HighScore = score;
 			return 1;
 		} else {
 			return 0;
@@ -98,19 +72,40 @@ public class DataManager : MonoBehaviour  {
 	}
 	#endregion
 
-	public static void Register(string playerName,string playerCountry){
-		PlayerName = playerName;
-		PlayerCountry = playerCountry;
-		//测试关闭
-//		Client client = new Client ();
-//		client.GetRemoteService (RequestCode.Register,ActionCode.None, "");
+	#region 本地存储
+	public static void SaveData(){
+		BinaryFormatter bf = new BinaryFormatter ();
+		FileStream file = File.Create(Application.persistentDataPath+"/info.dat");
+
+		bf.Serialize (file, _player);
+		file.Close ();
+		Debug.Log ("存储成功！");
+	}
+
+	void LoadData(){
+//		File.Delete (Application.persistentDataPath + "/info.dat");
+		if (File.Exists (Application.persistentDataPath + "/info.dat")) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Open(Application.persistentDataPath+"/info.dat",FileMode.Open);
+			_player = (PlayerInfo)bf.Deserialize (file);
+			file.Close ();
+			Debug.Log ("加载成功！");
+		}
+	}
+	#endregion
+
+	#region 网络模块
+	public static void Register(string playerName,int playerCountry){
+		_player.Name = playerName;
+		_player.Country = playerCountry;
+		Client client = new Client ();
+		client.GetRemoteService (RequestCode.Register,ActionCode.Register, "");
 	}
 		
 	public static void SetOnlineRank(){
-		//测试关闭
-//		Client client = new Client ();
-//		string msg = AccountId + "," + PlayerName + "," + PlayerCountry + "," + HighLevel + "," + HighScore;
-//		client.GetRemoteService (RequestCode.Game,ActionCode.GetPersonalResult, msg);
+		Client client = new Client ();
+		string msg = _player.AccountId + "," + _player.Name + "," + _player.Country + "," + _player.HighLevel + "," + _player.HighScore;
+		client.GetRemoteService (RequestCode.Game,ActionCode.GetPersonalResult, msg);
 	}
 		
 
@@ -134,53 +129,16 @@ public class DataManager : MonoBehaviour  {
 		}
 		RankManager.isRankReady = true;
 	}
+	#endregion
 }
 
-//	#region SaveData
-//using System.Runtime.Serialization.Formatters.Binary;
-//	void Save(){
-//		BinaryFormatter bf = new BinaryFormatter ();
-//		FileStream file = File.Create(Application.persistentDataPath+"/info.dat");
-//
-//		PlayerInfo info = new PlayerInfo ();
-//		info.score = score;
-//		info.highScore1 = highScore1;
-//		info.highScore2 = highScore2;
-//		info.highScore3 = highScore3;
-//		info.highLevel1 = highLevel1;
-//		info.highLevel2 = highLevel2;
-//		info.highLevel3 = highLevel3;
-//
-//		bf.Serialize (file, info);
-//		file.Close ();
-//	}
-//	#endregion
-//
-//	#region LoadData
-//	void Load(){
-//		if (File.Exists (Application.persistentDataPath + "/info.dat")) {
-//			BinaryFormatter bf = new BinaryFormatter ();
-//			FileStream file = File.Open(Application.persistentDataPath+"/info.dat",FileMode.Open);
-//			PlayerInfo info = (PlayerInfo)bf.Deserialize (file);
-//			file.Close ();
-//			score = info.score;
-//			highScore1 = info.highScore1;
-//			highScore2 = info.highScore2;
-//			highScore3 = info.highScore3;
-//			highLevel1 = info.highLevel1;
-//			highLevel2 = info.highLevel2;
-//			highLevel3 = info.highLevel3;
-//		}
-//	}
-//	#endregion
 
-//class PlayerInfo{
-//	public int score;
-//	public int highScore1;
-//	public int highScore2;
-//	public int highScore3;
-//	public int highLevel1;
-//	public int highLevel2;
-//	public int highLevel3;
-//}
+[System.Serializable]
+public class PlayerInfo{
+	public int AccountId;
+	public string Name;
+	public int Country;
+	public int HighLevel;
+	public int HighScore;
+}
 	

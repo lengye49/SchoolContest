@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class Register : MonoBehaviour {
 
 	public Text textName;
-	public Text textCountry;
+	public Dropdown dropDownCountry;
 
 	private string playerName;
-	private string playerCountry;
+	private int playerCountry;
 	private Vector3 pos = new Vector3(0,-650,0);
 
 	public void Confirm(){
@@ -23,13 +23,14 @@ public class Register : MonoBehaviour {
 			return;
 		}
 
-		playerCountry = textCountry.text;
-		if (playerCountry == "") {
+		playerCountry = dropDownCountry.value;
+		if (playerCountry == 0) {
 			Warning.ShowShortWarning (2, "请问道友仙乡何处？",pos);
 			return;
 		}
 			
 		DataManager.Register (playerName, playerCountry);
 		this.GetComponentInParent<ViewManager>().GoToStartPanel();
+		DataManager.SaveData ();
 	}
 }

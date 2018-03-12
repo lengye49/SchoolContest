@@ -50,7 +50,7 @@ public class ViewManager : MonoBehaviour {
 		CompleteCover.gameObject.SetActive (false);
 		myTween = GetComponent<MyTween> ();
 
-		if (DataManager.AccountId>0) {
+		if (DataManager._player.AccountId > 0) {
 			GoToStartPanel ();
 		} else {
 			GoToRegisterPanel ();
@@ -135,8 +135,8 @@ public class ViewManager : MonoBehaviour {
 	}
 
 	public void UpdateLocalRank(){
-		int s = DataManager.HighScore;
-		string g = Configs.LevelList [DataManager.HighLevel-1];
+		int s = DataManager._player.HighScore;
+		string g = Configs.LevelList [DataManager._player.HighLevel-1];
 
 		if (s > 0)
 			localScore.text = "个人最高道行：" + g + "(法力" + s + ")";

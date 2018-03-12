@@ -27,7 +27,6 @@ public class Initialize : MonoBehaviour {
 
 	void Start () {
 		_view = GetComponentInParent<ViewManager> ();
-
 		_playerMusic = this.gameObject.GetComponentInParent<PlayMusic> ();
 		o = Resources.Load("Cell");
 		listCells = new ArrayList ();
@@ -49,6 +48,7 @@ public class Initialize : MonoBehaviour {
         ClearResetPoint();
 		isAdDone = false;
 		InitCell ();
+		DataManager.SaveData ();
 	}
 		
 	void InitData(){
@@ -95,7 +95,6 @@ public class Initialize : MonoBehaviour {
                 g.transform.localPosition = offsetPos+ new Vector3 ((float)(j - (0.5 * cells [i].Length - 0.5)) * 172.1f, (midNum - i) * 138f, 0f);
                 g.name = i.ToString () + "," + j.ToString ();
                 cells [i] [j] = g;
-//				g.GetComponent<Image> ().sprite = _view.GetCellSprite (nums[i][j]);
 				g.GetComponent<Image>().color = _view.GetCellColor(nums[i][j]);
                 string s = _view.GetGradeByScore (nums[i][j]);
                 g.GetComponentInChildren<Text> ().text = s;
@@ -176,8 +175,6 @@ public class Initialize : MonoBehaviour {
 
 	void SetCell(int row,int column,int newSeed){
 		nums [row] [column] = newSeed;
-
-//		cells [row] [column].gameObject.GetComponent<Image> ().sprite = _view.GetCellSprite (newSeed);
 		cells [row] [column].gameObject.GetComponent<Image> ().color = _view.GetCellColor(newSeed);
 		string s = _view.GetGradeByScore (newSeed);
 		cells[row][column].gameObject.GetComponentInChildren<Text>().text = s;
@@ -187,7 +184,6 @@ public class Initialize : MonoBehaviour {
 	void GenerateNewCell(int row,int column){
 		
 		int max = Mathf.Max (maxLv - 4, 3);
-//		int min = Mathf.Max (maxLv - 5, 0);
 		int min = Mathf.Max (maxLv - 8, 0);
 
         int n = Calculation.GetMyRandomForSeed(min, max);
@@ -345,6 +341,7 @@ public class Initialize : MonoBehaviour {
 
 	public void ConfirmComplete(){
         SettleRank();
+		DataManager.SaveData ();
         _view.CallInComplete (maxLv,score);
 	}
 

@@ -1,14 +1,15 @@
 
 public class Configs
 {
-    public static string Ip = "127.0.0.1";
-    public static int Port = 88;
+    public static string Ip = "18.216.190.32";
+    public static int Port = 7457;
 
 	public static int ShowUpgradeLevel = 5;
 	public static int GetResetPointLevel=7;
     public static int[] levelWeight = new int[]{10000,6000,3000,1000,500,200,80,30,20,10,5,3,2,1};
 
 	public static string[] PlaceList = new string[] {
+		"流浪者",
 		"北京",
 		"天津",
 		"河北",
@@ -42,7 +43,7 @@ public class Configs
 		"新疆",
 		"台湾",
 		"香港",
-		"澳门"
+		"澳门",
 	};
 
 	public static string[] LevelList = new string[] {
