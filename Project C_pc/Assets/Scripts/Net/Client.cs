@@ -15,6 +15,7 @@ public class Client
     int ConnectSever(){
         clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(Configs.Ip), Configs.Port);
+		Debug.Log ("Connecting...");
         try{
             clientSocket.Connect(ipEndPoint);
             return 1;
@@ -38,7 +39,8 @@ public class Client
         }
         else
         {
-			Warning.ShowShortWarning (0, "当前无法链接服务器，请检查网络！", Vector3.zero,false);
+			NetWarning.Msg = "当前无法链接服务器，请检查网络！";
+			NetWarning.StartShowWarning = true;
 			return;
         }
     }
@@ -77,7 +79,8 @@ public class Client
 				Debug.Log("获得ID："+id);
             } catch (Exception e) {
 				Debug.Log (e);
-				Warning.ShowShortWarning (0, "未能验明正身，将在稍后自动验证。",Vector3.zero,false);
+				NetWarning.Msg = "未能验明正身，将在稍后自动验证。";
+				NetWarning.StartShowWarning = true;
             }
         }else if(requestCode == RequestCode.Game){
             if(actionCode == ActionCode.GetPersonalResult){
@@ -88,15 +91,8 @@ public class Client
 					}
 
 					int rank = int.Parse(s[1]);
-					string msg="";
-					if(rank<=0){
-						msg="未进入仙路排行，\n道友请重新来过！";
-						Warning.ShowShortWarning(2,msg,Vector3.zero,false);
-						//处理没有排名的情况
-					}else {
-						msg="恭喜道友登上仙路排行榜，\n名列仙榜第"+rank+"位";
-						Warning.ShowShortWarning(2,msg,Vector3.zero,false);
-					}
+					NetWarning.Msg = DataManager.GetRankStr(rank);;
+					NetWarning.StartShowWarning = true;
 
                 } catch (Exception e) {
                     Debug.Log ("无法获得排名!\n" + e);

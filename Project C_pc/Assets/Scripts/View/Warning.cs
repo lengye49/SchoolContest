@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-public class Warning : MonoBehaviour {
+public class Warning :MonoBehaviour {
+
 
 	/// <summary>
 	/// 小提示.
@@ -13,21 +14,21 @@ public class Warning : MonoBehaviour {
 	public static void ShowShortWarning(int colorType,string content,Vector3 pos,bool shortTime=true){
 		GameObject f;
 		if (shortTime)
-			f = Instantiate (Resources.Load ("shortwarning1")) as GameObject;
+			f = Instantiate (Resources.Load ("shortwarning1"))as GameObject;
 		else
-			f = Instantiate (Resources.Load ("shortwarning2")) as GameObject;
+			f = Instantiate (Resources.Load ("shortwarning2"))as GameObject;
 		GameObject p = GameObject.Find ("Warnings");
 		f.SetActive (true);
 		f.transform.SetParent (p.transform);
 		f.transform.localPosition = pos;
 		Text t = f.GetComponentInChildren<Text> ();
 		t.text = content;
-		t.color = GetWarningColor(colorType);
+		t.color = GetWarningColor (colorType);
 
 		if (shortTime)
 			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform);
 		else
-			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform, 3f);
+			GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform, 5f);
 	}
 
 //	public static void ShowNewRank(string content){
@@ -44,16 +45,16 @@ public class Warning : MonoBehaviour {
 //	}
 
     public static void ShowResetWarning(Action process){
-        GameObject f = Instantiate (Resources.Load ("shortwarning2")) as GameObject;
+		GameObject f = Instantiate (Resources.Load ("shortwarning2")) as GameObject;
 		GameObject p = GameObject.Find ("Warnings");
-        f.SetActive (true);
-        f.transform.SetParent (p.transform);
+		f.SetActive (true);
+		f.transform.SetParent (p.transform);
 		f.transform.localPosition = Vector3.zero;
-        Text t = f.GetComponentInChildren<Text> ();
-        t.text = "当前无法进阶！\n自动使用回天之力...";
-        t.color = Color.green;
-		GameObject.Find("Canvas").GetComponent<MyTween>().PopIn(f.transform, process);
-    }
+		Text t = f.GetComponentInChildren<Text> ();
+		t.text = "当前无法进阶！\n自动使用回天之力...";
+		t.color = Color.green;
+		GameObject.Find ("Canvas").GetComponent<MyTween> ().PopIn (f.transform, process);
+	}
 
 	static Color GetWarningColor(int colorType){
 		Color c = Color.black;

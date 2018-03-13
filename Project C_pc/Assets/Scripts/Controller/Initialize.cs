@@ -204,6 +204,7 @@ public class Initialize : MonoBehaviour {
 			
 			score += seed * totalNum;
 			string msg = "法力 +" + seed * totalNum;
+
 			Warning.ShowShortWarning (1, msg, new Vector3 (-300, 180, 0));
 
 			int newN = (int)(Mathf.Log (totalNum, 3f));
@@ -295,7 +296,7 @@ public class Initialize : MonoBehaviour {
 	public void Reset(){
         if (!hasResetEnergy)
             return;
-        Warning.ShowResetWarning(ResetAllSmallNums);
+		Warning.ShowResetWarning(ResetAllSmallNums);
         ClearResetPoint();
 	}
 
