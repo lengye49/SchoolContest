@@ -14,20 +14,10 @@ public class Register : MonoBehaviour {
 
 	public void Confirm(){
 		playerName = textName.text;
-
-		char[] c = playerName.ToCharArray();
-		for(int i=0;i<c.Length;i++){
-			if(c[i]<0x4e00 || c[i]>0x9fbb){
-				Warning.ShowShortWarning (2, "道号必须是中文！",pos);
-				return;
-			}	
-		}
-
 		if (playerName == "") {
 			Warning.ShowShortWarning (2, "请问道友高姓大名？",pos);
 			return;
 		}
-
 		if (playerName.Length > 5) {
 			Warning.ShowShortWarning (2, "道号最多五个字！", pos);
 			return;
