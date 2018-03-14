@@ -41,7 +41,6 @@ namespace GameServer.Servers
         }
 
         void AcceptCallBack(IAsyncResult ar) {
-            Console.WriteLine("New Client Connected!");
             Socket clientSocket = serverSocket.EndAccept(ar);
             Client client = new Client(clientSocket, this);
             client.StartClient();
@@ -57,7 +56,6 @@ namespace GameServer.Servers
         }
 
         public void SendResponse(Client client,RequestCode requestCode,ActionCode actionCode, string data) {
-            Console.WriteLine("Replying...");
             client.Send(requestCode,actionCode, data);
         }
 

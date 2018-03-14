@@ -84,11 +84,12 @@ namespace GameServer.Controller
             TotalRank[index - 1] = u;
         }
 
+        //返回的数据是id,Name,Place,Level,Score;id...
         public string GetTotalRank(string data, Client client, Server server){
             string s = "";
             for (int i = 0; i < TotalRank.Length;i++){
                 if(TotalRank[i]!=null){
-                    s += TotalRank[i].Name + "," + TotalRank[i].Place  + "," + TotalRank[i].Level + "," + TotalRank[i].Score + ";";
+                    s += TotalRank[i].Id + TotalRank[i].Name + "," + TotalRank[i].Place  + "," + TotalRank[i].Level + "," + TotalRank[i].Score + ";";
                 }    
             }
             s = s.Substring(0, s.Length - 1);

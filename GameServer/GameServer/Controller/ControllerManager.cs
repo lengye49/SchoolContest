@@ -38,7 +38,7 @@ namespace GameServer.Controller
             if (!isGet)
             {
                 //这个应该输出日志
-                Console.WriteLine("找不到RequestCode：[" + requestCode + "]对应的Controller");
+                Console.WriteLine("Cannot find controller of RequestCode：[" + requestCode + "]");
             }
 
             //2. 获取action并处理数据
@@ -46,7 +46,7 @@ namespace GameServer.Controller
             MethodInfo methodInfo = controller.GetType().GetMethod(methodName);
             if (methodInfo == null)
             {
-                Console.WriteLine("没有在[" + controller.GetType() + "]中找到方法[" + methodName + "].");
+                Console.WriteLine("Can not find method" + controller.GetType() + "--" + methodName + "].");
                 return;
             }
             object[] parameters = new object[] { data, client, server };

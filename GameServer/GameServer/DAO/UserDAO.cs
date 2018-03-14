@@ -28,7 +28,6 @@ namespace GameServer.DAO
                 if (reader.Read())
                 {
                     id = reader.GetInt32(1);
-                    Console.WriteLine("Id is " + id);
                 }
                 conn.Close();
                 conn.Open();
@@ -39,7 +38,7 @@ namespace GameServer.DAO
             }
             catch (Exception e)
             {
-                Console.WriteLine("Add User:\n" + e);
+                Console.WriteLine("Add User Error:\n" + e);
                 conn.Close();
             }
 
@@ -54,10 +53,9 @@ namespace GameServer.DAO
                 {
                     MySqlCommand cmd = new MySqlCommand("update rank set userid="+rank[i].Id+",name = ?Name,place="+rank[i].Place+",level="+rank[i].Level+",score="+rank[i].Score+" where id=" + (i+1) + ";", conn);
                     cmd.Parameters.Add(new MySqlParameter("Name", rank[i].Name));
-                    //Console.WriteLine(cmd.CommandText);
                     cmd.ExecuteNonQuery();
                 }
-                Console.WriteLine("Rank Saved!\n" );
+                //Console.WriteLine("Rank Saved!" );
             }
             catch (Exception e)
             {
@@ -87,10 +85,9 @@ namespace GameServer.DAO
                     int level = reader.GetInt32(4);
                     int score = reader.GetInt32(5);
                     ranks[i] = new User(id, name, place, level, score);
-                    //Console.WriteLine(name);
                     i++;
                 }
-                Console.WriteLine("Rank Inited!\n");
+                //Console.WriteLine("Rank Inited!\n");
             }
             catch (Exception e)
             {

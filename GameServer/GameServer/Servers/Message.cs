@@ -32,11 +32,8 @@ namespace GameServer
             try
             {
                 RequestCode requestCode = (RequestCode)BitConverter.ToInt32(data, 0);
-                Console.WriteLine("RequestCode:" + requestCode);
                 ActionCode actionCode = (ActionCode)BitConverter.ToInt32(data, 4);
-                Console.WriteLine("ActionCode:" + actionCode);
                 string s = System.Text.Encoding.UTF8.GetString(data, 8, newDataCount - 8);
-                Console.WriteLine("Message:" + s);
                 processMsgCallBack(requestCode, actionCode, s);
             }
             catch (Exception e)
