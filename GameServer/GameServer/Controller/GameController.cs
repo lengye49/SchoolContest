@@ -89,7 +89,7 @@ namespace GameServer.Controller
             string s = "";
             for (int i = 0; i < TotalRank.Length;i++){
                 if(TotalRank[i]!=null){
-                    s += TotalRank[i].Id + TotalRank[i].Name + "," + TotalRank[i].Place  + "," + TotalRank[i].Level + "," + TotalRank[i].Score + ";";
+                    s += TotalRank[i].Id +"," + TotalRank[i].Name + "," + TotalRank[i].Place  + "," + TotalRank[i].Level + "," + TotalRank[i].Score + ";";
                 }    
             }
             s = s.Substring(0, s.Length - 1);
