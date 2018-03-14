@@ -53,16 +53,12 @@ public class Client
 
     void StartListening(){
 		ViewManager.isLoading = true;
-//		Debug.Log ("Listening...");
 		clientSocket.BeginReceive (msg.Data, 0, msg.Data.Length, SocketFlags.None, ReceiveCallBack, null);
     }
-
+		
     void ReceiveCallBack(IAsyncResult ar){
-//		Debug.Log ("Receive...");
         try{
-            Debug.Log(msg.Data.Length);
 			int count = clientSocket.EndReceive(ar);
-            Debug.Log("count = "+count);
             msg.ReadMessage(count,HandleMessage);
         }catch(Exception e){
             Debug.Log("Can Not Handle Received Message!" + e);
