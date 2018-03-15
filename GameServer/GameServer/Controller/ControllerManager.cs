@@ -56,7 +56,18 @@ namespace GameServer.Controller
                 return;
             }
 
-            server.SendResponse(client, requestCode, actionCode, o as string);
+            if (actionCode != ActionCode.GetTotalRank)
+            {
+                server.SendResponse(client, requestCode, actionCode, o as string);
+            }
+            else {
+                string s = o as string;
+                string[] ss = s.Split('|');
+                for (int i = 0; i < 10; i++) {
+                    string str = i.ToString() + "|" + ss[i];
+                    server.SendResponse(client, requestCode, actionCode, o as string);
+                }
+            }
         }
     }
 }
