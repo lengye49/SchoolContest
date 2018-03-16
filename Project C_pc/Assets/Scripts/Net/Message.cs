@@ -25,24 +25,26 @@ public class Message
 
 
     public void ReadMessage(int newDataCount,Action<RequestCode,ActionCode,string> HandleMessage){
-		startIndex+=newDataCount;
+        startIndex += newDataCount;
 //        if (newDataCount < 8) {
 //			Debug.Log("信息不完整！");
 //          return;
 //    }
-		if(startIndex<=4) return;
-		int msgLength = BitConverter.ToInt32(data,0);//获取数据长度
-		if(startIndex-4<msgLength) return;//如果数据长度少于应有长度，则等待下次执行
+        if (startIndex <= 4)
+            return;
+        int msgLength = BitConverter.ToInt32(data, 0);//获取数据长度
+        if (startIndex - 4 < msgLength)
+            return;//如果数据长度少于应有长度，则等待下次执行
 
         RequestCode requestCode = (RequestCode)BitConverter.ToInt32(data, 4);
         ActionCode actionCode = (ActionCode)BitConverter.ToInt32(data, 8);
         string s = Encoding.UTF8.GetString(data, 12, msgLength - 8);
-		Debug.Log("Request:" + requestCode + ",Action:" + actionCode + ",Message:" + s);
-		HandleMessage (requestCode, actionCode, s);
+        Debug.Log("Request:" + requestCode + ",Action:" + actionCode + ",Message:" + s);
+        HandleMessage(requestCode, actionCode, s);
 
-		//处理剩余数据
-		Array.Copy(data,msgLength+4,data,0,startIndex-4-count);
-		startIndex -= (msgLength+4);
+        //处理剩余数据
+        Array.Copy(data, msgLength + 4, data, 0, startIndex - 4 - msgLength);
+        startIndex -= (msgLength + 4);
     }
 
     public static byte[] PackData(RequestCode requestCode,ActionCode actionCode, string data){

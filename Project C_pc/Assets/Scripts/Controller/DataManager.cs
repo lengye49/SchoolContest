@@ -110,28 +110,24 @@ public class DataManager : MonoBehaviour  {
 		
 
 	public static void RequestTotalRank(){
-		//从0-9获取10次，每次是n*10 + 1~10
-		for (int i = 0; i < 10; i++) {
-			Client client = new Client ();
-			client.GetRemoteService (RequestCode.Game, ActionCode.GetTotalRank, i.ToString ());
-		}
+		Client client = new Client ();
+		client.GetRemoteService (RequestCode.Game, ActionCode.GetTotalRank, "");
 	}
 	
 	public static void SetTotalRank(string str){
 		RankManager.TopUserList = new User[100];
 		string[] ss = str.Split(';');
-		int index = int.Parse (ss [0]);
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 0; i < 100; i++) {
 			string[] s = ss[i].Split(',');
-			RankManager.TopUserList [index * 10 + i] = new User ();
-			RankManager.TopUserList [index * 10 + i].id = int.Parse(s[0]);
-			RankManager.TopUserList [index * 10 + i].name = s[1];
-			RankManager.TopUserList [index * 10 + i].place = int.Parse(s[2]);
-			RankManager.TopUserList [index * 10 + i].level = int.Parse(s[3]);
-			RankManager.TopUserList [index * 10 + i].score = int.Parse(s[4]);
+			RankManager.TopUserList [i] = new User ();
+			RankManager.TopUserList [ i].id = int.Parse(s[0]);
+			RankManager.TopUserList [i].name = s[1];
+			RankManager.TopUserList [ i].place = int.Parse(s[2]);
+			RankManager.TopUserList [i].level = int.Parse(s[3]);
+			RankManager.TopUserList [ i].score = int.Parse(s[4]);
 		}
-		if (index >= 9)
-			RankManager.isRankReady = true;
+
+		RankManager.isRankReady = true;
 	}
 	#endregion
 }

@@ -52,6 +52,7 @@ public class Client
     }
 
     void StartListening(){
+        if (clientSocket == null || clientSocket.Connected == false) return;
 		ViewManager.isLoading = true;
 		clientSocket.BeginReceive (msg.Data, msg.StartIndex, msg.RemainSize, SocketFlags.None, ReceiveCallBack, null);
     }
@@ -59,13 +60,13 @@ public class Client
     void ReceiveCallBack(IAsyncResult ar){
         try{
 			int count = clientSocket.EndReceive(ar);
+            if(count==0) CloseClient();
             msg.ReadMessage(count,HandleMessage);
+            clientSocket.BeginReceive (msg.Data, msg.StartIndex, msg.RemainSize, SocketFlags.None, ReceiveCallBack, null);
         }catch(Exception e){
             Debug.Log("Can Not Handle Received Message!" + e);
-        }finally{
-			CloseClient ();
-			ViewManager.isLoading=false;
-		}
+            CloseClient();
+        }
     }
 
     void HandleMessage(RequestCode requestCode,ActionCode actionCode, string data){
@@ -103,6 +104,7 @@ public class Client
         }else{
             Debug.Log("没有找到RequestCode:"+requestCode);
         }
+        CloseClient();
     }
 
     void CloseClient(){
@@ -110,6 +112,7 @@ public class Client
         {
             clientSocket.Close();
         }
+        ViewManager.isLoading = false;
     }
         
 }
