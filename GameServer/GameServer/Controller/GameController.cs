@@ -91,8 +91,6 @@ namespace GameServer.Controller
                 if (TotalRank[i] != null)
                 {
                     s += TotalRank[i].Id + "," + TotalRank[i].Name + "," + TotalRank[i].Place + "," + TotalRank[i].Level + "," + TotalRank[i].Score + ";";
-                    if (i % 10 == 9 && i != 99)
-                        s += "|";
                 }    
             }
             s = s.Substring(0, s.Length - 1);
