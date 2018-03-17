@@ -32,7 +32,7 @@ public class RankManager : MonoBehaviour {
 			t [0].text = (i + 1).ToString ();
 			t [1].text = u.name;
 			t [2].text = Configs.PlaceList [u.place];
-			t [3].text = Configs.LevelList [u.level];
+			t [3].text = Configs.LevelList [u.level-1];
 			t [4].text = u.score.ToString ();
 			Color c = CellColor (u.id, i + 1);
 			for (int j = 0; j < 5; j++)
@@ -55,12 +55,11 @@ public class RankManager : MonoBehaviour {
 	}
 
     public void CloseRank(){
-        foreach (Object o in cellList)
+        foreach (GameObject o in cellList)
         {
-            GameObject g = o as GameObject;
-            DestroyImmediate(g);
-            cellList.Remove(o);
+			DestroyImmediate(o);
         }
+		cellList.Clear ();
     }
 
 

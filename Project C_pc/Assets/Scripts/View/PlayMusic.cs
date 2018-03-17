@@ -50,14 +50,14 @@ public class PlayMusic : MonoBehaviour {
 
 	public void PlayerSound(string soundName){
 		if (soundName == "fail") {
-			failSound.volume = 0.5f;
+			failSound.volume = 0.2f;
 			failSound.Play ();
 			playPanelBg.Stop ();
 		} else if (soundName == "success") {
-			successSound.volume = 0.2f;
+			successSound.volume = 0.1f;
 			successSound.Play ();
 		} else if (soundName == "click") {
-			clickSound.volume = 0.5f;
+			clickSound.volume = 0.2f;
 			clickSound.Play ();
 		} else if(soundName == "win"){
 			clickSound.volume = soundVolumn;

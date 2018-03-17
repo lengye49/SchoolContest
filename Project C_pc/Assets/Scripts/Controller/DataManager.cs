@@ -79,7 +79,7 @@ public class DataManager : MonoBehaviour  {
 
 		bf.Serialize (file, _player);
 		file.Close ();
-		Debug.Log ("存储成功！");
+//		Debug.Log ("存储成功！");
 	}
 
 	void LoadData(){
