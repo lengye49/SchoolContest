@@ -89,7 +89,7 @@ public class Client
 						DataManager._player.AccountId=int.Parse(s[0]);
 					}
 
-					int rank = int.Parse(s[1])+1;
+					int rank = int.Parse(s[1]);
 					NetWarning.Msg = DataManager.GetRankStr(rank);;
 					NetWarning.StartShowWarning = true;
 

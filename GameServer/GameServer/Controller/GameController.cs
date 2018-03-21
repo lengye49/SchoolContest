@@ -23,7 +23,7 @@ namespace GameServer.Controller
                 user.Id = userDAO.AddUser();
             }
 
-            int rank = 0;
+            int rank = -1;
             if (!Compare(user.Level, user.Score, TotalRank.Length - 1))
                 return user.Id + "," + rank;
             

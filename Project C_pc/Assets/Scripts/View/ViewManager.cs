@@ -137,7 +137,6 @@ public class ViewManager : MonoBehaviour {
 	public void UpdateLocalRank(){
 		int s = DataManager._player.HighScore;
 		string g = Configs.LevelList [DataManager._player.HighLevel-1];
-
 		if (s > 0)
 			localScore.text = "个人最高道行：" + g + "(法力" + s + ")";
 		else

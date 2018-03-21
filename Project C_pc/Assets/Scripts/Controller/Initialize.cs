@@ -22,7 +22,7 @@ public class Initialize : MonoBehaviour {
 	private PlayMusic _playerMusic;
 	private int maxLv;
 
-    public static bool hasResetEnergy = false;
+    public static int resetEnergy = 0;
 	private bool isAdDone = false;
 
 	void Start () {
@@ -45,7 +45,7 @@ public class Initialize : MonoBehaviour {
 		_view.GoToGamePanel ();
 		_view.SetScore (score);
 		_view.SetGrade (Configs.LevelList [maxLv-1]);
-        ClearResetPoint();
+		InitResetPoint ();
 		isAdDone = false;
 		InitCell ();
 		DataManager.SaveData ();
@@ -139,23 +139,17 @@ public class Initialize : MonoBehaviour {
 	void CheckGameOver()
 	{
 		StoreData();
-        if (maxLv > 10)
-        {
-            //游戏通关
-            GameWin();
-        }
-		else if(CheckBlocked())
-        {
-            if (hasResetEnergy)
-            {
-                Reset();
-            }
-            else
-            {
-                //游戏失败
-                GameFail();
-            }
-        }
+		if (maxLv > 10) {
+			//游戏通关
+			GameWin ();
+		} else if (CheckBlocked ()) {
+			if (resetEnergy > 0) {
+				Reset ();
+			} else {
+				//游戏失败
+				GameFail ();
+			}
+		}
 	}
 
     bool CheckBlocked(){
@@ -190,7 +184,7 @@ public class Initialize : MonoBehaviour {
 		if (maxLv < n + 1) {
 			maxLv = (n + 1);
 			_view.Upgrade (maxLv);
-			if (maxLv >= 5) {
+			if (maxLv >= Configs.GetResetPointLevel) {
                 AddResetPoint();
 			}
 		}
@@ -294,10 +288,10 @@ public class Initialize : MonoBehaviour {
 	}
         
 	public void Reset(){
-        if (!hasResetEnergy)
-            return;
-		Warning.ShowResetWarning(ResetAllSmallNums);
-        ClearResetPoint();
+		if (resetEnergy <= 0)
+			return;
+		Warning.ShowResetWarning (ResetAllSmallNums);
+		CostResetPoint ();
 	}
 
     void ResetAllSmallNums(){
@@ -316,14 +310,21 @@ public class Initialize : MonoBehaviour {
     }
 
     public void AddResetPoint(){
-        hasResetEnergy = true;
-        _view.SetResetState(1);     
+		Debug.Log ("resetEnergy = " + resetEnergy);
+		resetEnergy++;
+        _view.SetResetState(resetEnergy);     
+		Debug.Log ("resetEnergy = " + resetEnergy);
     }
 
-    void ClearResetPoint(){
-        hasResetEnergy = false;
-        _view.SetResetState(0);
+    void CostResetPoint(){
+        resetEnergy--;
+        _view.SetResetState(resetEnergy);
     }
+
+	void InitResetPoint(){
+		resetEnergy = 0;
+		_view.SetResetState (resetEnergy);
+	}
 
     void GameWin(){
         _playerMusic.PlayerSound ("win");
