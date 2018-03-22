@@ -17,6 +17,8 @@ public class ViewManager : MonoBehaviour {
     public Text scoreText;
     public Text gradeText;
     public Text resetPointText;
+	public Text playerName;
+	public Text playerCountry;
 	public Sprite[] cells;
 	public Sprite[] resetBg;
 
@@ -72,7 +74,8 @@ public class ViewManager : MonoBehaviour {
 		myTween.SlideIn (startPanel);
 		myTween.SlideOut (registerPanel);
 		myTween.SlideOut (playPanel);
-
+		playerName.text = DataManager._player.Name;
+		playerCountry.text = Configs.PlaceList [DataManager._player.Country];
 		_playMusic.PlayBg ("startMenuBg");
 	}
 
@@ -86,6 +89,7 @@ public class ViewManager : MonoBehaviour {
 		myTween.SlideIn (startPanel);
 		myTween.SlideOut (rankPanel);
 		rankPanel.GetComponent<RankManager>().CloseRank();
+		isLoading = false;
 	}
 
 	public void GoToRegisterPanel(){
