@@ -36,7 +36,7 @@ namespace GameServer.Controller
                         TotalRank[i] = user;
                         rank = ReOrder(i);
                     }
-                    return user.Id + "," + rank; ;
+                    return user.Id + "," + rank;
                 }
             }
             //没有重复则插入
