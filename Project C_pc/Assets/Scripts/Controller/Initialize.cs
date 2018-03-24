@@ -179,6 +179,7 @@ public class Initialize : MonoBehaviour {
 		
 		int max = Mathf.Max (maxLv - 4, 3);
 		int min = Mathf.Max (maxLv - 8, 0);
+//		int min = Mathf.Max (maxLv - 5, 0);
 
         int n = Calculation.GetMyRandomForSeed(min, max);
 		if (maxLv < n + 1) {
@@ -199,7 +200,7 @@ public class Initialize : MonoBehaviour {
 			score += seed * totalNum;
 			string msg = "法力 +" + seed * totalNum;
 
-			Warning.ShowShortWarning (1, msg, new Vector3 (-300, 180, 0));
+			Warning.ShowShortWarning (1, msg, new Vector3 (300, 180, 0));
 
 			int newN = (int)(Mathf.Log (totalNum, 3f));
 
