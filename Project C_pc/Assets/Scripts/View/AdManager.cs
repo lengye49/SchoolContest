@@ -15,7 +15,7 @@ public class AdManager:MonoBehaviour
 		Vungle.onAdFinishedEvent += (placementId, args) =>{
 			AdFinished(placementId,args);
 		} ;
-		Vungle.loadAd (placementStr [0]);
+//		Vungle.loadAd (placementStr [0]);
     }
 
     void Update(){

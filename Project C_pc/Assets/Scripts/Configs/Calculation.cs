@@ -19,15 +19,21 @@ public class Calculation
 
 	public static int GetMyRandomForSeed(int min,int max){
         int totalWeight=0;
-        for (int i = min; i < max; i++)
+        for (int i = 0; i < max; i++)
         {
-            totalWeight += Configs.levelWeight[i];
+			if (i >= min)
+				totalWeight += Configs.levelWeight [i];
+			else
+				totalWeight += Configs.levelWeight [min + 3];
         }
         int r = Random.Range(0, totalWeight);
         totalWeight = 0;
-        for (int i = min; i < max; i++)
+        for (int i = 0; i < max; i++)
         {
-            totalWeight += Configs.levelWeight[i];
+			if (i >= min)
+				totalWeight += Configs.levelWeight [i];
+			else
+				totalWeight += Configs.levelWeight [min + 3];
             if (r <= totalWeight)
                 return i;
         }

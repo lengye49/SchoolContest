@@ -178,8 +178,8 @@ public class Initialize : MonoBehaviour {
 	void GenerateNewCell(int row,int column){
 		
 		int max = Mathf.Max (maxLv - 4, 3);
-		int min = Mathf.Max (maxLv - 8, 0);
-//		int min = Mathf.Max (maxLv - 5, 0);
+		int min = Mathf.Max (maxLv - 7, 0);
+
 
         int n = Calculation.GetMyRandomForSeed(min, max);
 		if (maxLv < n + 1) {
