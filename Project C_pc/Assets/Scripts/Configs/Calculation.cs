@@ -23,8 +23,10 @@ public class Calculation
         {
 			if (i >= min)
 				totalWeight += Configs.levelWeight [i];
-			else
+			else if (i == min - 1)
 				totalWeight += Configs.levelWeight [min + 3];
+			else
+				totalWeight += 0;
         }
         int r = Random.Range(0, totalWeight);
         totalWeight = 0;
@@ -32,8 +34,10 @@ public class Calculation
         {
 			if (i >= min)
 				totalWeight += Configs.levelWeight [i];
-			else
+			else if (i == min - 1)
 				totalWeight += Configs.levelWeight [min + 3];
+			else
+				totalWeight += 0;
             if (r <= totalWeight)
                 return i;
         }

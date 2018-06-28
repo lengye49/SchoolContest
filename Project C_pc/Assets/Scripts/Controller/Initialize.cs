@@ -46,7 +46,7 @@ public class Initialize : MonoBehaviour {
 		_view.SetScore (score);
 		_view.SetGrade (Configs.LevelList [maxLv-1]);
 		InitResetPoint ();
-		isAdDone = false;
+		isAdDone = true;
 		InitCell ();
 		DataManager.SaveData ();
 	}

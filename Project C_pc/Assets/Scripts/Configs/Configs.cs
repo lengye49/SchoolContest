@@ -5,8 +5,8 @@ public class Configs
     public static int Port = 7457;
 
 	public static int ShowUpgradeLevel = 5;
-	public static int GetResetPointLevel=7;
-    public static int[] levelWeight = new int[]{99999,33333,9999,3333,999,333,99,33,9,0,0,0,0,0};
+	public static int GetResetPointLevel=5;
+    public static int[] levelWeight = new int[]{99999,33333,9999,3333,625,125,25,5,1,0,0,0,0,0};
 
 	public static string[] PlaceList = new string[] {
 		"流浪者",
